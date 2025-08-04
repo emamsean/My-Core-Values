@@ -58,85 +58,117 @@
         const mockData = {
             "Seoul": {
                 attractions: [
-                    { name: "Gyeongbokgung Palace", address: "161 Sajik-ro, Jongno-gu, Seoul", lat: 37.5759, lon: 126.9751, description: "Historic Joseon dynasty palace with traditional architecture." },
-                    { name: "N Seoul Tower", address: "105 Namsangongwon-gil, Yongsan-gu, Seoul", lat: 37.5512, lon: 126.9882, description: "Iconic tower with panoramic city views." }
+                    { name: "Gyeongbokgung Palace", address: "161 Sajik-ro, Jongno-gu, Seoul", lat: 37.5759, lon: 126.9751, description: "Historic Joseon dynasty palace with traditional architecture.", station: "Gyeongbokgung Station", line: "Line 3" },
+                    { name: "N Seoul Tower", address: "105 Namsangongwon-gil, Yongsan-gu, Seoul", lat: 37.5512, lon: 126.9882, description: "Iconic tower with panoramic city views.", station: "Myeongdong Station", line: "Line 4" }
                 ],
                 dining: [
-                    { name: "Tosokchon Samgyetang", address: "5 Jahamun-ro 5-gil, Jongno-gu, Seoul", lat: 37.5748, lon: 126.9752, description: "Famous for ginseng chicken soup." },
-                    { name: "Mapo BBQ", address: "24 Nonhyeon-ro 153-gil, Gangnam-gu, Seoul", lat: 37.5175, lon: 127.0286, description: "Authentic Korean BBQ experience." }
+                    { name: "Tosokchon Samgyetang", address: "5 Jahamun-ro 5-gil, Jongno-gu, Seoul", lat: 37.5748, lon: 126.9752, description: "Famous for ginseng chicken soup.", station: "Gyeongbokgung Station", line: "Line 3" },
+                    { name: "Mapo BBQ", address: "24 Nonhyeon-ro 153-gil, Gangnam-gu, Seoul", lat: 37.5175, lon: 127.0286, description: "Authentic Korean BBQ experience.", station: "Hongik University Station", line: "Line 2" }
                 ],
                 activities: [
-                    { name: "Han River Park", address: "Yeouido-dong, Yeongdeungpo-gu, Seoul", lat: 37.5291, lon: 126.9637, description: "Scenic park for cycling and picnics." }
+                    { name: "Han River Park", address: "Yeouido-dong, Yeongdeungpo-gu, Seoul", lat: 37.5291, lon: 126.9637, description: "Scenic park for cycling and picnics.", station: "Yeouido Station", line: "Line 5" }
                 ],
                 shopping: [
-                    { name: "Myeongdong Market", address: "Myeongdong-gil, Jung-gu, Seoul", lat: 37.5633, lon: 126.9751, description: "Vibrant street market for cosmetics and fashion." }
+                    { name: "Myeongdong Market", address: "Myeongdong-gil, Jung-gu, Seoul", lat: 37.5633, lon: 126.9751, description: "Vibrant street market for cosmetics and fashion.", station: "Myeongdong Station", line: "Line 4" }
                 ],
                 familyFriendly: [
-                    { name: "Lotte World", address: "240 Olympic-ro, Songpa-gu, Seoul", lat: 37.5111, lon: 127.0982, description: "Popular amusement park with rides and shows." }
+                    { name: "Lotte World", address: "240 Olympic-ro, Songpa-gu, Seoul", lat: 37.5111, lon: 127.0982, description: "Popular amusement park with rides and shows.", station: "Jamsil Station", line: "Line 2" }
                 ]
             },
             "Shanghai": {
                 attractions: [
-                    { name: "The Bund", address: "Zhongshan East 1st Rd, Huangpu, Shanghai", lat: 31.2402, lon: 121.4903, description: "Historic waterfront with colonial buildings." },
-                    { name: "Yu Garden", address: "279 Yuyuan Old St, Huangpu, Shanghai", lat: 31.2277, lon: 121.4924, description: "Classical Chinese garden with pavilions and ponds." }
+                    { name: "The Bund", address: "Zhongshan East 1st Rd, Huangpu, Shanghai", lat: 31.2402, lon: 121.4903, description: "Historic waterfront with colonial buildings.", station: "East Nanjing Road Station", line: "Line 2" },
+                    { name: "Yu Garden", address: "279 Yuyuan Old St, Huangpu, Shanghai", lat: 31.2277, lon: 121.4924, description: "Classical Chinese garden with pavilions and ponds.", station: "Yuyuan Garden Station", line: "Line 10" }
                 ],
                 dining: [
-                    { name: "Din Tai Fung", address: "168 Lujiazui Ring Rd, Pudong, Shanghai", lat: 31.2376, lon: 121.5032, description: "World-famous xiao long bao dumplings." },
-                    { name: "Yang's Fry Dumplings", address: "97 Huanghe Rd, Huangpu, Shanghai", lat: 31.2413, lon: 121.4739, description: "Crispy and savory fried dumplings." }
+                    { name: "Din Tai Fung", address: "168 Lujiazui Ring Rd, Pudong, Shanghai", lat: 31.2376, lon: 121.5032, description: "World-famous xiao long bao dumplings.", station: "Lujiazui Station", line: "Line 2" },
+                    { name: "Yang's Fry Dumplings", address: "97 Huanghe Rd, Huangpu, Shanghai", lat: 31.2413, lon: 121.4739, description: "Crispy and savory fried dumplings.", station: "People's Square Station", line: "Line 2" }
                 ],
                 activities: [
-                    { name: "Zhujiajiao Water Town", address: "Zhujiajiao, Qingpu, Shanghai", lat: 31.1123, lon: 121.0570, description: "Ancient water town with canals and bridges." }
+                    { name: "Zhujiajiao Water Town", address: "Zhujiajiao, Qingpu, Shanghai", lat: 31.1123, lon: 121.0570, description: "Ancient water town with canals and bridges.", station: "Zhujiajiao Station", line: "Line 17" }
                 ],
                 shopping: [
-                    { name: "Nanjing Road", address: "Nanjing Rd Pedestrian St, Huangpu, Shanghai", lat: 31.2349, lon: 121.4750, description: "Bustling shopping street with global brands." }
+                    { name: "Nanjing Road", address: "Nanjing Rd Pedestrian St, Huangpu, Shanghai", lat: 31.2349, lon: 121.4750, description: "Bustling shopping street with global brands.", station: "East Nanjing Road Station", line: "Line 2" }
                 ],
                 familyFriendly: [
-                    { name: "Shanghai Disneyland", address: "310 Huangzhao Rd, Pudong, Shanghai", lat: 31.1440, lon: 121.6570, description: "Magical theme park for all ages." }
+                    { name: "Shanghai Disneyland", address: "310 Huangzhao Rd, Pudong, Shanghai", lat: 31.1440, lon: 121.6570, description: "Magical theme park for all ages.", station: "Disneyland Station", line: "Line 11" }
                 ]
             },
             "Hong Kong": {
                 attractions: [
-                    { name: "Victoria Peak", address: "Peak Rd, Hong Kong", lat: 22.2759, lon: 114.1455, description: "Stunning city and harbor views from the highest point." },
-                    { name: "Temple Street Night Market", address: "Temple St, Yau Ma Tei, Hong Kong", lat: 22.3107, lon: 114.1702, description: "Vibrant night market with street food and goods." }
+                    { name: "Victoria Peak", address: "Peak Rd, Hong Kong", lat: 22.2759, lon: 114.1455, description: "Stunning city and harbor views from the highest point.", station: "Central Station", line: "Island Line" },
+                    { name: "Temple Street Night Market", address: "Temple St, Yau Ma Tei, Hong Kong", lat: 22.3107, lon: 114.1702, description: "Vibrant night market with street food and goods.", station: "Jordan Station", line: "Tsuen Wan Line" }
                 ],
                 dining: [
-                    { name: "DimDimSum Dim Sum Restaurant", address: "112 Tung Choi St, Mong Kok, Hong Kong", lat: 22.3214, lon: 114.1697, description: "Traditional dim sum dishes." },
-                    { name: "Tim Ho Wan", address: "2-20 Kwong Wa St, Mong Kok, Hong Kong", lat: 22.3160, lon: 114.1717, description: "Michelin-starred dim sum at affordable prices." }
+                    { name: "DimDimSum Dim Sum Restaurant", address: "112 Tung Choi St, Mong Kok, Hong Kong", lat: 22.3214, lon: 114.1697, description: "Traditional dim sum dishes.", station: "Mong Kok Station", line: "Tsuen Wan Line" },
+                    { name: "Tim Ho Wan", address: "2-20 Kwong Wa St, Mong Kok, Hong Kong", lat: 22.3160, lon: 114.1717, description: "Michelin-starred dim sum at affordable prices.", station: "Mong Kok Station", line: "Tsuen Wan Line" }
                 ],
                 activities: [
-                    { name: "Lantau Island", address: "Lantau Island, Hong Kong", lat: 22.2637, lon: 113.9518, description: "Home to the Big Buddha and scenic hikes." }
+                    { name: "Lantau Island", address: "Lantau Island, Hong Kong", lat: 22.2637, lon: 113.9518, description: "Home to the Big Buddha and scenic hikes.", station: "Tung Chung Station", line: "Tung Chung Line" }
                 ],
                 shopping: [
-                    { name: "Causeway Bay", address: "Hennessy Rd, Causeway Bay, Hong Kong", lat: 22.2795, lon: 114.1849, description: "High-end and local shopping district." }
+                    { name: "Causeway Bay", address: "Hennessy Rd, Causeway Bay, Hong Kong", lat: 22.2795, lon: 114.1849, description: "High-end and local shopping district.", station: "Causeway Bay Station", line: "Island Line" }
                 ],
                 familyFriendly: [
-                    { name: "Hong Kong Disneyland", address: "Lantau Island, Hong Kong", lat: 22.3129, lon: 114.0412, description: "Family-friendly theme park with rides and shows." }
+                    { name: "Hong Kong Disneyland", address: "Lantau Island, Hong Kong", lat: 22.3129, lon: 114.0412, description: "Family-friendly theme park with rides and shows.", station: "Disneyland Resort Station", line: "Disneyland Resort Line" }
                 ]
             }
         };
 
-        const mockMetroDirections = {
-            "Gyeongbokgung Palace": ["Take Seoul Metro Line 3 to Gyeongbokgung Station.", "Exit and walk 5 minutes north."],
-            "N Seoul Tower": ["Take Seoul Metro Line 4 to Myeongdong Station.", "Take a cable car or walk 15 minutes to the tower."],
-            "Tosokchon Samgyetang": ["Take Seoul Metro Line 3 to Gyeongbokgung Station.", "Exit and walk 7 minutes east."],
-            "Mapo BBQ": ["Take Seoul Metro Line 2 to Hongik University Station.", "Exit and walk 10 minutes south."],
-            "Han River Park": ["Take Seoul Metro Line 5 to Yeouido Station.", "Exit and walk 5 minutes west."],
-            "Myeongdong Market": ["Take Seoul Metro Line 4 to Myeongdong Station.", "Exit and walk 2 minutes to the market."],
-            "Lotte World": ["Take Seoul Metro Line 2 to Jamsil Station.", "Exit and walk 5 minutes east."],
-            "The Bund": ["Take Shanghai Metro Line 2 to East Nanjing Road Station.", "Exit and walk 5 minutes east."],
-            "Yu Garden": ["Take Shanghai Metro Line 10 to Yuyuan Garden Station.", "Exit and walk 3 minutes south."],
-            "Din Tai Fung": ["Take Shanghai Metro Line 2 to Lujiazui Station.", "Exit and walk 5 minutes north."],
-            "Yang's Fry Dumplings": ["Take Shanghai Metro Line 2 to People's Square Station.", "Exit and walk 7 minutes north."],
-            "Zhujiajiao Water Town": ["Take Shanghai Metro Line 17 to Zhujiajiao Station.", "Exit and walk 10 minutes to the town."],
-            "Nanjing Road": ["Take Shanghai Metro Line 2 to East Nanjing Road Station.", "Exit and walk 2 minutes to the street."],
-            "Shanghai Disneyland": ["Take Shanghai Metro Line 11 to Disneyland Station.", "Exit and walk 5 minutes to the park."],
-            "Victoria Peak": ["Take MTR Island Line to Central Station.", "Exit and take the Peak Tram to the top."],
-            "Temple Street Night Market": ["Take MTR Tsuen Wan Line to Jordan Station.", "Exit and walk 5 minutes north."],
-            "DimDimSum Dim Sum Restaurant": ["Take MTR Tsuen Wan Line to Mong Kok Station.", "Exit and walk 3 minutes south."],
-            "Tim Ho Wan": ["Take MTR Tsuen Wan Line to Mong Kok Station.", "Exit and walk 5 minutes east."],
-            "Lantau Island": ["Take MTR Tung Chung Line to Tung Chung Station.", "Exit and take a bus or cable car to attractions."],
-            "Causeway Bay": ["Take MTR Island Line to Causeway Bay Station.", "Exit and walk 2 minutes to the shopping area."],
-            "Hong Kong Disneyland": ["Take MTR Disneyland Resort Line to Disneyland Resort Station.", "Exit and walk 5 minutes to the park."]
+        const hotelData = {
+            "Seoul": {
+                name: "Westin Josun Seoul",
+                address: "106 Sogong-ro, Jung-gu, Seoul",
+                station: "Myeongdong Station",
+                line: "Line 4",
+                lat: 37.565804,
+                lon: 126.975147
+            },
+            "Shanghai": {
+                name: "The Ritz-Carlton Shanghai, Pudong",
+                address: "8 Century Ave, Pudong, Shanghai",
+                station: "Lujiazui Station",
+                line: "Line 2",
+                lat: 31.235929,
+                lon: 121.505904
+            },
+            "Hong Kong": {
+                name: "Grand Hyatt Hong Kong",
+                address: "1 Harbour Rd, Wan Chai, Hong Kong",
+                station: "Wan Chai Station",
+                line: "Island Line",
+                lat: 22.280683,
+                lon: 114.174950
+            }
+        };
+
+        const getMetroDirections = (city, destination) => {
+            const hotel = hotelData[city] || { station: "Unknown Station", line: "Unknown Line" };
+            const destinationItem = Object.values(mockData[city] || {}).flat().find(item => item.name === destination);
+            const destStation = destinationItem?.station || "Unknown Station";
+            const destLine = destinationItem?.line || "Unknown Line";
+            if (hotel.station === "Unknown Station" || destStation === "Unknown Station") {
+                return [`Enter a valid city to get directions from ${hotel.name || "your hotel"}.`];
+            }
+            if (hotel.station === destStation) {
+                return [`Walk from ${hotel.station} to ${destination} (same station, approximately 5-10 minutes).`];
+            }
+            if (hotel.line === destLine) {
+                return [
+                    `Take ${city} ${hotel.line} from ${hotel.station} to ${destStation}.`,
+                    `Exit at ${destStation} and walk to ${destination} (approximately 5-10 minutes).`
+                ];
+            }
+            const transferStation = {
+                "Seoul": "Seoul Station",
+                "Shanghai": "People's Square Station",
+                "Hong Kong": "Central Station"
+            }[city] || "a transfer station";
+            return [
+                `Take ${city} ${hotel.line} from ${hotel.station} to ${transferStation}.`,
+                `Transfer to ${destLine} and continue to ${destStation}.`,
+                `Exit at ${destStation} and walk to ${destination} (approximately 5-10 minutes).`
+            ];
         };
 
         const groupByProximity = (items, hotelLat, hotelLon) => {
@@ -156,12 +188,20 @@
             const [view, setView] = React.useState("categorized");
             const [recommendations, setRecommendations] = React.useState(null);
 
+            React.useEffect(() => {
+                if (city && hotelData[city]) {
+                    setHotelAddress(hotelData[city].address);
+                } else {
+                    setHotelAddress("");
+                }
+            }, [city]);
+
             const handleSubmit = (e) => {
                 e.preventDefault();
                 if (mockData[city]) {
                     setRecommendations(mockData[city]);
                 } else {
-                    alert("City not found. Please enter Seoul, Shanghai, or Hong Kong.");
+                    alert("Please select a city: Seoul, Shanghai, or Hong Kong.");
                     setCity("");
                     setRecommendations(null);
                 }
@@ -172,11 +212,11 @@
                     <h3 className="text-lg font-semibold">{item.name}</h3>
                     <p className="text-sm text-gray-600">{item.address}</p>
                     <p className="text-sm">{item.description}</p>
-                    <h4 className="text-md font-medium mt-2">Metro Directions from Hotel:</h4>
+                    <h4 className="text-md font-medium mt-2">Metro Directions from {hotelData[city]?.name || "Hotel"}:</h4>
                     <ul className="list-disc pl-5 text-sm">
-                        {mockMetroDirections[item.name]?.map((step, idx) => (
+                        {getMetroDirections(city, item.name).map((step, idx) => (
                             <li key={idx}>{step}</li>
-                        )) || <li>No directions available.</li>}
+                        ))}
                     </ul>
                 </div>
             );
@@ -195,8 +235,9 @@
             );
 
             const renderProximityView = () => {
+                const hotel = hotelData[city] || { lat: 0, lon: 0 };
                 const allItems = Object.values(recommendations).flat();
-                const grouped = groupByProximity(allItems, 0, 0); // Mock hotel coords
+                const grouped = groupByProximity(allItems, hotel.lat, hotel.lon);
                 return (
                     <div>
                         {Object.entries(grouped).map(([area, items]) => (
@@ -215,22 +256,24 @@
                     <form onSubmit={handleSubmit} className="mb-6">
                         <div className="mb-4">
                             <label className="block text-sm font-medium mb-1">City</label>
-                            <input
-                                type="text"
+                            <select
                                 value={city}
                                 onChange={(e) => setCity(e.target.value)}
-                                placeholder="e.g., Seoul, Shanghai, Hong Kong"
                                 className="w-full p-2 border rounded"
-                            />
+                            >
+                                <option value="">Select a city</option>
+                                <option value="Seoul">Seoul</option>
+                                <option value="Shanghai">Shanghai</option>
+                                <option value="Hong Kong">Hong Kong</option>
+                            </select>
                         </div>
                         <div className="mb-4">
                             <label className="block text-sm font-medium mb-1">Hotel Address</label>
                             <input
                                 type="text"
                                 value={hotelAddress}
-                                onChange={(e) => setHotelAddress(e.target.value)}
-                                placeholder="e.g., 123 Gangnam-daero, Seoul"
-                                className="w-full p-2 border rounded"
+                                readOnly
+                                className="w-full p-2 border rounded bg-gray-100"
                             />
                         </div>
                         <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">
