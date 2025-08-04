@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Planning Advisor</title>
+    <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/babel-standalone@7.22.5/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex justify-center items-start p-4">
+    <div id="root" class="w-full max-w-4xl"></div>
+    <script type="text/babel">
+        const mockData = {
+            "Seoul": {
+                attractions: [
+                    { name: "Gyeongbokgung Palace", address: "161 Sajik-ro, Jongno-gu, Seoul", lat: 37.5759, lon: 126.9751, description: "Historic Joseon dynasty palace with traditional architecture." },
+                    { name: "N Seoul Tower", address: "105 Namsangongwon-gil, Yongsan-gu, Seoul", lat: 37.5512, lon: 126.9882, description: "Iconic tower with panoramic city views." }
+                ],
+                dining: [
+                    { name: "Tosokchon Samgyetang", address: "5 Jahamun-ro 5-gil, Jongno-gu, Seoul", lat: 37.5748, lon: 126.9752, description: "Famous for ginseng chicken soup." },
+                    { name: "Mapo BBQ", address: "24 Nonhyeon-ro 153-gil, Gangnam-gu, Seoul", lat: 37.5175, lon: 127.0286, description: "Authentic Korean BBQ experience." }
+                ],
+                activities: [
+                    { name: "Han River Park", address: "Yeouido-dong, Yeongdeungpo-gu, Seoul", lat: 37.5291, lon: 126.9637, description: "Scenic park for cycling and picnics." }
+                ],
+                shopping: [
+                    { name: "Myeongdong Market", address: "Myeongdong-gil, Jung-gu, Seoul", lat: 37.5633, lon: 126.9751, description: "Vibrant street market for cosmetics and fashion." }
+                ],
+                familyFriendly: [
+                    { name: "Lotte World", address: "240 Olympic-ro, Songpa-gu, Seoul", lat: 37.5111, lon: 127.0982, description: "Popular amusement park with rides and shows." }
+                ]
+            },
+            "Shanghai": {
+                attractions: [
+                    { name: "The Bund", address: "Zhongshan East 1st Rd, Huangpu, Shanghai", lat: 31.2402, lon: 121.4903, description: "Historic waterfront with colonial buildings." },
+                    { name: "Yu Garden", address: "279 Yuyuan Old St, Huangpu, Shanghai", lat: 31.2277, lon: 121.4924, description: "Classical Chinese garden with pavilions and ponds." }
+                ],
+                dining: [
+                    { name: "Din Tai Fung", address: "168 Lujiazui Ring Rd, Pudong, Shanghai", lat: 31.2376, lon: 121.5032, description: "World-famous xiao long bao dumplings." },
+                    { name: "Yang's Fry Dumplings", address: "97 Huanghe Rd, Huangpu, Shanghai", lat: 31.2413, lon: 121.4739, description: "Crispy and savory fried dumplings." }
+                ],
+                activities: [
+                    { name: "Zhujiajiao Water Town", address: "Zhujiajiao, Qingpu, Shanghai", lat: 31.1123, lon: 121.0570, description: "Ancient water town with canals and bridges." }
+                ],
+                shopping: [
+                    { name: "Nanjing Road", address: "Nanjing Rd Pedestrian St, Huangpu, Shanghai", lat: 31.2349, lon: 121.4750, description: "Bustling shopping street with global brands." }
+                ],
+                familyFriendly: [
+                    { name: "Shanghai Disneyland", address: "310 Huangzhao Rd, Pudong, Shanghai", lat: 31.1440, lon: 121.6570, description: "Magical theme park for all ages." }
+                ]
+            },
+            "Hong Kong": {
+                attractions: [
+                    { name: "Victoria Peak", address: "Peak Rd, Hong Kong", lat: 22.2759, lon: 114.1455, description: "Stunning city and harbor views from the highest point." },
+                    { name: "Temple Street Night Market", address: "Temple St, Yau Ma Tei, Hong Kong", lat: 22.3107, lon: 114.1702, description: "Vibrant night market with street food and goods." }
+                ],
+                dining: [
+                    { name: "DimDimSum Dim Sum Restaurant", address: "112 Tung Choi St, Mong Kok, Hong Kong", lat: 22.3214, lon: 114.1697, description: "Traditional dim sum dishes." },
+                    { name: "Tim Ho Wan", address: "2-20 Kwong Wa St, Mong Kok, Hong Kong", lat: 22.3160, lon: 114.1717, description: "Michelin-starred dim sum at affordable prices." }
+                ],
+                activities: [
+                    { name: "Lantau Island", address: "Lantau Island, Hong Kong", lat: 22.2637, lon: 113.9518, description: "Home to the Big Buddha and scenic hikes." }
+                ],
+                shopping: [
+                    { name: "Causeway Bay", address: "Hennessy Rd, Causeway Bay, Hong Kong", lat: 22.2795, lon: 114.1849, description: "High-end and local shopping district." }
+                ],
+                familyFriendly: [
+                    { name: "Hong Kong Disneyland", address: "Lantau Island, Hong Kong", lat: 22.3129, lon: 114.0412, description: "Family-friendly theme park with rides and shows." }
+                ]
+            }
+        };
+
+        const mockMetroDirections = {
+            // Seoul
+            "Gyeongbokgung Palace": ["Take Seoul Metro Line 3 to Gyeongbokgung Station.", "Exit and walk 5 minutes north."],
+            "N Seoul Tower": ["Take Seoul Metro Line 4 to Myeongdong Station.", "Take a cable car or walk 15 minutes to the tower."],
+            "Tosokchon Samgyetang": ["Take Seoul Metro Line 3 to Gyeongbokgung Station.", "Exit and walk 7 minutes east."],
+            "Mapo BBQ": ["Take Seoul Metro Line 2 to Hongik University Station.", "Exit and walk 10 minutes south."],
+            "Han River Park": ["Take Seoul Metro Line 5 to Yeouido Station.", "Exit and walk 5 minutes west."],
+            "Myeongdong Market": ["Take Seoul Metro Line 4 to Myeongdong Station.", "Exit and walk 2 minutes to the market."],
+            "Lotte World": ["Take Seoul Metro Line 2 to Jamsil Station.", "Exit and walk 5 minutes east."],
+            // Shanghai
+            "The Bund": ["Take Shanghai Metro Line 2 to East Nanjing Road Station.", "Exit and walk 5 minutes east."],
+            "Yu Garden": ["Take Shanghai Metro Line 10 to Yuyuan Garden Station.", "Exit and walk 3 minutes south."],
+            "Din Tai Fung": ["Take Shanghai Metro Line 2 to Lujiazui Station.", "Exit and walk 5 minutes north."],
+            "Yang's Fry Dumplings": ["Take Shanghai Metro Line 2 to People's Square Station.", "Exit and walk 7 minutes north."],
+            "Zhujiajiao Water Town": ["Take Shanghai Metro Line 17 to Zhujiajiao Station.", "Exit and walk 10 minutes to the town."],
+            "Nanjing Road": ["Take Shanghai Metro Line 2 to East Nanjing Road Station.", "Exit and walk 2 minutes to the street."],
+            "Shanghai Disneyland": ["Take Shanghai Metro Line 11 to Disneyland Station.", "Exit and walk 5 minutes to the park."],
+            // Hong Kong
+            "Victoria Peak": ["Take MTR Island Line to Central Station.", "Exit and take the Peak Tram to the top."],
+            "Temple Street Night Market": ["Take MTR Tsuen Wan Line to Jordan Station.", "Exit and walk 5 minutes north."],
+            "DimDimSum Dim Sum Restaurant": ["Take MTR Tsuen Wan Line to Mong Kok Station.", "Exit and walk 3 minutes south."],
+            "Tim Ho Wan": ["Take MTR Tsuen Wan Line to Mong Kok Station.", "Exit and walk 5 minutes east."],
+            "Lantau Island": ["Take MTR Tung Chung Line to Tung Chung Station.", "Exit and take a bus or cable car to attractions."],
+            "Causeway Bay": ["Take MTR Island Line to Causeway Bay Station.", "Exit and walk 2 minutes to the shopping area."],
+            "Hong Kong Disneyland": ["Take MTR Disneyland Resort Line to Disneyland Resort Station.", "Exit and walk 5 minutes to the park."]
+        };
+
+        const groupByProximity = (items, hotelLat, hotelLon) => {
+            const groups = {};
+            items.forEach(item => {
+                const distance = Math.sqrt(Math.pow(item.lat - hotelLat, 2) + Math.pow(item.lon - hotelLon, 2));
+                const area = distance < 0.02 ? "Near Hotel" : "Further Out";
+                if (!groups[area]) groups[area] = [];
+                groups[area].push(item);
+            });
+            return groups;
+        };
+
+        const App = () => {
+            const [city, setCity] = React.useState("");
+            const [hotelAddress, setHotelAddress] = React.useState("");
+            const [view, setView] = React.useState("categorized");
+            const [recommendations, setRecommendations] = React.useState(null);
+
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                if (mockData[city]) {
+                    setRecommendations(mockData[city]);
+                } else {
+                    alert("City not found. Please enter Seoul, Shanghai, or Hong Kong.");
+                    setCity("");
+                    setRecommendations(null);
+                }
+            };
+
+            const renderRecommendation = (item, type) => (
+                <div key={item.name} className="bg-white p-4 rounded-lg shadow mb-4">
+                    <h3 className="text-lg font-semibold">{item.name}</h3>
+                    <p className="text-sm text-gray-600">{item.address}</p>
+                    <p className="text-sm">{item.description}</p>
+                    <h4 className="text-md font-medium mt-2">Metro Directions from Hotel:</h4>
+                    <ul className="list-disc pl-5 text-sm">
+                        {mockMetroDirections[item.name]?.map((step, idx) => (
+                            <li key={idx}>{step}</li>
+                        )) || <li>No directions available.</li>}
+                    </ul>
+                </div>
+            );
+
+            const renderCategorizedView = () => (
+                <div>
+                    {['attractions', 'dining', 'activities', 'shopping', 'familyFriendly'].map(type => (
+                        recommendations[type]?.length > 0 && (
+                            <div key={type}>
+                                <h2 className="text-xl font-bold capitalize mt-6 mb-2">{type.replace(/([A-Z])/g, ' $1')}</h2>
+                                {recommendations[type].map(item => renderRecommendation(item, type))}
+                            </div>
+                        )
+                    ))}
+                </div>
+            );
+
+            const renderProximityView = () => {
+                const allItems = Object.values(recommendations).flat();
+                const grouped = groupByProximity(allItems, 0, 0); // Mock hotel coords (0,0 for simplicity)
+                return (
+                    <div>
+                        {Object.entries(grouped).map(([area, items]) => (
+                            <div key={area}>
+                                <h2 className="text-xl font-bold mt-6 mb-2">{area}</h2>
+                                {items.map(item => renderRecommendation(item))}
+                            </div>
+                        ))}
+                    </div>
+                );
+            };
+
+            return (
+                <div className="bg-white p-6 rounded-lg shadow-lg w-full">
+                    <h1 className="text-2xl font-bold mb-4 text-center">Travel Planning Advisor</h1>
+                    <form onSubmit={handleSubmit} className="mb-6">
+                        <div className="mb-4">
+                            <label className="block text-sm font-medium mb-1">City</label>
+                            <input
+                                type="text"
+                                value={city}
+                                onChange={(e) => setCity(e.target.value)}
+                                placeholder="e.g., Seoul, Shanghai, Hong Kong"
+                                className="w-full p-2 border rounded"
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label className="block text-sm font-medium mb-1">Hotel Address</label>
+                            <input
+                                type="text"
+                                value={hotelAddress}
+                                onChange={(e) => setHotelAddress(e.target.value)}
+                                placeholder="e.g., 123 Gangnam-daero, Seoul"
+                                className="w-full p-2 border rounded"
+                            />
+                        </div>
+                        <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">
+                            Generate Plan
+                        </button>
+                    </form>
+                    <div className="flex justify-center mb-4">
+                        <button
+                            onClick={() => setView("categorized")}
+                            className={`mr-2 p-2 rounded ${view === "categorized" ? "bg-blue-500 text-white" : "bg-gray-200"}`}
+                        >
+                            Categorized View
+                        </button>
+                        <button
+                            onClick={() => setView("proximity")}
+                            className={`p-2 rounded ${view === "proximity" ? "bg-blue-500 text-white" : "bg-gray-200"}`}
+                        >
+                            Proximity View
+                        </button>
+                    </div>
+                    {recommendations && (
+                        view === "categorized" ? renderCategorizedView() : renderProximityView()
+                    )}
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
