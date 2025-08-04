@@ -4,10 +4,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Travel Planning Advisor</title>
-    <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/babel-standalone@7.22.5/babel.min.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Minimal Tailwind CSS for used classes */
+        .bg-gray-100 { background-color: #f3f4f6; }
+        .min-h-screen { min-height: 100vh; }
+        .flex { display: flex; }
+        .justify-center { justify-content: center; }
+        .items-start { align-items: flex-start; }
+        .p-4 { padding: 1rem; }
+        .w-full { width: 100%; }
+        .max-w-4xl { max-width: 56rem; }
+        .mx-auto { margin-left: auto; margin-right: auto; }
+        .bg-white { background-color: #fff; }
+        .p-6 { padding: 1.5rem; }
+        .rounded-lg { border-radius: 0.5rem; }
+        .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
+        .text-2xl { font-size: 1.5rem; line-height: 2rem; }
+        .font-bold { font-weight: 700; }
+        .mb-4 { margin-bottom: 1rem; }
+        .mb-6 { margin-bottom: 1.5rem; }
+        .text-center { text-align: center; }
+        .block { display: block; }
+        .text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+        .font-medium { font-weight: 500; }
+        .mb-1 { margin-bottom: 0.25rem; }
+        .p-2 { padding: 0.5rem; }
+        .border { border-width: 1px; border-color: #e5e7eb; }
+        .rounded { border-radius: 0.25rem; }
+        .bg-blue-500 { background-color: #3b82f6; }
+        .text-white { color: #fff; }
+        .hover\:bg-blue-600:hover { background-color: #2563eb; }
+        .mr-2 { margin-right: 0.5rem; }
+        .bg-gray-200 { background-color: #e5e7eb; }
+        .text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+        .font-semibold { font-weight: 600; }
+        .text-gray-600 { color: #4b5563; }
+        .text-md { font-size: 1rem; line-height: 1.5rem; }
+        .mt-2 { margin-top: 0.5rem; }
+        .list-disc { list-style-type: disc; }
+        .pl-5 { padding-left: 1.25rem; }
+        .text-xl { font-size: 1.25rem; line-height: 1.75rem; }
+        .mt-6 { margin-top: 1.5rem; }
+        .mb-2 { margin-bottom: 0.5rem; }
+        .capitalize { text-transform: capitalize; }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.24.7/babel.min.js" type="text/javascript"></script>
 </head>
 <body class="bg-gray-100 min-h-screen flex justify-center items-start p-4">
     <div id="root" class="w-full max-w-4xl"></div>
@@ -73,7 +116,6 @@
         };
 
         const mockMetroDirections = {
-            // Seoul
             "Gyeongbokgung Palace": ["Take Seoul Metro Line 3 to Gyeongbokgung Station.", "Exit and walk 5 minutes north."],
             "N Seoul Tower": ["Take Seoul Metro Line 4 to Myeongdong Station.", "Take a cable car or walk 15 minutes to the tower."],
             "Tosokchon Samgyetang": ["Take Seoul Metro Line 3 to Gyeongbokgung Station.", "Exit and walk 7 minutes east."],
@@ -81,7 +123,6 @@
             "Han River Park": ["Take Seoul Metro Line 5 to Yeouido Station.", "Exit and walk 5 minutes west."],
             "Myeongdong Market": ["Take Seoul Metro Line 4 to Myeongdong Station.", "Exit and walk 2 minutes to the market."],
             "Lotte World": ["Take Seoul Metro Line 2 to Jamsil Station.", "Exit and walk 5 minutes east."],
-            // Shanghai
             "The Bund": ["Take Shanghai Metro Line 2 to East Nanjing Road Station.", "Exit and walk 5 minutes east."],
             "Yu Garden": ["Take Shanghai Metro Line 10 to Yuyuan Garden Station.", "Exit and walk 3 minutes south."],
             "Din Tai Fung": ["Take Shanghai Metro Line 2 to Lujiazui Station.", "Exit and walk 5 minutes north."],
@@ -89,7 +130,6 @@
             "Zhujiajiao Water Town": ["Take Shanghai Metro Line 17 to Zhujiajiao Station.", "Exit and walk 10 minutes to the town."],
             "Nanjing Road": ["Take Shanghai Metro Line 2 to East Nanjing Road Station.", "Exit and walk 2 minutes to the street."],
             "Shanghai Disneyland": ["Take Shanghai Metro Line 11 to Disneyland Station.", "Exit and walk 5 minutes to the park."],
-            // Hong Kong
             "Victoria Peak": ["Take MTR Island Line to Central Station.", "Exit and take the Peak Tram to the top."],
             "Temple Street Night Market": ["Take MTR Tsuen Wan Line to Jordan Station.", "Exit and walk 5 minutes north."],
             "DimDimSum Dim Sum Restaurant": ["Take MTR Tsuen Wan Line to Mong Kok Station.", "Exit and walk 3 minutes south."],
@@ -156,7 +196,7 @@
 
             const renderProximityView = () => {
                 const allItems = Object.values(recommendations).flat();
-                const grouped = groupByProximity(allItems, 0, 0); // Mock hotel coords (0,0 for simplicity)
+                const grouped = groupByProximity(allItems, 0, 0); // Mock hotel coords
                 return (
                     <div>
                         {Object.entries(grouped).map(([area, items]) => (
@@ -170,7 +210,7 @@
             };
 
             return (
-                <div className="bg-white p-6 rounded-lg shadow-lg w-full">
+                <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-4xl mx-auto">
                     <h1 className="text-2xl font-bold mb-4 text-center">Travel Planning Advisor</h1>
                     <form onSubmit={handleSubmit} className="mb-6">
                         <div className="mb-4">
