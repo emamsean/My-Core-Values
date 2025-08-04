@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Travel Planning Advisor</title>
+    <link rel="manifest" href="data:application/manifest+json;base64,eyJpY29ucyI6W3sic2l6ZXMiOiIxOTJ4MTkyIiwidHlwZSI6ImltYWdlL3BuZyIsInNyYyI6ImRhdGFpa29uL2ljb24tMTkyeDE5Mi5wbmcifSx7InNpemVzIjoiNTEyeDUxMiIsInR5cGUiOiJpbWFnZS9wbmciLCJzcmMiOiJkYXRhaWtvbi9pY29uLTUxMng1MTIucGpuZyJ9XSwibmFtZSI6IlRyYXZlbCBBZHZpc29yIiwic2hvcnRfbmFtZSI6IlRyYXZlbCIsInN0YXJ0X3VybCI6Ii4iLCJkaXNwbGF5Ijoic3RhbmRhbG9uZSIsImJhY2tncm91bmRfY29sb3IiOiIjZjM0ZjY2IiwidGhlbWVfY29sb3IiOiIjM2I4MmY2In0=">
+
     <style>
         /* Minimal Tailwind CSS for used classes */
         .bg-gray-100 { background-color: #f3f4f6; }
@@ -54,73 +56,31 @@
 </head>
 <body class="bg-gray-100 min-h-screen flex justify-center items-start p-4">
     <div id="root" class="w-full max-w-4xl"></div>
+
     <script type="text/babel">
-        const mockData = {
-            "Seoul": {
-                attractions: [
-                    { name: "Gyeongbokgung Palace", address: "161 Sajik-ro, Jongno-gu, Seoul", lat: 37.5759, lon: 126.9751, description: "Historic Joseon dynasty palace with traditional architecture.", station: "Gyeongbokgung Station", line: "Line 3" },
-                    { name: "N Seoul Tower", address: "105 Namsangongwon-gil, Yongsan-gu, Seoul", lat: 37.5512, lon: 126.9882, description: "Iconic tower with panoramic city views.", station: "Myeongdong Station", line: "Line 4" }
-                ],
-                dining: [
-                    { name: "Tosokchon Samgyetang", address: "5 Jahamun-ro 5-gil, Jongno-gu, Seoul", lat: 37.5748, lon: 126.9752, description: "Famous for ginseng chicken soup.", station: "Gyeongbokgung Station", line: "Line 3" },
-                    { name: "Mapo BBQ", address: "24 Nonhyeon-ro 153-gil, Gangnam-gu, Seoul", lat: 37.5175, lon: 127.0286, description: "Authentic Korean BBQ experience.", station: "Hongik University Station", line: "Line 2" }
-                ],
-                activities: [
-                    { name: "Han River Park", address: "Yeouido-dong, Yeongdeungpo-gu, Seoul", lat: 37.5291, lon: 126.9637, description: "Scenic park for cycling and picnics.", station: "Yeouido Station", line: "Line 5" }
-                ],
-                shopping: [
-                    { name: "Myeongdong Market", address: "Myeongdong-gil, Jung-gu, Seoul", lat: 37.5633, lon: 126.9751, description: "Vibrant street market for cosmetics and fashion.", station: "Myeongdong Station", line: "Line 4" }
-                ],
-                familyFriendly: [
-                    { name: "Lotte World", address: "240 Olympic-ro, Songpa-gu, Seoul", lat: 37.5111, lon: 127.0982, description: "Popular amusement park with rides and shows.", station: "Jamsil Station", line: "Line 2" }
-                ]
-            },
-            "Shanghai": {
-                attractions: [
-                    { name: "The Bund", address: "Zhongshan East 1st Rd, Huangpu, Shanghai", lat: 31.2402, lon: 121.4903, description: "Historic waterfront with colonial buildings.", station: "East Nanjing Road Station", line: "Line 2" },
-                    { name: "Yu Garden", address: "279 Yuyuan Old St, Huangpu, Shanghai", lat: 31.2277, lon: 121.4924, description: "Classical Chinese garden with pavilions and ponds.", station: "Yuyuan Garden Station", line: "Line 10" }
-                ],
-                dining: [
-                    { name: "Din Tai Fung", address: "168 Lujiazui Ring Rd, Pudong, Shanghai", lat: 31.2376, lon: 121.5032, description: "World-famous xiao long bao dumplings.", station: "Lujiazui Station", line: "Line 2" },
-                    { name: "Yang's Fry Dumplings", address: "97 Huanghe Rd, Huangpu, Shanghai", lat: 31.2413, lon: 121.4739, description: "Crispy and savory fried dumplings.", station: "People's Square Station", line: "Line 2" }
-                ],
-                activities: [
-                    { name: "Zhujiajiao Water Town", address: "Zhujiajiao, Qingpu, Shanghai", lat: 31.1123, lon: 121.0570, description: "Ancient water town with canals and bridges.", station: "Zhujiajiao Station", line: "Line 17" }
-                ],
-                shopping: [
-                    { name: "Nanjing Road", address: "Nanjing Rd Pedestrian St, Huangpu, Shanghai", lat: 31.2349, lon: 121.4750, description: "Bustling shopping street with global brands.", station: "East Nanjing Road Station", line: "Line 2" }
-                ],
-                familyFriendly: [
-                    { name: "Shanghai Disneyland", address: "310 Huangzhao Rd, Pudong, Shanghai", lat: 31.1440, lon: 121.6570, description: "Magical theme park for all ages.", station: "Disneyland Station", line: "Line 11" }
-                ]
-            },
-            "Hong Kong": {
-                attractions: [
-                    { name: "Victoria Peak", address: "Peak Rd, Hong Kong", lat: 22.2759, lon: 114.1455, description: "Stunning city and harbor views from the highest point.", station: "Central Station", line: "Island Line" },
-                    { name: "Temple Street Night Market", address: "Temple St, Yau Ma Tei, Hong Kong", lat: 22.3107, lon: 114.1702, description: "Vibrant night market with street food and goods.", station: "Jordan Station", line: "Tsuen Wan Line" }
-                ],
-                dining: [
-                    { name: "DimDimSum Dim Sum Restaurant", address: "112 Tung Choi St, Mong Kok, Hong Kong", lat: 22.3214, lon: 114.1697, description: "Traditional dim sum dishes.", station: "Mong Kok Station", line: "Tsuen Wan Line" },
-                    { name: "Tim Ho Wan", address: "2-20 Kwong Wa St, Mong Kok, Hong Kong", lat: 22.3160, lon: 114.1717, description: "Michelin-starred dim sum at affordable prices.", station: "Mong Kok Station", line: "Tsuen Wan Line" }
-                ],
-                activities: [
-                    { name: "Lantau Island", address: "Lantau Island, Hong Kong", lat: 22.2637, lon: 113.9518, description: "Home to the Big Buddha and scenic hikes.", station: "Tung Chung Station", line: "Tung Chung Line" }
-                ],
-                shopping: [
-                    { name: "Causeway Bay", address: "Hennessy Rd, Causeway Bay, Hong Kong", lat: 22.2795, lon: 114.1849, description: "High-end and local shopping district.", station: "Causeway Bay Station", line: "Island Line" }
-                ],
-                familyFriendly: [
-                    { name: "Hong Kong Disneyland", address: "Lantau Island, Hong Kong", lat: 22.3129, lon: 114.0412, description: "Family-friendly theme park with rides and shows.", station: "Disneyland Resort Station", line: "Disneyland Resort Line" }
-                ]
-            }
+        // Helper function for Haversine distance (optional, not strictly needed if using proximityCategory)
+        const haversineDistance = (lat1, lon1, lat2, lon2) => {
+            const R = 6371e3; // metres
+            const φ1 = lat1 * Math.PI / 180; // φ, λ in radians
+            const φ2 = lat2 * Math.PI / 180;
+            const Δφ = (lat2 - lat1) * Math.PI / 180;
+            const Δλ = (lon2 - lon1) * Math.PI / 180;
+
+            const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+                      Math.cos(φ1) * Math.cos(φ2) *
+                      Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+            const d = R * c; // in metres
+            return d;
         };
 
         const hotelData = {
             "Seoul": {
                 name: "Westin Josun Seoul",
                 address: "106 Sogong-ro, Jung-gu, Seoul",
-                station: "Myeongdong Station",
-                line: "Line 4",
+                station: "City Hall Station", // Closer metro station to Westin Josun
+                line: "Line 1 / Line 2",
                 lat: 37.565804,
                 lon: 126.975147
             },
@@ -142,44 +102,732 @@
             }
         };
 
-        const getMetroDirections = (city, destination) => {
-            const hotel = hotelData[city] || { station: "Unknown Station", line: "Unknown Line" };
-            const destinationItem = Object.values(mockData[city] || {}).flat().find(item => item.name === destination);
-            const destStation = destinationItem?.station || "Unknown Station";
-            const destLine = destinationItem?.line || "Unknown Line";
-            if (hotel.station === "Unknown Station" || destStation === "Unknown Station") {
-                return [`Enter a valid city to get directions from ${hotel.name || "your hotel"}.`];
+        const mockData = {
+            "Seoul": {
+                attractions: [
+                    {
+                        name: "Gyeongbokgung Palace", address: "161 Sajik-ro, Jongno-gu, Seoul", lat: 37.5759, lon: 126.9751,
+                        description: "Historic Joseon dynasty palace with traditional architecture. A must-visit for history and culture.",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Seoul"].name} to City Hall Station (Line 1 or Line 2), Exit 7. (approx. 5-7 min walk)`,
+                            `From City Hall Station (Line 1), take the subway towards Uijeongbu / Soyosan and get off at Jonggak Station (1 stop).`,
+                            `Transfer to Line 3 at Jonggak Station (towards Daehwa) and ride to Gyeongbokgung Station (2 stops).`,
+                            `Take Exit 5 from Gyeongbokgung Station. The palace entrance is directly in front of you.`,
+                            `Approximate travel time: 15-20 minutes.`
+                        ],
+                        proximityCategory: "Short Metro Ride"
+                    },
+                    {
+                        name: "Bukchon Hanok Village", address: "37 Gahoe-dong, Jongno-gu, Seoul", lat: 37.5826, lon: 126.9836,
+                        description: "Traditional Korean village with preserved hanok (traditional houses) offering a glimpse into old Seoul.",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Seoul"].name} to Euljiro 1-ga Station (Line 2). (approx. 7-10 min walk)`,
+                            `From Euljiro 1-ga Station (Line 2), take the subway towards Sindang and get off at Euljiro 3-ga Station (1 stop).`,
+                            `Transfer to Line 3 at Euljiro 3-ga Station (towards Daehwa) and ride to Anguk Station (2 stops).`,
+                            `Take Exit 2 from Anguk Station and walk straight for about 300m to enter the village area.`,
+                            `Approximate travel time: 20-25 minutes.`
+                        ],
+                        proximityCategory: "Short Metro Ride"
+                    },
+                    {
+                        name: "N Seoul Tower", address: "105 Namsangongwon-gil, Yongsan-gu, Seoul", lat: 37.5512, lon: 126.9882,
+                        description: "Iconic tower with panoramic city views, especially beautiful at sunset.",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Seoul"].name} to Myeongdong Station (Line 4), Exit 3. (approx. 10-12 min walk)`,
+                            `From Myeongdong Station Exit 3, walk to the Namsan Cable Car platform (approx. 10 mins uphill walk) or take a local bus.`,
+                            `Take the Namsan Cable Car up to N Seoul Tower.`,
+                            `Approximate travel time (including walk/cable car): 30-40 minutes.`
+                        ],
+                        proximityCategory: "Short Metro Ride"
+                    },
+                    {
+                        name: "Changdeokgung Palace & Huwon (Secret Garden)", address: "99 Yulgok-ro, Jongno-gu, Seoul", lat: 37.5790, lon: 126.9915,
+                        description: "UNESCO World Heritage site, famous for its harmonious integration with nature and the beautiful Secret Garden.",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Seoul"].name} to Euljiro 1-ga Station (Line 2). (approx. 7-10 min walk)`,
+                            `From Euljiro 1-ga Station (Line 2), take the subway towards Sindang and get off at Euljiro 3-ga Station (1 stop).`,
+                            `Transfer to Line 3 at Euljiro 3-ga Station (towards Ogeum) and ride to Anguk Station (1 stop).`,
+                            `Take Exit 3 from Anguk Station and walk straight for about 5 minutes. The palace entrance will be on your right.`,
+                            `Approximate travel time: 15-20 minutes.`
+                        ],
+                        proximityCategory: "Short Metro Ride"
+                    }
+                ],
+                dining: [
+                    {
+                        name: "Tosokchon Samgyetang", address: "5 Jahamun-ro 5-gil, Jongno-gu, Seoul", lat: 37.5748, lon: 126.9752,
+                        description: "Famous for its traditional ginseng chicken soup, a local favorite.",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Seoul"].name} to City Hall Station (Line 1 or Line 2), Exit 7. (approx. 5-7 min walk)`,
+                            `From City Hall Station (Line 1), take the subway towards Uijeongbu / Soyosan and get off at Jonggak Station (1 stop).`,
+                            `Transfer to Line 3 at Jonggak Station (towards Daehwa) and ride to Gyeongbokgung Station (2 stops).`,
+                            `Take Exit 2 from Gyeongbokgung Station and walk for about 5-7 minutes along Jahamun-ro 5-gil.`,
+                            `Approximate travel time: 20-25 minutes.`
+                        ],
+                        proximityCategory: "Short Metro Ride"
+                    },
+                    {
+                        name: "Gwangjang Market (Food Stalls)", address: "88 Changgyeonggung-ro, Jongno-gu, Seoul", lat: 37.5709, lon: 126.9972,
+                        description: "A bustling traditional market offering a wide variety of Korean street food, including bibimbap, tteokbokki, and mung bean pancakes.",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Seoul"].name} to Euljiro 1-ga Station (Line 2). (approx. 7-10 min walk)`,
+                            `From Euljiro 1-ga Station (Line 2), take the subway towards Sindang and get off at Euljiro 4-ga Station (2 stops).`,
+                            `Take Exit 4 from Euljiro 4-ga Station and walk straight for about 5 minutes to reach the market's main entrance.`,
+                            `Approximate travel time: 15-20 minutes.`
+                        ],
+                        proximityCategory: "Short Metro Ride"
+                    },
+                    {
+                        name: "Myeongdong Kyoja (Main Branch)", address: "29 Myeongdong 10-gil, Jung-gu, Seoul", lat: 37.5619, lon: 126.9856,
+                        description: "Renowned for its delicious 칼국수 (Kalguksu - Korean noodle soup) and mandu (dumplings).",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Seoul"].name} to Myeongdong Kyoja (approx. 5-7 min walk). It's very close to your hotel.`,
+                            `Approximate travel time: 5-7 minutes (walking).`
+                        ],
+                        proximityCategory: "Walking Distance"
+                    },
+                    {
+                        name: "Mapo Jeong Daepo (Korean BBQ)", address: "47 Dohwa-gil, Mapo-gu, Seoul", lat: 37.5459, lon: 126.9535,
+                        description: "Popular spot for authentic Korean BBQ, known for its delicious pork belly and calm ambiance.",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Seoul"].name} to City Hall Station (Line 2). (approx. 5-7 min walk)`,
+                            `From City Hall Station (Line 2), take the subway towards Chungjeongno and ride to Gongdeok Station (4 stops).`,
+                            `Take Exit 8 from Gongdeok Station and walk straight for about 3-5 minutes along Dohwa-gil.`,
+                            `Approximate travel time: 20-25 minutes.`
+                        ],
+                        proximityCategory: "Longer Metro Ride"
+                    }
+                ],
+                activities: [
+                    {
+                        name: "Han River Park (Yeouido)", address: "Yeouido-dong, Yeongdeungpo-gu, Seoul", lat: 37.5291, lon: 126.9637,
+                        description: "A vast urban park along the Han River, perfect for cycling, picnics, and enjoying the city skyline.",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Seoul"].name} to City Hall Station (Line 2). (approx. 5-7 min walk)`,
+                            `From City Hall Station (Line 2), take the subway towards Gangnam / Sadang and ride to Yeouido Station (4 stops).`,
+                            `Take Exit 3 from Yeouido Station and walk towards the Han River, following signs for Yeouido Hangang Park.`,
+                            `Approximate travel time: 20-25 minutes.`
+                        ],
+                        proximityCategory: "Longer Metro Ride"
+                    },
+                    {
+                        name: "Jogyesa Temple (Buddhism)", address: "45 Gyeonji-dong, Jongno-gu, Seoul", lat: 37.5730, lon: 126.9822,
+                        description: "The chief temple of the Jogye Order of Korean Buddhism, a tranquil oasis in the city center.",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Seoul"].name} towards Jonggak Station (Line 1). (approx. 10-12 min walk)`,
+                            `From Jonggak Station, take Exit 2 and walk straight. You will see the temple on your left after about 5 minutes.`,
+                            `Approximate travel time: 15-20 minutes (mostly walking).`
+                        ],
+                        proximityCategory: "Walking Distance"
+                    },
+                    {
+                        name: "Cheonggyecheon Stream", address: "Cheonggyecheon-ro, Jung-gu, Seoul", lat: 37.5694, lon: 126.9774,
+                        description: "A restored urban stream that offers a peaceful escape and walking paths, often hosts cultural events.",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Seoul"].name} directly to the Cheonggyecheon Stream entrance near Gwanghwamun. (approx. 5-10 min walk)`,
+                            `Approximate travel time: 5-10 minutes (walking).`
+                        ],
+                        proximityCategory: "Walking Distance"
+                    },
+                    {
+                        name: "Dongdaemun Design Plaza (DDP)", address: "281 Euljiro, Jung-gu, Seoul", lat: 37.5661, lon: 127.0094,
+                        description: "A futuristic architectural landmark hosting exhibitions, fashion shows, and cultural events.",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Seoul"].name} to Euljiro 1-ga Station (Line 2). (approx. 7-10 min walk)`,
+                            `From Euljiro 1-ga Station (Line 2), take the subway towards Sindang and ride to Dongdaemun History & Culture Park Station (3 stops).`,
+                            `Take Exit 1 from Dongdaemun History & Culture Park Station. DDP is immediately visible.`,
+                            `Approximate travel time: 15-20 minutes.`
+                        ],
+                        proximityCategory: "Short Metro Ride"
+                    }
+                ],
+                shopping: [
+                    {
+                        name: "Myeongdong Market", address: "Myeongdong-gil, Jung-gu, Seoul", lat: 37.5633, lon: 126.9820,
+                        description: "Vibrant street market for cosmetics, fashion, and trendy street food. A shopping paradise.",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Seoul"].name} to the heart of Myeongdong Market. (approx. 5-10 min walk)`,
+                            `Approximate travel time: 5-10 minutes (walking).`
+                        ],
+                        proximityCategory: "Walking Distance"
+                    },
+                    {
+                        name: "Hongdae Shopping Street", address: "Hongdae, Mapo-gu, Seoul", lat: 37.5575, lon: 126.9246,
+                        description: "Youthful and energetic area known for indie fashion, unique boutiques, and street art.",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Seoul"].name} to Euljiro 1-ga Station (Line 2). (approx. 7-10 min walk)`,
+                            `From Euljiro 1-ga Station (Line 2), take the subway towards Sinchon and ride to Hongik University Station (6 stops).`,
+                            `Take Exit 9 from Hongik University Station to enter the main shopping area.`,
+                            `Approximate travel time: 25-30 minutes.`
+                        ],
+                        proximityCategory: "Longer Metro Ride"
+                    },
+                    {
+                        name: "Insadong Street", address: "Insadong, Jongno-gu, Seoul", lat: 37.5746, lon: 126.9830,
+                        description: "A cultural street selling traditional Korean crafts, art, tea, and souvenirs.",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Seoul"].name} to Jonggak Station (Line 1). (approx. 10-12 min walk)`,
+                            `From Jonggak Station, take Exit 3 and walk straight for about 5 minutes. Insadong main street will be on your left.`,
+                            `Approximate travel time: 15-20 minutes (mostly walking).`
+                        ],
+                        proximityCategory: "Walking Distance"
+                    },
+                    {
+                        name: "Gangnam Underground Shopping Center", address: "Underground, Gangnam Station, Seoul", lat: 37.4981, lon: 127.0276,
+                        description: "A massive underground shopping mall offering affordable fashion, cosmetics, and various goods.",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Seoul"].name} to City Hall Station (Line 2). (approx. 5-7 min walk)`,
+                            `From City Hall Station (Line 2), take the subway towards Gangnam / Sadang and ride to Gangnam Station (8 stops).`,
+                            `The shopping center is directly connected to Gangnam Station.`,
+                            `Approximate travel time: 25-30 minutes.`
+                        ],
+                        proximityCategory: "Longer Metro Ride"
+                    }
+                ],
+                entertainment: [ // Renamed from familyFriendly
+                    {
+                        name: "Lotte World", address: "240 Olympic-ro, Songpa-gu, Seoul", lat: 37.5111, lon: 127.0982,
+                        description: "Popular amusement park with thrilling rides, parades, and a large indoor area.",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Seoul"].name} to Euljiro 1-ga Station (Line 2). (approx. 7-10 min walk)`,
+                            `From Euljiro 1-ga Station (Line 2), take the subway towards Sindang / Gangnam and ride to Jamsil Station (Line 2, 10 stops).`,
+                            `Take Exit 4 from Jamsil Station; Lotte World is directly connected.`,
+                            `Approximate travel time: 30-35 minutes.`
+                        ],
+                        proximityCategory: "Day Trip"
+                    },
+                    {
+                        name: "Nanta Show (Myeongdong)", address: "26 Myeongdong-gil, Jung-gu, Seoul", lat: 37.5630, lon: 126.9840,
+                        description: "A non-verbal comedy performance integrating traditional Korean percussion with modern music.",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Seoul"].name} to Myeongdong Theatre (Nanta Show venue). (approx. 7-10 min walk)`,
+                            `Approximate travel time: 7-10 minutes (walking).`
+                        ],
+                        proximityCategory: "Walking Distance"
+                    },
+                    {
+                        name: "COEX Aquarium", address: "513 Yeongdong-daero, Gangnam-gu, Seoul", lat: 37.5135, lon: 127.0583,
+                        description: "Large aquarium inside the COEX Mall, featuring a diverse collection of marine life.",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Seoul"].name} to Euljiro 1-ga Station (Line 2). (approx. 7-10 min walk)`,
+                            `From Euljiro 1-ga Station (Line 2), take the subway towards Sindang / Gangnam and ride to Samseong Station (Line 2, 10 stops).`,
+                            `Take Exit 5 or 6 from Samseong Station. COEX Mall and Aquarium are connected underground.`,
+                            `Approximate travel time: 30-35 minutes.`
+                        ],
+                        proximityCategory: "Longer Metro Ride"
+                    },
+                    {
+                        name: "Everland Resort", address: "199 Everland-ro, Pogok-eup, Cheoin-gu, Yongin-si, Gyeonggi-do", lat: 37.2934, lon: 127.2023,
+                        description: "South Korea's largest theme park, featuring diverse zones, thrilling rides, and a zoo.",
+                        metroDirectionsFromHotel: [
+                            `Take subway from City Hall Station (Line 2) to Gangnam Station.`,
+                            `From Gangnam Station, take bus #5002 or #5700 directly to Everland.`,
+                            `Alternatively, take the Bundang Line from Gangnam area stations to Giheung Station, then transfer to Everline light rail to Jeondae-Everland Station. From there, take a free shuttle bus to the park.`,
+                            `Approximate travel time: 1.5 - 2 hours (requires bus or multiple transfers).`
+                        ],
+                        proximityCategory: "Day Trip"
+                    }
+                ]
+            },
+            "Shanghai": {
+                attractions: [
+                    {
+                        name: "The Bund", address: "Zhongshan East 1st Rd, Huangpu, Shanghai", lat: 31.2402, lon: 121.4903,
+                        description: "Historic waterfront with colonial buildings on one side and the futuristic Pudong skyline on the other.",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Shanghai"].name} to Lujiazui Station (Line 2). (approx. 5-7 min walk)`,
+                            `From Lujiazui Station (Line 2), take the subway one stop towards East Xujing to East Nanjing Road Station.`,
+                            `Take Exit 2 from East Nanjing Road Station and walk east along Nanjing Road towards the river. The Bund is about a 10-15 minute walk.`,
+                            `Approximate travel time: 15-20 minutes.`
+                        ],
+                        proximityCategory: "Short Metro Ride"
+                    },
+                    {
+                        name: "Yu Garden", address: "279 Yuyuan Old St, Huangpu, Shanghai", lat: 31.2277, lon: 121.4924,
+                        description: "Classical Chinese garden with pavilions, rockeries, and ponds, a serene escape.",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Shanghai"].name} to Lujiazui Station (Line 2). (approx. 5-7 min walk)`,
+                            `From Lujiazui Station (Line 2), take the subway two stops towards East Xujing to East Nanjing Road Station.`,
+                            `Transfer to Line 10 (towards Hongqiao Railway Station) at East Nanjing Road Station and ride to Yuyuan Garden Station (1 stop).`,
+                            `Take Exit 1 from Yuyuan Garden Station. The garden entrance is a short walk away.`,
+                            `Approximate travel time: 20-25 minutes.`
+                        ],
+                        proximityCategory: "Short Metro Ride"
+                    },
+                    {
+                        name: "Oriental Pearl TV Tower", address: "1 Century Ave, Pudong, Shanghai", lat: 31.2393, lon: 121.4996,
+                        description: "Iconic Shanghai landmark offering observation decks with stunning city views.",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Shanghai"].name} to Oriental Pearl TV Tower. It's very close. (approx. 5-7 min walk)`,
+                            `Approximate travel time: 5-7 minutes (walking).`
+                        ],
+                        proximityCategory: "Walking Distance"
+                    },
+                    {
+                        name: "Shanghai Museum", address: "201 Renmin Ave, Huangpu, Shanghai", lat: 31.2307, lon: 121.4746,
+                        description: "A world-class museum showcasing ancient Chinese art and artifacts.",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Shanghai"].name} to Lujiazui Station (Line 2). (approx. 5-7 min walk)`,
+                            `From Lujiazui Station (Line 2), take the subway three stops towards East Xujing to People's Square Station.`,
+                            `Take Exit 1 from People's Square Station. The museum is a short walk from the exit.`,
+                            `Approximate travel time: 15-20 minutes.`
+                        ],
+                        proximityCategory: "Short Metro Ride"
+                    }
+                ],
+                dining: [
+                    {
+                        name: "Din Tai Fung (Super Brand Mall)", address: "168 Lujiazui Ring Rd, Pudong, Shanghai", lat: 31.2376, lon: 121.5032,
+                        description: "World-famous for its delicate xiao long bao (soup dumplings) and other Taiwanese dishes.",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Shanghai"].name} to Super Brand Mall. (approx. 5-7 min walk)`,
+                            `Approximate travel time: 5-7 minutes (walking).`
+                        ],
+                        proximityCategory: "Walking Distance"
+                    },
+                    {
+                        name: "Yang's Fry Dumplings (Huanghe Road)", address: "97 Huanghe Rd, Huangpu, Shanghai", lat: 31.2413, lon: 121.4739,
+                        description: "A local institution for shengjianbao (pan-fried soup dumplings) – crispy on the bottom, juicy inside.",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Shanghai"].name} to Lujiazui Station (Line 2). (approx. 5-7 min walk)`,
+                            `From Lujiazui Station (Line 2), take the subway three stops towards East Xujing to People's Square Station.`,
+                            `Take Exit 8 from People's Square Station and walk north along Huanghe Road for about 5 minutes.`,
+                            `Approximate travel time: 15-20 minutes.`
+                        ],
+                        proximityCategory: "Short Metro Ride"
+                    },
+                    {
+                        name: "Jia Jia Tang Bao (for soup dumplings)", address: "90 Huanghe Rd, Huangpu, Shanghai", lat: 31.2413, lon: 121.4739,
+                        description: "Another highly-rated spot for traditional Shanghai xiao long bao, simple and authentic.",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Shanghai"].name} to Lujiazui Station (Line 2). (approx. 5-7 min walk)`,
+                            `From Lujiazui Station (Line 2), take the subway three stops towards East Xujing to People's Square Station.`,
+                            `Take Exit 8 from People's Square Station and walk north along Huanghe Road for about 5 minutes.`,
+                            `Approximate travel time: 15-20 minutes.`
+                        ],
+                        proximityCategory: "Short Metro Ride"
+                    },
+                    {
+                        name: "Lost Heaven (Yunnan Cuisine)", address: "17 Yan'an Dong Lu, Huangpu, Shanghai", lat: 31.2338, lon: 121.4930,
+                        description: "Upscale restaurant offering delicious and unique Yunnan provincial cuisine in a stylish setting.",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Shanghai"].name} to Lujiazui Station (Line 2). (approx. 5-7 min walk)`,
+                            `From Lujiazui Station (Line 2), take the subway two stops towards East Xujing to East Nanjing Road Station.`,
+                            `Walk southwest along the Bund area or take a short taxi/Didi ride (approx. 10-15 min walk from station).`,
+                            `Approximate travel time: 20-25 minutes.`
+                        ],
+                        proximityCategory: "Short Metro Ride"
+                    }
+                ],
+                activities: [
+                    {
+                        name: "Zhujiajiao Water Town", address: "Zhujiajiao, Qingpu, Shanghai", lat: 31.1123, lon: 121.0570,
+                        description: "Ancient water town with canals, bridges, and traditional architecture. Offers boat rides.",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Shanghai"].name} to Lujiazui Station (Line 2). (approx. 5-7 min walk)`,
+                            `From Lujiazui Station (Line 2), take the subway towards East Xujing to Hongqiao Railway Station (Line 2).`,
+                            `Transfer to Line 17 (towards Oriental Land) at Hongqiao Railway Station and ride to Zhujiajiao Station.`,
+                            `From Zhujiajiao Station, walk or take a local bus/taxi to the water town entrance.`,
+                            `Approximate travel time: 1 hour 30 minutes - 2 hours.`
+                        ],
+                        proximityCategory: "Day Trip"
+                    },
+                    {
+                        name: "Shanghai Acrobatic Show (ERA Intersection of Time)", address: "1941 Gonghexin Rd, Jing'an, Shanghai", lat: 31.2829, lon: 121.4604,
+                        description: "Spectacular acrobatic performance with stunning visuals and daring feats.",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Shanghai"].name} to Lujiazui Station (Line 2). (approx. 5-7 min walk)`,
+                            `From Lujiazui Station (Line 2), take the subway three stops towards East Xujing to People's Square Station (3 stops).`,
+                            `Transfer to Line 1 (towards Fujin Road) at People's Square Station and ride to Shanghai Circus World Station (5 stops).`,
+                            `Take Exit 3 or 4 from Shanghai Circus World Station; the venue is across the road.`,
+                            `Approximate travel time: 35-45 minutes.`
+                        ],
+                        proximityCategory: "Longer Metro Ride"
+                    },
+                    {
+                        name: "Tianzifang", address: "210 Taikang Rd, Huangpu, Shanghai", lat: 31.2057, lon: 121.4660,
+                        description: "Charming arts and crafts enclave with narrow alleyways, galleries, cafes, and boutiques.",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Shanghai"].name} to Lujiazui Station (Line 2). (approx. 5-7 min walk)`,
+                            `From Lujiazui Station (Line 2), take the subway towards East Xujing to Longyang Road Station.`, // Or other transfer options
+                            `Transfer to Line 9 (towards Songjiang South Railway Station) at Longyang Road Station and ride to Dapuqiao Station.`,
+                            `Take Exit 1 from Dapuqiao Station. Tianzifang is a short walk away.`,
+                            `Approximate travel time: 30-35 minutes.`
+                        ],
+                        proximityCategory: "Longer Metro Ride"
+                    },
+                    {
+                        name: "Cruising the Huangpu River", address: "Various piers along The Bund or Lujiazui", lat: 31.2400, lon: 121.4900,
+                        description: "Enjoy breathtaking views of both Pudong and Puxi skylines from the Huangpu River, especially at night.",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Shanghai"].name} to Lujiazui Station (Line 2). (approx. 5-7 min walk)`,
+                            `From Lujiazui Station (Line 2), walk towards the riverfront to find various pier options near the Oriental Pearl TV Tower or IFC mall.`,
+                            `Approximate travel time: 10-15 minutes (walking).`
+                        ],
+                        proximityCategory: "Walking Distance"
+                    }
+                ],
+                shopping: [
+                    {
+                        name: "Nanjing Road", address: "Nanjing Rd Pedestrian St, Huangpu, Shanghai", lat: 31.2349, lon: 121.4750,
+                        description: "One of the world's busiest shopping streets, offering everything from luxury brands to local goods.",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Shanghai"].name} to Lujiazui Station (Line 2). (approx. 5-7 min walk)`,
+                            `From Lujiazui Station (Line 2), take the subway one stop towards East Xujing to East Nanjing Road Station.`,
+                            `Nanjing Road Pedestrian Street starts right outside East Nanjing Road Station.`,
+                            `Approximate travel time: 10-15 minutes.`
+                        ],
+                        proximityCategory: "Short Metro Ride"
+                    },
+                    {
+                        name: "IFC Mall", address: "8 Century Ave, Pudong, Shanghai", lat: 31.2393, lon: 121.5038,
+                        description: "High-end luxury shopping mall with international brands and fine dining, connected to your hotel.",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Shanghai"].name} directly into IFC Mall. It is integrated with The Ritz-Carlton.`,
+                            `Approximate travel time: 0-2 minutes (indoor walk).`
+                        ],
+                        proximityCategory: "Walking Distance"
+                    },
+                    {
+                        name: "Xintiandi", address: "Lane 181, Taicang Rd, Huangpu, Shanghai", lat: 31.2227, lon: 121.4740,
+                        description: "A stylish pedestrian area of restored traditional shikumen (stone-gate houses) housing boutiques, cafes, and restaurants.",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Shanghai"].name} to Lujiazui Station (Line 2). (approx. 5-7 min walk)`,
+                            `From Lujiazui Station (Line 2), take the subway three stops towards East Xujing to People's Square Station.`,
+                            `Transfer to Line 1 (towards Xinzhuang) at People's Square Station and ride to South Huangpi Road Station (1 stop).`,
+                            `Take Exit 3 from South Huangpi Road Station and walk for about 5 minutes to Xintiandi.`,
+                            `Approximate travel time: 20-25 minutes.`
+                        ],
+                        proximityCategory: "Short Metro Ride"
+                    },
+                    {
+                        name: "Taobao City Market (Fake Market)", address: "580 Nanjing West Road, Jing'an, Shanghai", lat: 31.2335, lon: 121.4705,
+                        description: "A multi-story indoor market famous for bargaining for 'replica' goods, electronics, and souvenirs.",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Shanghai"].name} to Lujiazui Station (Line 2). (approx. 5-7 min walk)`,
+                            `From Lujiazui Station (Line 2), take the subway three stops towards East Xujing to People's Square Station.`,
+                            `Transfer to Line 1 (towards Xinzhuang) at People's Square Station and ride to People's Square Station. (Taobao City is near this area, though actual building might vary)`,
+                            `Walk to the market location on Nanjing West Road (approx. 5-10 min walk from People's Square).`,
+                            `Approximate travel time: 20-25 minutes.`
+                        ],
+                        proximityCategory: "Short Metro Ride"
+                    }
+                ],
+                entertainment: [ // Renamed from familyFriendly
+                    {
+                        name: "Shanghai Disneyland", address: "310 Huangzhao Rd, Pudong, Shanghai", lat: 31.1440, lon: 121.6570,
+                        description: "Magical theme park with unique rides, shows, and attractions, a world-class Disney experience.",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Shanghai"].name} to Lujiazui Station (Line 2). (approx. 5-7 min walk)`,
+                            `From Lujiazui Station (Line 2), take the subway towards East Xujing to Longyang Road Station.`,
+                            `Transfer to Line 11 (towards Disney Resort) at Longyang Road Station and ride to Disney Resort Station.`,
+                            `The park entrance is a short walk from the station.`,
+                            `Approximate travel time: 45 minutes - 1 hour.`
+                        ],
+                        proximityCategory: "Day Trip"
+                    },
+                    {
+                        name: "Happy Valley Shanghai", address: "888 Linhu Rd, Songjiang, Shanghai", lat: 31.0960, lon: 121.1990,
+                        description: "Large amusement park with various themed areas and roller coasters for thrill-seekers.",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Shanghai"].name} to Lujiazui Station (Line 2). (approx. 5-7 min walk)`,
+                            `From Lujiazui Station (Line 2), take the subway towards East Xujing to Sheshan Station (Line 9).`,
+                            `From Sheshan Station, take the free shuttle bus to Happy Valley.`,
+                            `Approximate travel time: 1 hour 15 minutes - 1 hour 30 minutes.`
+                        ],
+                        proximityCategory: "Day Trip"
+                    },
+                    {
+                        name: "Shanghai Ocean Aquarium", address: "1388 Lujiazui Ring Rd, Pudong, Shanghai", lat: 31.2372, lon: 121.5008,
+                        description: "One of the largest aquariums in Asia, featuring a diverse collection of aquatic animals and a long underwater tunnel.",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Shanghai"].name} to Shanghai Ocean Aquarium. (approx. 5-7 min walk)`,
+                            `Approximate travel time: 5-7 minutes (walking).`
+                        ],
+                        proximityCategory: "Walking Distance"
+                    },
+                    {
+                        name: "The Cirque du Soleil: X - The Land of Fantasy (Hangzhou)", address: "Hangzhou Grand Theatre, Hangzhou", lat: 30.2528, lon: 120.2078,
+                        description: "A spectacular permanent Cirque du Soleil show located in Hangzhou, a high-speed rail trip away.",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Shanghai"].name} to Lujiazui Station (Line 2).`,
+                            `Take Line 2 to Hongqiao Railway Station.`,
+                            `Take a High-Speed Train from Shanghai Hongqiao Railway Station to Hangzhou East Railway Station.`,
+                            `From Hangzhou East Station, take Hangzhou Metro or taxi to the theatre.`,
+                            `Approximate travel time: 3-4 hours one way (including HSR). This is an all-day trip.`
+                        ],
+                        proximityCategory: "Day Trip" // Or "Further Out" if you want to explicitly exclude
+                    }
+                ]
+            },
+            "Hong Kong": {
+                attractions: [
+                    {
+                        name: "Victoria Peak", address: "Peak Rd, Hong Kong", lat: 22.2759, lon: 114.1455,
+                        description: "Stunning panoramic city and harbor views from Hong Kong's highest point, accessible by Peak Tram.",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Hong Kong"].name} to Wan Chai Station (Island Line), Exit A3. (approx. 10-12 min walk)`,
+                            `From Wan Chai Station, take the Island Line towards Sheung Wan to Central Station (2 stops).`,
+                            `Take Exit J2 from Central Station and walk uphill (approx. 10-15 min) to the Peak Tram Lower Terminus on Garden Road.`,
+                            `Take the Peak Tram to Victoria Peak.`,
+                            `Approximate travel time: 30-40 minutes.`
+                        ],
+                        proximityCategory: "Short Metro Ride"
+                    },
+                    {
+                        name: "Star Ferry (Tsim Sha Tsui)", address: "Tsim Sha Tsui Ferry Pier, Hong Kong", lat: 22.2938, lon: 114.1688,
+                        description: "An iconic and affordable way to cross Victoria Harbour, offering breathtaking skyline views.",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Hong Kong"].name} to Wan Chai Ferry Pier (approx. 10-12 min walk).`,
+                            `Take the Star Ferry from Wan Chai to Tsim Sha Tsui.`,
+                            `Approximate travel time: 20-25 minutes (including walk and ferry ride).`
+                        ],
+                        proximityCategory: "Walking Distance" // if you consider ferry as "walk" across harbor
+                    },
+                    {
+                        name: "Temple Street Night Market", address: "Temple St, Yau Ma Tei, Hong Kong", lat: 22.3107, lon: 114.1702,
+                        description: "Vibrant night market with street food, souvenirs, electronics, and fortune tellers.",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Hong Kong"].name} to Wan Chai Station (Island Line). (approx. 10-12 min walk)`,
+                            `From Wan Chai Station, take the Island Line towards Chai Wan to Admiralty Station (1 stop).`,
+                            `Transfer to Tsuen Wan Line (towards Tsuen Wan) at Admiralty Station and ride to Jordan Station (3 stops).`,
+                            `Take Exit A from Jordan Station and walk straight on Jordan Road, then turn right onto Temple Street.`,
+                            `Approximate travel time: 25-30 minutes.`
+                        ],
+                        proximityCategory: "Longer Metro Ride"
+                    },
+                    {
+                        name: "Ngong Ping 360 & Big Buddha", address: "Ngong Ping, Lantau Island, Hong Kong", lat: 22.2530, lon: 113.9041,
+                        description: "Cable car ride to Ngong Ping village, home to the Tian Tan Buddha (Big Buddha) and Po Lin Monastery.",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Hong Kong"].name} to Wan Chai Station (Island Line). (approx. 10-12 min walk)`,
+                            `From Wan Chai Station, take the Island Line towards Sheung Wan to Central Station (2 stops).`,
+                            `Transfer to Tung Chung Line (towards Tung Chung) at Central Station and ride to Tung Chung Station (7 stops).`,
+                            `From Tung Chung Station, walk to the Ngong Ping 360 Cable Car Terminal.`,
+                            `Approximate travel time: 1 hour - 1 hour 15 minutes.`
+                        ],
+                        proximityCategory: "Day Trip"
+                    }
+                ],
+                dining: [
+                    {
+                        name: "Tim Ho Wan (Sham Shui Po)", address: "9 Fuk Wing St, Sham Shui Po, Hong Kong", lat: 22.3275, lon: 114.1627,
+                        description: "Michelin-starred dim sum at incredibly affordable prices. Expect a queue!",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Hong Kong"].name} to Wan Chai Station (Island Line). (approx. 10-12 min walk)`,
+                            `From Wan Chai Station, take the Island Line towards Sheung Wan to Admiralty Station (1 stop).`,
+                            `Transfer to Tsuen Wan Line (towards Tsuen Wan) at Admiralty Station and ride to Sham Shui Po Station (4 stops).`,
+                            `Take Exit B2 from Sham Shui Po Station and walk straight on Fuk Wing Street.`,
+                            `Approximate travel time: 30-35 minutes.`
+                        ],
+                        proximityCategory: "Longer Metro Ride"
+                    },
+                    {
+                        name: "Luk Yu Tea House", address: "24 Stanley St, Central, Hong Kong", lat: 22.2818, lon: 114.1561,
+                        description: "Historic tea house offering traditional Cantonese dim sum and an old-world Hong Kong ambiance.",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Hong Kong"].name} to Wan Chai Station (Island Line). (approx. 10-12 min walk)`,
+                            `From Wan Chai Station, take the Island Line towards Sheung Wan to Central Station (2 stops).`,
+                            `Take Exit D2 from Central Station and walk to Stanley Street (approx. 5-7 min walk).`,
+                            `Approximate travel time: 20-25 minutes.`
+                        ],
+                        proximityCategory: "Short Metro Ride"
+                    },
+                    {
+                        name: "Yardbird", address: "154-158 Wing Lok St, Sheung Wan, Hong Kong", lat: 22.2859, lon: 114.1517,
+                        description: "Popular Japanese izakaya known for its yakitori and creative small plates.",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Hong Kong"].name} to Wan Chai Station (Island Line). (approx. 10-12 min walk)`,
+                            `From Wan Chai Station, take the Island Line towards Sheung Wan to Sheung Wan Station (3 stops).`,
+                            `Take Exit A2 from Sheung Wan Station and walk to Wing Lok Street (approx. 5-7 min walk).`,
+                            `Approximate travel time: 25-30 minutes.`
+                        ],
+                        proximityCategory: "Longer Metro Ride"
+                    },
+                    {
+                        name: "Mak's Noodle (Central)", address: "77 Wellington St, Central, Hong Kong", lat: 22.2831, lon: 114.1542,
+                        description: "Famous for its classic wonton noodles with delicate dumplings and flavorful broth.",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Hong Kong"].name} to Wan Chai Station (Island Line). (approx. 10-12 min walk)`,
+                            `From Wan Chai Station, take the Island Line towards Sheung Wan to Central Station (2 stops).`,
+                            `Take Exit D2 from Central Station and walk to Wellington Street (approx. 5-7 min walk).`,
+                            `Approximate travel time: 20-25 minutes.`
+                        ],
+                        proximityCategory: "Short Metro Ride"
+                    }
+                ],
+                activities: [
+                    {
+                        name: "Lantau Island (Hiking)", address: "Lantau Island, Hong Kong", lat: 22.2637, lon: 113.9518,
+                        description: "Offers numerous hiking trails, from leisurely walks to challenging climbs, with stunning natural beauty.",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Hong Kong"].name} to Wan Chai Station (Island Line). (approx. 10-12 min walk)`,
+                            `From Wan Chai Station, take the Island Line towards Sheung Wan to Central Station (2 stops).`,
+                            `Transfer to Tung Chung Line (towards Tung Chung) at Central Station and ride to Tung Chung Station (7 stops).`,
+                            `From Tung Chung, access various hiking trails, or take bus to starting points like Mui Wo or Tai O.`,
+                            `Approximate travel time: 1 hour - 1 hour 30 minutes.`
+                        ],
+                        proximityCategory: "Day Trip"
+                    },
+                    {
+                        name: "Hong Kong Zoological and Botanical Gardens", address: "Albany Rd, Central, Hong Kong", lat: 22.2798, lon: 114.1557,
+                        description: "A beautiful oasis in the city center, featuring a diverse collection of plants and animals.",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Hong Kong"].name} to Wan Chai Station (Island Line). (approx. 10-12 min walk)`,
+                            `From Wan Chai Station, take the Island Line towards Sheung Wan to Central Station (2 stops).`,
+                            `Take Exit D1 from Central Station and walk uphill towards Albany Road (approx. 10-15 min walk).`,
+                            `Approximate travel time: 25-30 minutes.`
+                        ],
+                        proximityCategory: "Short Metro Ride"
+                    },
+                    {
+                        name: "Man Mo Temple", address: "124-126 Hollywood Rd, Sheung Wan, Hong Kong", lat: 22.2838, lon: 114.1506,
+                        description: "A historic temple dedicated to the Gods of Literature (Man) and War (Mo), known for its intricate decorations and incense coils.",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Hong Kong"].name} to Wan Chai Station (Island Line). (approx. 10-12 min walk)`,
+                            `From Wan Chai Station, take the Island Line towards Sheung Wan to Sheung Wan Station (3 stops).`,
+                            `Take Exit A2 from Sheung Wan Station and walk uphill along Hollywood Road (approx. 10-15 min walk).`,
+                            `Approximate travel time: 25-30 minutes.`
+                        ],
+                        proximityCategory: "Longer Metro Ride"
+                    },
+                    {
+                        name: "Hong Kong Global Geopark", address: "Sai Kung, New Territories, Hong Kong", lat: 22.4200, lon: 114.3500,
+                        description: "A UNESCO-supported geopark showcasing stunning geological formations and coastal scenery.",
+                        metroDirectionsFromHotel: [
+                            `Take MTR from Wan Chai Station (Island Line) to North Point, transfer to Tseung Kwan O Line to Po Lam.`,
+                            `From Po Lam, take a taxi or bus to Sai Kung Pier (a main gateway to the geopark).`,
+                            `From Sai Kung, you'll need to arrange boat trips to specific sites within the geopark.`,
+                            `Approximate travel time: 1.5 - 2.5 hours one way (requires multiple transfers and potentially a boat).`
+                        ],
+                        proximityCategory: "Day Trip"
+                    }
+                ],
+                shopping: [
+                    {
+                        name: "Causeway Bay", address: "Hennessy Rd, Causeway Bay, Hong Kong", lat: 22.2795, lon: 114.1849,
+                        description: "A bustling shopping district offering everything from luxury malls to department stores and street markets.",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Hong Kong"].name} to Causeway Bay via Harbour Road and Great George Street (approx. 15-20 min walk).`,
+                            `Alternatively, take the tram from near the hotel towards Causeway Bay.`,
+                            `Approximate travel time: 15-20 minutes (walking/tram).`
+                        ],
+                        proximityCategory: "Walking Distance"
+                    },
+                    {
+                        name: "Mong Kok (Ladies' Market)", address: "Tung Choi St, Mong Kok, Hong Kong", lat: 22.3175, lon: 114.1702,
+                        description: "One of Hong Kong's most famous street markets, offering clothing, accessories, and souvenirs.",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Hong Kong"].name} to Wan Chai Station (Island Line). (approx. 10-12 min walk)`,
+                            `From Wan Chai Station, take the Island Line towards Sheung Wan to Admiralty Station (1 stop).`,
+                            `Transfer to Tsuen Wan Line (towards Tsuen Wan) at Admiralty Station and ride to Mong Kok Station (4 stops).`,
+                            `Take Exit E2 from Mong Kok Station; Ladies' Market is a short walk away.`,
+                            `Approximate travel time: 25-30 minutes.`
+                        ],
+                        proximityCategory: "Longer Metro Ride"
+                    },
+                    {
+                        name: "PMQ", address: "35 Aberdeen St, Central, Hong Kong", lat: 22.2828, lon: 114.1500,
+                        description: "A creative hub housed in a former police married quarters, featuring local design studios, boutiques, and cafes.",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Hong Kong"].name} to Wan Chai Station (Island Line). (approx. 10-12 min walk)`,
+                            `From Wan Chai Station, take the Island Line towards Sheung Wan to Sheung Wan Station (3 stops).`,
+                            `Take Exit A2 from Sheung Wan Station and walk uphill to Aberdeen Street (approx. 10-15 min walk).`,
+                            `Approximate travel time: 25-30 minutes.`
+                        ],
+                        proximityCategory: "Longer Metro Ride"
+                    },
+                    {
+                        name: "Admiralty (Pacific Place)", address: "88 Queensway, Admiralty, Hong Kong", lat: 22.2785, lon: 114.1645,
+                        description: "Upscale shopping mall with international luxury brands, cinemas, and restaurants.",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Hong Kong"].name} to Pacific Place (approx. 5-7 min walk). It's very close.`,
+                            `Approximate travel time: 5-7 minutes (walking).`
+                        ],
+                        proximityCategory: "Walking Distance"
+                    }
+                ],
+                entertainment: [ // Renamed from familyFriendly
+                    {
+                        name: "Hong Kong Disneyland", address: "Lantau Island, Hong Kong", lat: 22.3129, lon: 114.0412,
+                        description: "Family-friendly theme park with rides, parades, and character meet-and-greets.",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Hong Kong"].name} to Wan Chai Station (Island Line). (approx. 10-12 min walk)`,
+                            `From Wan Chai Station, take the Island Line towards Sheung Wan to Central Station (2 stops).`,
+                            `Transfer to Tung Chung Line (towards Tung Chung) at Central Station and ride to Sunny Bay Station (6 stops).`,
+                            `Transfer to Disneyland Resort Line at Sunny Bay Station and ride to Disneyland Resort Station.`,
+                            `Approximate travel time: 45 minutes - 1 hour.`
+                        ],
+                        proximityCategory: "Day Trip"
+                    },
+                    {
+                        name: "Ocean Park Hong Kong", address: "180 Wong Chuk Hang Rd, Aberdeen, Hong Kong", lat: 22.2472, lon: 114.1751,
+                        description: "Marine mammal park, oceanarium, and amusement park featuring animal exhibits and thrill rides.",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Hong Kong"].name} to Wan Chai Station (Island Line). (approx. 10-12 min walk)`,
+                            `From Wan Chai Station, take the Island Line towards Chai Wan to Admiralty Station (1 stop).`,
+                            `Transfer to South Island Line (towards South Horizons) at Admiralty Station and ride to Ocean Park Station (2 stops).`,
+                            `The park entrance is directly connected to the station.`,
+                            `Approximate travel time: 25-30 minutes.`
+                        ],
+                        proximityCategory: "Longer Metro Ride"
+                    },
+                    {
+                        name: "Symphony of Lights (Victoria Harbour)", address: "Victoria Harbour, Tsim Sha Tsui Promenade or Central Piers", lat: 22.2938, lon: 114.1688,
+                        description: "A spectacular daily light and music show featuring Hong Kong's iconic skyline.",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Hong Kong"].name} to Wan Chai Ferry Pier (approx. 10-12 min walk).`,
+                            `Take the Star Ferry to Tsim Sha Tsui side for best views (or stay on HK Island side at Central Piers).`,
+                            `Show starts at 8 PM nightly.`,
+                            `Approximate travel time: 20-25 minutes (including walk and ferry ride).`
+                        ],
+                        proximityCategory: "Walking Distance" // if you consider ferry as "walk" across harbor
+                    },
+                    {
+                        name: "Lan Kwai Fong / SoHo (Nightlife)", address: "Lan Kwai Fong / SoHo, Central, Hong Kong", lat: 22.2811, lon: 114.1534,
+                        description: "Vibrant districts known for their bars, pubs, clubs, and restaurants, popular for evening entertainment.",
+                        metroDirectionsFromHotel: [
+                            `Walk from ${hotelData["Hong Kong"].name} to Wan Chai Station (Island Line). (approx. 10-12 min walk)`,
+                            `From Wan Chai Station, take the Island Line towards Sheung Wan to Central Station (2 stops).`,
+                            `Take Exits D1/D2 and walk towards Lan Kwai Fong or SoHo (approx. 5-10 min walk, involves escalators).`,
+                            `Approximate travel time: 20-25 minutes.`
+                        ],
+                        proximityCategory: "Short Metro Ride"
+                    }
+                ]
             }
-            if (hotel.station === destStation) {
-                return [`Walk from ${hotel.station} to ${destination} (same station, approximately 5-10 minutes).`];
-            }
-            if (hotel.line === destLine) {
-                return [
-                    `Take ${city} ${hotel.line} from ${hotel.station} to ${destStation}.`,
-                    `Exit at ${destStation} and walk to ${destination} (approximately 5-10 minutes).`
-                ];
-            }
-            const transferStation = {
-                "Seoul": "Seoul Station",
-                "Shanghai": "People's Square Station",
-                "Hong Kong": "Central Station"
-            }[city] || "a transfer station";
-            return [
-                `Take ${city} ${hotel.line} from ${hotel.station} to ${transferStation}.`,
-                `Transfer to ${destLine} and continue to ${destStation}.`,
-                `Exit at ${destStation} and walk to ${destination} (approximately 5-10 minutes).`
-            ];
         };
 
-        const groupByProximity = (items, hotelLat, hotelLon) => {
+        const getMetroDirections = (city, destinationName) => {
+            const destinationItem = Object.values(mockData[city] || {})
+                                        .flat()
+                                        .find(item => item.name === destinationName);
+            return destinationItem?.metroDirectionsFromHotel || ["Detailed directions not available for this item."];
+        };
+
+        const proximityCategoryOrder = ["Walking Distance", "Short Metro Ride", "Longer Metro Ride", "Day Trip", "Uncategorized"];
+
+        const groupByProximity = (items) => {
             const groups = {};
             items.forEach(item => {
-                const distance = Math.sqrt(Math.pow(item.lat - hotelLat, 2) + Math.pow(item.lon - hotelLon, 2));
-                const area = distance < 0.02 ? "Near Hotel" : "Further Out";
-                if (!groups[area]) groups[area] = [];
-                groups[area].push(item);
+                const category = item.proximityCategory || "Uncategorized";
+                if (!groups[category]) groups[category] = [];
+                groups[category].push(item);
             });
-            return groups;
+
+            // Sort items within each group alphabetically for consistency
+            for (const category in groups) {
+                groups[category].sort((a, b) => a.name.localeCompare(b.name));
+            }
+
+            // Order the groups based on proximityCategoryOrder
+            const sortedGroups = {};
+            proximityCategoryOrder.forEach(cat => {
+                if (groups[cat]) {
+                    sortedGroups[cat] = groups[cat];
+                }
+            });
+            return sortedGroups;
         };
 
         const App = () => {
@@ -207,7 +855,7 @@
                 }
             };
 
-            const renderRecommendation = (item, type) => (
+            const renderRecommendation = (item) => ( // Removed unused 'type' parameter
                 <div key={item.name} className="bg-white p-4 rounded-lg shadow mb-4">
                     <h3 className="text-lg font-semibold">{item.name}</h3>
                     <p className="text-sm text-gray-600">{item.address}</p>
@@ -223,11 +871,11 @@
 
             const renderCategorizedView = () => (
                 <div>
-                    {['attractions', 'dining', 'activities', 'shopping', 'familyFriendly'].map(type => (
+                    {['attractions', 'dining', 'activities', 'shopping', 'entertainment'].map(type => (
                         recommendations[type]?.length > 0 && (
                             <div key={type}>
                                 <h2 className="text-xl font-bold capitalize mt-6 mb-2">{type.replace(/([A-Z])/g, ' $1')}</h2>
-                                {recommendations[type].map(item => renderRecommendation(item, type))}
+                                {recommendations[type].map(item => renderRecommendation(item))}
                             </div>
                         )
                     ))}
@@ -235,9 +883,8 @@
             );
 
             const renderProximityView = () => {
-                const hotel = hotelData[city] || { lat: 0, lon: 0 };
                 const allItems = Object.values(recommendations).flat();
-                const grouped = groupByProximity(allItems, hotel.lat, hotel.lon);
+                const grouped = groupByProximity(allItems);
                 return (
                     <div>
                         {Object.entries(grouped).map(([area, items]) => (
@@ -303,6 +950,89 @@
 
         const root = ReactDOM.createRoot(document.getElementById('root'));
         root.render(<App />);
+
+        // --- Service Worker Logic (Embedded as a Blob) ---
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                const swCode = `
+                    const CACHE_NAME = 'travel-advisor-cache-v2';
+                    const urlsToCache = [
+                        '/', // Attempts to cache the root, but might not fully work for index.html itself
+                        'https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js',
+                        'https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js',
+                        'https://cdn.jsdelivr.net/npm/@babel/standalone@7.24.7/babel.min.js'
+                        // Icons for manifest are data: URLs and don't need explicit caching here
+                    ];
+
+                    self.addEventListener('install', (event) => {
+                        event.waitUntil(
+                            caches.open(CACHE_NAME)
+                                .then((cache) => {
+                                    console.log('Service Worker: Opened cache');
+                                    return cache.addAll(urlsToCache);
+                                })
+                                .catch(error => {
+                                    console.error('Service Worker: Failed to cache all URLs', error);
+                                })
+                        );
+                    });
+
+                    self.addEventListener('fetch', (event) => {
+                        event.respondWith(
+                            caches.match(event.request)
+                                .then((response) => {
+                                    if (response) {
+                                        console.log('Service Worker: Serving from cache:', event.request.url);
+                                        return response;
+                                    }
+                                    return fetch(event.request).then(
+                                        (networkResponse) => {
+                                            if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
+                                                return networkResponse;
+                                            }
+                                            const responseToCache = networkResponse.clone();
+                                            caches.open(CACHE_NAME)
+                                                .then((cache) => {
+                                                    cache.put(event.request, responseToCache);
+                                                });
+                                            return networkResponse;
+                                        }
+                                    ).catch(error => {
+                                        console.error('Service Worker: Fetch failed:', event.request.url, error);
+                                    });
+                                })
+                        );
+                    });
+
+                    self.addEventListener('activate', (event) => {
+                        const cacheWhitelist = [CACHE_NAME];
+                        event.waitUntil(
+                            caches.keys().then((cacheNames) => {
+                                return Promise.all(
+                                    cacheNames.map((cacheName) => {
+                                        if (cacheWhitelist.indexOf(cacheName) === -1) {
+                                            console.log('Service Worker: Deleting old cache:', cacheName);
+                                            return caches.delete(cacheName);
+                                        }
+                                    })
+                                );
+                            })
+                        );
+                    });
+                `;
+
+                const blob = new Blob([swCode], { type: 'application/javascript' });
+                const swUrl = URL.createObjectURL(blob);
+
+                navigator.serviceWorker.register(swUrl)
+                    .then(registration => {
+                        console.log('SW registered:', registration);
+                    })
+                    .catch(registrationError => {
+                        console.log('SW registration failed:', registrationError);
+                    });
+            });
+        }
     </script>
 </body>
 </html>
