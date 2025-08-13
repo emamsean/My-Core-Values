@@ -162,7 +162,7 @@
             cursor: not-allowed;
             transform: none;
         }
-        #report {
+        #report, #whatsNextPage {
             background: white;
             padding: 30px;
             border-radius: 12px;
@@ -170,7 +170,7 @@
             margin-top: 20px;
             animation: fadeIn 1s ease-in-out;
         }
-        #report h2 {
+        #report h2, #whatsNextPage h2 {
             border-bottom: 2px solid #4299e1;
             padding-bottom: 10px;
             margin-bottom: 25px;
@@ -316,16 +316,24 @@
             <h2>Understanding Your Triggers</h2>
             <div id="triggers"></div>
         </div>
-        <div class="report-section">
-            <h2>What's Next? 🤔</h2>
-            <div id="whatsNextAdvice"></div>
+        <div class="navigation">
+            <button id="nextBtnReport">Continue to "What's Next?"</button>
+        </div>
+    </div>
+
+    <div id="whatsNextPage" style="display: none;">
+        <h2>What's Next? 🤔</h2>
+        <div id="whatsNextAdvice"></div>
+        <div class="navigation">
+            <button id="backToReport">Back to Report</button>
+            <button onclick="window.print()">Print Report</button>
         </div>
     </div>
 
     <script>
         const valuesData = [
-            { 
-                name: "Fairness & Justice", 
+            {
+                name: "Fairness & Justice",
                 notes: "You have a strong belief that things should be fair for everyone. This value makes you want to speak up when you see something that isn't right and fight for what's fair.",
                 manifests: "This value shows up when you get angry about unfair rules in a game or stand up for a friend who's being treated poorly. It can guide you to be a leader who ensures everyone's voice is heard in a group project.",
                 questions: {
@@ -337,8 +345,8 @@
                     retirement: ["How important is it that social and political systems are fair for all members of society?", "Do you feel a strong need to support local causes that promote fairness and justice?", "How much do you value a legacy where you fought for a more just world?"]
                 }
             },
-            { 
-                name: "Integrity & Honesty", 
+            {
+                name: "Integrity & Honesty",
                 notes: "Being truthful and having strong morals is super important to you. This value guides you to do the right thing, even when it's hard, and helps you build trust with others.",
                 manifests: "You show this value by always telling the truth, even when it's a difficult conversation, and by keeping your promises. It helps you build a reputation as a trustworthy and reliable person.",
                 questions: {
@@ -350,8 +358,8 @@
                     retirement: ["How important is it that you have lived a life of honesty and strong principles?", "How much do you value the trust you have built with family and friends over the years?", "How important is it to you that you are viewed as an ethical person?"]
                 }
             },
-            { 
-                name: "Connection & Belonging", 
+            {
+                name: "Connection & Belonging",
                 notes: "You need to feel like you're part of a group and have strong, meaningful relationships. This value drives your desire to have close friends and feel accepted.",
                 manifests: "This value is visible in how much effort you put into your friendships and family. It motivates you to join clubs or teams where you feel you truly belong and can connect with others on a deeper level.",
                 questions: {
@@ -363,8 +371,8 @@
                     retirement: ["How important is it for you to stay connected with family and friends?", "Do you put a lot of effort into nurturing your relationships?", "How much do you value feeling connected and engaged with your community?"]
                 }
             },
-            { 
-                name: "Autonomy & Freedom", 
+            {
+                name: "Autonomy & Freedom",
                 notes: "You need to have your own space and the ability to make your own choices. This value is all about being independent, self-reliant, and in control of your own life.",
                 manifests: "You show this value by taking the lead on your own projects and feeling frustrated when someone tries to micromanage you. It's a key part of your desire to be self-sufficient and follow your own path.",
                 questions: {
@@ -376,8 +384,8 @@
                     retirement: ["How important is it for you to maintain your independence and freedom to choose how you spend your time?", "How much do you dislike having your decisions made for you?", "How much do you value being self-reliant and in control of your life?"]
                 }
             },
-            { 
-                name: "Compassion & Empathy", 
+            {
+                name: "Compassion & Empathy",
                 notes: "You are good at understanding how others feel and have a strong desire to help them. This value is behind your acts of kindness and your motivation to ease the suffering of others.",
                 manifests: "You demonstrate this value by being a supportive friend and by stepping in to help someone in need. It's what makes you a caring person who can understand different points of view.",
                 questions: {
@@ -389,8 +397,8 @@
                     retirement: ["How important is it for you to show kindness and compassion to those around you?", "Do you try to understand the challenges that younger generations face?", "How much do you value people who have a caring and empathetic nature?"]
                 }
             },
-            { 
-                name: "Achievement & Competence", 
+            {
+                name: "Achievement & Competence",
                 notes: "You're driven to succeed and do things well. This value pushes you to set high goals, work hard to reach them, and feel proud of your accomplishments.",
                 manifests: "This value is a big part of who you are. It shows up when you work hard to get a good grade, practice a skill until you're the best, and feel a sense of pride in your successes.",
                 questions: {
@@ -402,8 +410,8 @@
                     retirement: ["How important is it for you to still feel competent and capable in your daily life?", "How much satisfaction do you get from mastering a new hobby or skill in retirement?", "How important is it that you feel a sense of pride in your life's work?"]
                 }
             },
-            { 
-                name: "Growth & Learning", 
+            {
+                name: "Growth & Learning",
                 notes: "You love to learn and grow as a person. This value fuels your curiosity and your desire to always be improving and expanding your knowledge and skills.",
                 manifests: "This value is a big part of who you are. It shows up when you get excited about a new class, seek out challenging experiences, or spend time learning a new hobby. It drives your personal development and your desire to constantly improve.",
                 questions: {
@@ -415,21 +423,21 @@
                     retirement: ["How important is it for you to continue learning and growing as a person?", "How much do you enjoy taking on new projects or hobbies that challenge you?", "Do you actively seek out new information to stay curious about the world?"]
                 }
             },
-            { 
-                name: "Security & Stability", 
+            {
+                name: "Security & Stability",
                 notes: "You need a safe and predictable life. This value makes you want to have a secure home, financial stability, and a reliable routine so you can have peace of mind.",
                 manifests: "This value shows up when you prioritize having a steady routine, feel uncomfortable with sudden changes, and want to know that you can count on a secure future. It's the foundation of your desire for a safe and calm life.",
                 questions: {
                     teens: ["How important is it to feel safe and secure at school and at home?", "How much do you worry about having enough money for the things you want to do in the future?", "How important is having a steady, predictable routine in your life?"],
-                    college: ["How important is it to feel financially stable and secure?", "How much do you worry about having a stable job after graduation?", "How important is having a predictable routine to your peace of mind?"],
+                    college: ["How important is it to feel financially stable and secure?", "How much do you worry about having a stable job after graduation?", "How important is a predictable routine to your peace of mind?"],
                     early_career: ["How important is it to feel secure in your job and have a stable income?", "How much do you worry about financial stability and saving for the future?", "How important is having a predictable routine to manage your work and personal life?"],
                     mid_career: ["How important is it to feel financially secure and stable for your family's future?", "How much do you worry about having a stable career that will last?", "How important is a predictable routine for managing your responsibilities?"],
                     late_career: ["How important is it to feel financially secure as you approach retirement?", "How much do you worry about having enough savings to live comfortably after you stop working?", "How important is a stable routine for your peace of mind?"],
-                    retirement: ["How important is it to feel financially secure in your retirement?", "How much do you worry about having enough to cover future healthcare or living expenses?", "How important is having a predictable routine for your daily life?"]
+                    retirement: ["How important is it to feel financially secure in your retirement?", "How much do you worry about having enough to cover future healthcare or living expenses?", "How important is a predictable routine for your daily life?"]
                 }
             },
-            { 
-                name: "Creativity & Innovation", 
+            {
+                name: "Creativity & Innovation",
                 notes: "You love to express yourself through original ideas and new ways of thinking. This value is all about creating things, finding unique solutions, and thinking outside the box.",
                 manifests: "This value is a big part of who you are. It shows up when you choose art or music electives, enjoy coming up with fresh ideas for school projects, or find new ways to solve problems. It can guide you toward future careers in design, writing, or technology.",
                 questions: {
@@ -441,8 +449,8 @@
                     retirement: ["How important is it for you to express your creativity through hobbies?", "Do you enjoy coming up with new ideas for personal projects or community events?", "How much do you like finding innovative ways to approach life after work?"]
                 }
             },
-            { 
-                name: "Purpose & Meaning", 
+            {
+                name: "Purpose & Meaning",
                 notes: "You need to feel like your life has a direction and a bigger reason for being. This value motivates you to find activities and goals that feel important and worthwhile to you.",
                 manifests: "This value shows up when you feel a strong need for your actions to have a positive impact. It's what drives you to volunteer for a cause, choose a career that helps others, and think about the legacy you want to leave.",
                 questions: {
@@ -454,8 +462,8 @@
                     retirement: ["How important is it for you to feel like your life has had a purpose?", "How much do you want your retirement to be a time of meaningful activity?", "Do you often think about how you can continue to have a positive impact on your community?"]
                 }
             },
-            { 
-                name: "Respect", 
+            {
+                name: "Respect",
                 notes: "You believe that everyone has worth and should be treated with dignity. This value guides you to be courteous to others and to appreciate different viewpoints and personal boundaries.",
                 manifests: "You demonstrate this value by treating everyone with dignity, even when you disagree with them. It shows up in your friendships by honoring boundaries and in your daily interactions by listening to others' opinions.",
                 questions: {
@@ -467,8 +475,8 @@
                     retirement: ["How important is it for you to treat others with respect in all your interactions?", "How much do you value being in a community where people respect each other's differences?", "How important is it for you to feel respected by your family and friends?"]
                 }
             },
-            { 
-                name: "Loyalty & Trust", 
+            {
+                name: "Loyalty & Trust",
                 notes: "You value being committed to others and being able to rely on them completely. This value is key to building deep, lasting friendships and feeling secure in your relationships.",
                 manifests: "This value shows up in your life through your strong commitments to friends and family. It’s what makes you a reliable person and why you expect the same from others, forming the basis of your closest relationships.",
                 questions: {
@@ -480,8 +488,8 @@
                     retirement: ["How important is it for you to have the trust and loyalty of your family and friends?", "Do you think it's important to be a reliable and trustworthy person in your community?", "How much do you value having lifelong friendships based on trust?"]
                 }
             },
-            { 
-                name: "Accountability & Responsibility", 
+            {
+                name: "Accountability & Responsibility",
                 notes: "You believe in taking ownership of your actions and commitments. This value is all about being reliable, dependable, and building trust with the people around you.",
                 manifests: "You live this value by owning up to your mistakes and making sure to follow through on your promises. It’s what makes you a dependable person in group projects or a leader people can count on.",
                 questions: {
@@ -493,8 +501,8 @@
                     retirement: ["How important is it for you to remain responsible for your family and community?", "How much do you hold yourself accountable for your own health and well-being?", "Do you expect your community leaders to be accountable for their decisions?"]
                 }
             },
-            { 
-                name: "Gratitude & Appreciation", 
+            {
+                name: "Gratitude & Appreciation",
                 notes: "You focus on and are thankful for the good things in your life. This value helps you build strong relationships and stay positive by recognizing the good around you.",
                 manifests: "This value shows up when you say thank you to people who have helped you and when you take a moment to appreciate the good things you have. It makes you a more positive person and strengthens your relationships.",
                 questions: {
@@ -506,8 +514,8 @@
                     retirement: ["How important is it for you to show gratitude to your family and friends?", "How much do you appreciate the memories and experiences you have had?", "How often do you reflect on the good things in your life?"]
                 }
             },
-            { 
-                name: "Stewardship & Sustainability", 
+            {
+                name: "Stewardship & Sustainability",
                 notes: "You feel a responsibility to take care of the environment for future generations. This value guides you to make choices that are good for the planet, like recycling or saving energy.",
                 manifests: "You live this value when you make small choices like recycling or saving water, and when you support causes that protect the planet. It’s what makes you care about how your actions today will affect the world tomorrow.",
                 questions: {
@@ -519,8 +527,8 @@
                     retirement: ["How important is it for you to be a good steward of the environment?", "How much do you value making choices that help preserve nature?", "How much do you think about the world you will leave for future generations?"]
                 }
             },
-            { 
-                name: "Excellence & Mastery", 
+            {
+                name: "Excellence & Mastery",
                 notes: "You're driven to be the best you can be. This value is about setting high standards for yourself, working hard to become an expert, and taking pride in the quality of your work.",
                 manifests: "This value shows up when you work hard to get a top grade, spend hours practicing for a game or recital, and feel a deep sense of satisfaction when you master a new skill. It's what pushes you to excel.",
                 questions: {
@@ -533,7 +541,7 @@
                 }
             }
         ];
-        
+
         const triggerExamples = {
             "Fairness & Justice": {
                 teens: { upset: "Seeing a friend get an unfair grade because the teacher plays favorites.", happy: "Watching a team win because they followed the rules and worked together." },
@@ -636,7 +644,7 @@
                 college: { upset: "A group member failing to do their work, jeopardizing the whole project.", happy: "Getting a great grade on a project because you took ownership and made sure everyone followed through." },
                 early_career: { upset: "A manager who blames their team for their own mistakes.", happy: "Being given responsibility for an important project and being trusted to see it through." },
                 mid_career: { upset: "Working with colleagues who constantly pass the buck and avoid accountability.", happy: "Successfully leading a team and holding yourself and others responsible for achieving goals." },
-                late_career: { upset: "A leader in your industry not taking responsibility for their company's mistakes.", happy: "Mentoring a junior colleague on the importance of taking ownership and being reliable." },
+                late_career: { upset: "A leader in your industry not taking responsibility for their actions.", happy: "Mentoring a junior colleague on the importance of taking ownership and being reliable." },
                 retirement: { upset: "Feeling like a political leader is not taking responsibility for their actions.", happy: "Taking on a leadership role in your community and being a dependable resource." }
             },
             "Gratitude & Appreciation": {
@@ -664,61 +672,67 @@
                 retirement: { upset: "Feeling like you've lost your edge or skills from your career.", happy: "Becoming a master of a new hobby and taking pride in your new skills." }
             }
         };
-        
+
         const whatsNextAdvice = {
             teens: `
-                <p>Now that you know your core values, how can you use them? These values are like a compass for your life. They can help you make better decisions and feel more fulfilled.</p>
+                <p>Now that you know your core values, how can you use them to plan for the future? Your values are a powerful compass for making decisions about your education, social life, and career goals.</p>
+                <p>To prepare for the next chapter of your life, consider these questions:</p>
                 <ul>
-                    <li><strong>Choosing Your Path:</strong> Think about your top values when you're considering a college major or a future job. If **Fairness & Justice** is a top value, you might enjoy a career in law, journalism, or social work. If **Creativity & Innovation** is a top value, a job in design, engineering, or marketing could be a great fit.</li>
-                    <li><strong>Building Your Community:</strong> Your values can also guide you toward friends, clubs, and communities that share what's important to you. Surrounding yourself with people who have similar values can make your relationships stronger and more meaningful.</li>
-                    <li><strong>Daily Life:</strong> Pay attention to your feelings. When you feel a deep sense of happiness, pride, or frustration, ask yourself which of your core values is at play. This can give you clues about what actions you should take more often and what situations you should try to avoid.</li>
+                    <li>**College & Career:** Based on your top values like **${'TOP_VALUE_1'}** and **${'TOP_VALUE_2'}**, what college majors or career paths might be the most fulfilling for you? What high school clubs, courses, or volunteer work can you do now to build skills in that field and make your college application stand out?</li>
+                    <li>**Personal Growth:** How can you use your values, like **${'TOP_VALUE_1'}**, to choose a college or living environment that helps you grow as a person? Will a large university with many clubs or a small college with a tight-knit community better align with what's most important to you?</li>
+                    <li>**Building Relationships:** Your values are a guide for who you connect with. How can you find a community of friends in college and beyond who share your values and support your goals?</li>
                 </ul>
-                <p>Your values are a part of you. Use this report as a tool to live a life that is authentic and meaningful to you.</p>
+                <p>This report is a tool to help you start thinking about your future with more intention and purpose. Use your values to make choices that feel right for you.</p>
             `,
             college: `
-                <p>Your values are a powerful tool as you navigate college and prepare for the next chapter of your life. They can act as a compass to guide your decisions.</p>
+                <p>As you transition from student to professional, your core values can help you build a career and a life that feels meaningful and successful. They can be your guideposts for making pivotal decisions.</p>
+                <p>To plan for the next chapter of your life, consider these questions:</p>
                 <ul>
-                    <li><strong>Academic and Career Choices:</strong> Use your top values to help choose your major, internships, and first job. If **Growth & Learning** is a top value, seek opportunities that will challenge you and teach you new skills. If **Purpose & Meaning** is important, consider a field that aligns with a cause you care about.</li>
-                    <li><strong>Campus Life:</strong> Your values can guide you toward the right friends and communities. Join clubs, teams, or groups that share your core beliefs. These connections will be the most fulfilling and supportive.</li>
-                    <li><strong>Personal Development:</strong> When you're making big decisions, like moving to a new city or accepting a job offer, check in with your values. Does this choice align with what's most important to you? This self-awareness will help you find a path that feels authentic.</li>
+                    <li>**Career Path:** Based on your top values like **${'TOP_VALUE_1'}** and **${'TOP_VALUE_2'}**, what specific roles or industries should you explore? If **${'TOP_VALUE_1'}** is a top value, should you prioritize working for a company with a strong mission, or one that offers the freedom to build your own projects?</li>
+                    <li>**Living & Lifestyle:** What kind of lifestyle would best support your values? How much income will you need to feel stable and secure, or to pursue your passions outside of work? Should you live in a city that offers more opportunities for **${'TOP_VALUE_1'}**, or a smaller community that aligns with **${'TOP_VALUE_2'}**?</li>
+                    <li>**Academic Planning:** To achieve these goals, what skills and experiences do you need to build now? Are there specific courses, minors, or internships you can pursue to prepare you for a career that aligns with your values?</li>
                 </ul>
-                <p>Your values are a part of you. Use this report as a tool to live a life that is authentic and meaningful to you.</p>
+                <p>This report is a tool to help you start thinking about your future with more intention and purpose. Use your values to make choices that feel right for you.</p>
             `,
             early_career: `
-                <p>Your core values are a key asset as you build your career and shape your life as a young professional. They can help you make choices that lead to a more fulfilling path.</p>
+                <p>Your core values are a key asset as you build your career and shape your life as a young professional. Now is the time to ensure your path is truly aligned with what matters most to you.</p>
+                <p>To prepare for the next chapter of your life, consider these questions:</p>
                 <ul>
-                    <li><strong>Job Satisfaction:</strong> Use your top values to evaluate your current job and career. If **Creativity & Innovation** is a top value, look for roles that allow you to express new ideas. If **Accountability & Responsibility** is important, you may thrive in a leadership role or in an organization that values integrity.</li>
-                    <li><strong>Work-Life Balance:</strong> Your values can help you set boundaries. If **Connection & Belonging** is a top value, prioritize time with family and friends. If **Security & Stability** is important, focus on building a career that provides a strong, reliable foundation for your life.</li>
-                    <li><strong>Long-Term Goals:</strong> As you think about where you want to be in five or ten years, let your values guide you. Your career is more than just a job; it's an extension of what you believe is important.</li>
+                    <li>**Mid-Career Goals:** How can you use your top values, like **${'TOP_VALUE_1'}** and **${'TOP_VALUE_2'}**, to shape your career in the coming years? Should you seek out leadership opportunities, pursue a new professional certification, or even consider a career change to better align with your values?</li>
+                    <li>**Work-Life Alignment:** How do your values influence your decisions about personal life milestones, such as buying a home, starting a family, or pursuing a major passion project? How can you create a better balance between your professional ambitions and your personal life?</li>
+                    <li>**Financial Stability:** Your values, especially a focus on **Security & Stability**, can guide your financial decisions. What steps can you take now to build a stronger financial foundation for your future, allowing you the freedom to make career choices based on passion, not just a paycheck?</li>
                 </ul>
-                <p>Your values are a part of you. Use this report as a tool to live a life that is authentic and meaningful to you.</p>
+                <p>This report is a tool to help you start thinking about your future with more intention and purpose. Use your values to make choices that feel right for you.</p>
             `,
             mid_career: `
                 <p>Now that you have a solid foundation, your core values can help you find deeper meaning and satisfaction in your career and personal life. They can guide your legacy and help you make choices that matter most.</p>
+                <p>To prepare for the next chapter of your life, consider these questions:</p>
                 <ul>
-                    <li><strong>Leadership and Mentoring:</strong> Your values can shape your leadership style. If **Compassion & Empathy** is a top value, you will be a supportive and understanding manager. If **Excellence & Mastery** is key, you'll be a leader who inspires your team to do their best work.</li>
-                    <li><strong>Career Fulfillment:</strong> If you feel you're in a rut, revisit your values. Does your current role still align with what's important to you? It might be time to take on a new challenge, start your own venture, or switch to a field that's a better fit.</li>
-                    <li><strong>Family and Community:</strong> As you balance professional life with family responsibilities, your values can guide you in how you spend your time. If **Growth & Learning** is a top value, you might spend time teaching your children a new skill or pursuing a new hobby yourself.</li>
+                    <li>**Leaving a Legacy:** How can you use your top values, like **${'TOP_VALUE_1'}** and **${'TOP_VALUE_2'}**, to define your professional legacy? What leadership roles or mentoring opportunities could allow you to pass on your wisdom and make a lasting impact that you're proud of?</li>
+                    <li>**Personal Fulfillment:** If you feel you're in a rut, revisit your values. Does your current role still align with what's important to you? Is there a new project, volunteer opportunity, or personal venture that would bring you a sense of purpose and fulfillment?</li>
+                    <li>**Long-Term Planning:** How do your values influence your planning for retirement? If **Autonomy & Freedom** is a key value, what steps can you take now to build the financial freedom to choose how you spend your time in retirement?</li>
                 </ul>
-                <p>Your values are a part of you. Use this report as a tool to live a life that is authentic and meaningful to you.</p>
+                <p>This report is a tool to help you start thinking about your future with more intention and purpose. Use your values to make choices that feel right for you.</p>
             `,
             late_career: `
                 <p>As you look toward the final stages of your career, your core values can help you plan your future and reflect on your contributions. This is a time to focus on what you've built and what you still want to accomplish.</p>
+                <p>To prepare for the next chapter of your life, consider these questions:</p>
                 <ul>
-                    <li><strong>Legacy:</strong> What do you want your legacy to be? If **Integrity & Honesty** is a top value, you can be proud of a career built on trust. If **Stewardship & Sustainability** is important, you may want to focus on ensuring your company or community has a positive impact on the world.</li>
-                    <li><strong>Mentorship:</strong> Your experience is invaluable. Use your values to mentor younger colleagues. If **Accountability & Responsibility** is a top value, you can teach them the importance of ownership and reliability.</li>
-                    <li><strong>Preparing for Retirement:</strong> Your values can help you plan for a fulfilling life after work. If **Connection & Belonging** is a top value, you might plan to spend more time with family or join community groups.</li>
+                    <li>**Retirement Planning:** How can you use your top values, like **${'TOP_VALUE_1'}** and **${'TOP_VALUE_2'}**, to design a retirement that is purposeful and meaningful? What new activities, hobbies, or community roles will fill the void left by work?</li>
+                    <li>**Mentorship:** Your experience is invaluable. How can you use your values to mentor younger colleagues or community members? If **Integrity & Honesty** is a top value, you can share the importance of building a career on trust. If **Excellence & Mastery** is key, you can teach others to take pride in the quality of their work.</li>
+                    <li>**Personal Legacy:** Reflect on your life's journey. What do you want your legacy to be? How can you continue to live your values, like **${'TOP_VALUE_1'}**, in a way that inspires your family and community?</li>
                 </ul>
-                <p>Your values are a part of you. Use this report as a tool to live a life that is authentic and meaningful to you.</p>
+                <p>This report is a tool to help you start thinking about your future with more intention and purpose. Use your values to make choices that feel right for you.</p>
             `,
             retirement: `
                 <p>Retirement is a time to reflect on your life and embrace new opportunities. Your core values, which have guided you for a lifetime, can now help you find fulfillment in this new chapter.</p>
+                <p>To continue building a successful and fulfilling life, consider these questions:</p>
                 <ul>
-                    <li><strong>Community Engagement:</strong> Your values can guide you to activities that are meaningful. If **Purpose & Meaning** is a top value, you might volunteer for a cause you're passionate about. If **Fairness & Justice** is important, you could become a community advocate.</li>
-                    <li><strong>New Beginnings:</strong> It's never too late for personal growth. If **Growth & Learning** is a top value, this is the perfect time to take a new class, learn a new language, or master a new hobby.</li>
-                    <li><strong>Personal Legacy:</strong> Reflect on your life's journey. Your values are a reflection of the person you've become. If **Gratitude & Appreciation** is a top value, you might write down your life story for your family or find ways to give back to those who have supported you.</li>
+                    <li>**Finding New Purpose:** How can you use your top values, like **${'TOP_VALUE_1'}** and **${'TOP_VALUE_2'}**, to identify new meaningful projects or volunteer opportunities? What new ventures can you start that align with what is most important to you?</li>
+                    <li>**Ongoing Growth:** It's never too late for personal growth. If **Growth & Learning** is a top value, what new classes, skills, or hobbies can you pursue to keep your mind sharp and engaged?</li>
+                    <li>**Community & Connection:** How do you want to connect with your family and community in a way that reflects your core values? How can you use your wisdom and life experiences to continue to have a positive impact on others?</li>
                 </ul>
-                <p>Your values are a part of you. Use this report as a tool to live a life that is authentic and meaningful to you.</p>
+                <p>This report is a tool to help you start thinking about your future with more intention and purpose. Use your values to make choices that feel right for you.</p>
             `
         };
 
@@ -753,14 +767,18 @@
             }
         };
 
-
         let currentPage = 0;
         let responses = Array(valuesData.length).fill().map(() => Array(3).fill(3));
         let selectedAgeCategory = null;
 
+        const quizContainer = document.getElementById('quiz');
+        const reportContainer = document.getElementById('report');
+        const whatsNextPage = document.getElementById('whatsNextPage');
         const pageContainer = document.getElementById('currentPage');
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
+        const nextBtnReport = document.getElementById('nextBtnReport');
+        const backToReportBtn = document.getElementById('backToReport');
         const progressFill = document.getElementById('progressFill');
         const progressText = document.getElementById('progressText');
 
@@ -776,7 +794,7 @@
         }
 
         function showPage(page) {
-            window.scrollTo(0, 0); 
+            window.scrollTo(0, 0);
 
             if (page === 0) {
                 pageContainer.innerHTML = `
@@ -801,39 +819,29 @@
                     <p class="intro-text">Ready to get started? Click "Next"!</p>
                 `;
                 prevBtn.style.display = 'none';
-                updateProgressBar(page);
-
+                nextBtn.textContent = 'Start Quiz';
                 const ageSelector = document.getElementById('age-selector');
-                ageSelector.addEventListener('change', (event) => {
-                    selectedAgeCategory = event.target.value;
+                ageSelector.value = selectedAgeCategory || '';
+                ageSelector.addEventListener('change', (e) => {
+                    selectedAgeCategory = e.target.value;
                     nextBtn.disabled = !selectedAgeCategory;
                 });
-                
                 nextBtn.disabled = !selectedAgeCategory;
-            } else {
-                if (!selectedAgeCategory) {
-                    alert("Please select an age category before continuing.");
-                    currentPage = 0;
-                    showPage(currentPage);
-                    return;
-                }
-
+            } else if (page <= valuesData.length) {
                 const value = valuesData[page - 1];
-                const questionsForAge = value.questions[selectedAgeCategory] || value.questions.teens;
-
+                const ageQuestions = value.questions[selectedAgeCategory];
                 pageContainer.innerHTML = `
-                    <h2>${value.name}</h2>
                     <div class="value-page">
-                        <p>${value.notes}</p>
-                        ${questionsForAge.map((q, qIndex) => `
+                        <h2>${value.name}</h2>
+                        ${ageQuestions.map((q, qIndex) => `
                             <div class="question">
-                                <label for="q${qIndex}">${q}</label>
+                                <label>${q}</label>
                                 <div class="slider-container">
-                                    <input type="range" id="q${qIndex}" min="1" max="5" value="${responses[page - 1][qIndex]}">
-                                    <div class="slider-value" id="sliderValue${qIndex}">${responses[page - 1][qIndex]}</div>
+                                    <input type="range" min="1" max="5" value="${responses[page-1][qIndex]}" class="slider" data-question-index="${qIndex}">
+                                    <div class="slider-value" style="left: ${((responses[page-1][qIndex] - 1) / 4) * 100}%;">${responses[page-1][qIndex]}</div>
                                     <div class="slider-labels">
-                                        <span>Not at all important</span>
-                                        <span>Extremely important</span>
+                                        <span>1 (Not important)</span>
+                                        <span>5 (Extremely important)</span>
                                     </div>
                                 </div>
                             </div>
@@ -841,138 +849,149 @@
                     </div>
                 `;
                 prevBtn.style.display = 'inline-block';
-                updateProgressBar(page);
-
-                questionsForAge.forEach((q, qIndex) => {
-                    const slider = document.getElementById(`q${qIndex}`);
-                    const output = document.getElementById(`sliderValue${qIndex}`);
-                    
-                    const updateSliderValue = () => {
-                        const sliderRect = slider.getBoundingClientRect();
-                        const thumbPosition = (slider.value - slider.min) / (slider.max - slider.min);
-                        const newLeft = thumbPosition * (sliderRect.width - 24) + 12;
-                        output.style.left = `${newLeft}px`;
-                        output.innerHTML = slider.value;
-                        responses[page - 1][qIndex] = parseInt(slider.value);
-                    };
-
-                    slider.addEventListener('input', updateSliderValue);
-                    updateSliderValue();
+                nextBtn.textContent = (page === valuesData.length) ? 'Show My Report' : 'Next';
+                document.querySelectorAll('.slider').forEach(slider => {
+                    const sliderValue = slider.nextElementSibling;
+                    slider.addEventListener('input', (e) => {
+                        const value = e.target.value;
+                        const qIndex = parseInt(e.target.getAttribute('data-question-index'));
+                        responses[page-1][qIndex] = parseInt(value);
+                        sliderValue.textContent = value;
+                        sliderValue.style.left = `${((value - 1) / 4) * 100}%`;
+                    });
+                    slider.addEventListener('mousemove', (e) => {
+                         const value = e.target.value;
+                         sliderValue.textContent = value;
+                         sliderValue.style.left = `${((value - 1) / 4) * 100}%`;
+                    });
                 });
+            } else {
+                generateReport();
             }
+            updateProgressBar(page);
+        }
 
-            prevBtn.disabled = page === 0;
-            nextBtn.textContent = page === valuesData.length ? 'Submit' : 'Next';
-            if (page === 0) {
-                 nextBtn.disabled = !selectedAgeCategory;
-            }
+        function getTopValues(num) {
+            const averageScores = valuesData.map((value, index) => {
+                const total = responses[index].reduce((sum, score) => sum + score, 0);
+                return {
+                    name: value.name,
+                    score: total / 3,
+                    originalIndex: index
+                };
+            });
+            averageScores.sort((a, b) => b.score - a.score);
+            return averageScores.slice(0, num);
         }
 
         function getPersonalityProfile(topValues) {
-            const topValueNames = topValues.map(v => v.name);
-            if (topValueNames.includes("Growth & Learning") || topValueNames.includes("Creativity & Innovation")) {
-                return "The Innovator";
+            const topNames = topValues.map(v => v.name);
+            if (topNames.includes("Creativity & Innovation") || topNames.includes("Growth & Learning")) {
+                if (topNames.includes("Autonomy & Freedom")) return personalityProfiles["The Innovator"];
+                return personalityProfiles["The Innovator"];
             }
-            if (topValueNames.includes("Fairness & Justice") || topValueNames.includes("Compassion & Empathy") || topValueNames.includes("Respect")) {
-                return "The Harmonizer";
+            if (topNames.includes("Connection & Belonging") || topNames.includes("Compassion & Empathy") || topNames.includes("Fairness & Justice")) {
+                if (topNames.includes("Loyalty & Trust")) return personalityProfiles["The Community Builder"];
+                return personalityProfiles["The Harmonizer"];
             }
-            if (topValueNames.includes("Excellence & Mastery") || topValueNames.includes("Accountability & Responsibility") || topValueNames.includes("Achievement & Competence")) {
-                return "The Achiever";
+            if (topNames.includes("Achievement & Competence") || topNames.includes("Accountability & Responsibility") || topNames.includes("Excellence & Mastery")) {
+                if (topNames.includes("Integrity & Honesty")) return personalityProfiles["The Purpose-Driven Leader"];
+                return personalityProfiles["The Achiever"];
             }
-            if (topValueNames.includes("Connection & Belonging") || topValueNames.includes("Loyalty & Trust")) {
-                return "The Community Builder";
-            }
-            if (topValueNames.includes("Purpose & Meaning") && (topValueNames.includes("Integrity & Honesty") || topValueNames.includes("Fairness & Justice"))) {
-                return "The Purpose-Driven Leader";
-            }
-            
-            return "The Balanced Individual";
+            return personalityProfiles["The Balanced Individual"];
         }
 
+        function generateReport() {
+            quizContainer.style.display = 'none';
+            reportContainer.style.display = 'block';
+            whatsNextPage.style.display = 'none';
+            const topValues = getTopValues(5);
 
-        prevBtn.addEventListener('click', () => {
-            if (currentPage > 0) {
-                currentPage--;
-                showPage(currentPage);
-            }
-        });
+            const coreValuesHtml = `
+                <h3>Your Top 5 Core Values:</h3>
+                <ul>
+                    ${topValues.map(value => `<li>**${value.name}** (Score: ${value.score.toFixed(1)})</li>`).join('')}
+                </ul>
+            `;
+            document.getElementById('coreValues').innerHTML = coreValuesHtml;
+
+            const personality = getPersonalityProfile(topValues);
+            const personalityHtml = `
+                <h3>${personality.title}</h3>
+                <p>${personality.description}</p>
+            `;
+            document.getElementById('personalityProfile').innerHTML = personalityHtml;
+
+            const explanationsHtml = topValues.map(topValue => {
+                const valueData = valuesData.find(v => v.name === topValue.name);
+                return `
+                    <tr>
+                        <td><strong>${valueData.name}</strong></td>
+                        <td>${valueData.notes}</td>
+                        <td>${valueData.manifests}</td>
+                    </tr>
+                `;
+            }).join('');
+            document.getElementById('explanationsTable').querySelector('tbody').innerHTML = explanationsHtml;
+
+            const triggersHtml = topValues.map(topValue => {
+                const triggerData = triggerExamples[topValue.name][selectedAgeCategory];
+                return `
+                    <div class="trigger-section">
+                        <h3>**${topValue.name}**</h3>
+                        <p>When this value is ignored, you may feel:</p>
+                        <ul><li>${triggerData.upset}</li></ul>
+                        <p>When this value is honored, you may feel:</p>
+                        <ul><li>${triggerData.happy}</li></ul>
+                    </div>
+                `;
+            }).join('');
+            document.getElementById('triggers').innerHTML = triggersHtml;
+        }
+
+        function showWhatsNextPage() {
+            const topValues = getTopValues(5);
+            const topValue1Name = topValues[0].name;
+            const topValue2Name = topValues[1].name;
+            const adviceTemplate = whatsNextAdvice[selectedAgeCategory];
+
+            const populatedAdvice = adviceTemplate
+                .replace('${' + 'TOP_VALUE_1' + '}', topValue1Name)
+                .replace('${' + 'TOP_VALUE_2' + '}', topValue2Name);
+
+            document.getElementById('whatsNextAdvice').innerHTML = populatedAdvice;
+            reportContainer.style.display = 'none';
+            quizContainer.style.display = 'none';
+            whatsNextPage.style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+
+        function showReportPage() {
+            whatsNextPage.style.display = 'none';
+            reportContainer.style.display = 'block';
+            window.scrollTo(0, 0);
+        }
 
         nextBtn.addEventListener('click', () => {
-            if (currentPage === 0 && !selectedAgeCategory) {
-                alert("Please select an age category before continuing.");
-                return;
+            if (currentPage === 0) {
+                selectedAgeCategory = document.getElementById('age-selector').value;
             }
+            currentPage++;
+            showPage(currentPage);
+        });
 
-            if (currentPage < valuesData.length) {
-                currentPage++;
+        prevBtn.addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
                 showPage(currentPage);
-            } else {
-                const ratings = valuesData.map((value, i) => {
-                    const sum = responses[i].reduce((a, b) => a + b, 0);
-                    const avg = sum / 3;
-                    const scaled = ((avg - 1) * (9 / 4)) + 1;
-                    return { ...value, rating: scaled.toFixed(2) };
-                });
-
-                ratings.sort((a, b) => b.rating - a.rating);
-                let coreValues = ratings.filter(v => v.rating >= 7).slice(0, 5);
-                if (coreValues.length < 5) {
-                    const additional = ratings.filter(v => v.rating >= 6).slice(0, 5 - coreValues.length);
-                    coreValues.push(...additional);
-                }
-                
-                if (coreValues.length < 3) {
-                     coreValues = ratings.slice(0, 3);
-                }
-
-                document.getElementById('quiz').style.display = 'none';
-                const report = document.getElementById('report');
-                report.style.display = 'block';
-                window.scrollTo(0, 0);
-
-                const coreList = document.getElementById('coreValues');
-                coreList.innerHTML = `<h3>Your Top Values Are:</h3><ul>` + coreValues.map(v => `<li><strong>${v.name}</strong> (Rating: ${v.rating}/10)</li>`).join('') + '</ul>';
-
-                const personalityDiv = document.getElementById('personalityProfile');
-                const profileName = getPersonalityProfile(coreValues);
-                const profile = personalityProfiles[profileName] || personalityProfiles["Default"];
-                personalityDiv.innerHTML = `
-                    <h3>${profile.title}</h3>
-                    <p>${profile.description}</p>
-                `;
-
-                const tableBody = document.querySelector('#explanationsTable tbody');
-                tableBody.innerHTML = '';
-                coreValues.forEach(v => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${v.name}</td>
-                        <td>${v.notes}</td>
-                        <td>${v.manifests}</td>
-                    `;
-                    tableBody.appendChild(row);
-                });
-
-                const triggersDiv = document.getElementById('triggers');
-                triggersDiv.innerHTML = '<p>Understanding your core values can help you recognize the **triggers** that strongly affect your emotions. The following are examples of how your top values might manifest in your daily life, causing you to feel upset or happy:</p>';
-                coreValues.forEach(v => {
-                    const section = document.createElement('div');
-                    section.className = 'trigger-section';
-                    const triggersForAge = triggerExamples[v.name][selectedAgeCategory] || triggerExamples[v.name].teens;
-                    section.innerHTML = `
-                        <h3>${v.name}</h3>
-                        <ul>
-                            <li><strong>You might feel upset when:</strong> ${triggersForAge.upset}</li>
-                            <li><strong>You might feel happy when:</strong> ${triggersForAge.happy}</li>
-                        </ul>
-                    `;
-                    triggersDiv.appendChild(section);
-                });
-
-                const whatsNextDiv = document.getElementById('whatsNextAdvice');
-                whatsNextDiv.innerHTML = whatsNextAdvice[selectedAgeCategory] || whatsNextAdvice.teens;
+            } else if (currentPage === 1) {
+                currentPage = 0;
+                showPage(currentPage);
             }
         });
+
+        nextBtnReport.addEventListener('click', showWhatsNextPage);
+        backToReportBtn.addEventListener('click', showReportPage);
 
         showPage(currentPage);
     </script>
