@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Discover Your Core Values</title>
+    <title>Discover Your Core Values & Personality</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -26,14 +26,14 @@
             font-size: 1.8em;
             margin-top: 1.5em;
         }
-        #quiz {
+        #quiz, #personalityQuiz {
             background: white;
             padding: 30px;
             border-radius: 12px;
             box-shadow: 0 10px 20px rgba(0,0,0,0.05);
             transition: all 0.3s ease;
         }
-        .value-page {
+        .value-page, .personality-page {
             margin-bottom: 20px;
             animation: fadeIn 0.5s ease-in-out;
         }
@@ -162,7 +162,7 @@
             cursor: not-allowed;
             transform: none;
         }
-        #report, #whatsNextPage {
+        #report, #personalityQuiz, #whatsNextPage, #finalReport {
             background: white;
             padding: 30px;
             border-radius: 12px;
@@ -170,7 +170,7 @@
             margin-top: 20px;
             animation: fadeIn 1s ease-in-out;
         }
-        #report h2, #whatsNextPage h2 {
+        #report h2, #whatsNextPage h2, #finalReport h2 {
             border-bottom: 2px solid #4299e1;
             padding-bottom: 10px;
             margin-bottom: 25px;
@@ -274,10 +274,51 @@
             color: #4a5568;
             margin-bottom: 20px;
         }
+        #finalReport .report-section h3 {
+            color: #2d3748;
+            font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+        #finalReport .career-recommendations ul {
+            list-style-type: none;
+            padding-left: 0;
+            margin-top: 15px;
+        }
+        #finalReport .career-recommendations li {
+            background: #e9f5ff;
+            margin-bottom: 10px;
+            padding: 15px;
+            border-left: 5px solid #4299e1;
+            border-radius: 8px;
+            font-size: 1.1em;
+        }
+        .trait-score {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .trait-score .label {
+            font-weight: bold;
+            flex-basis: 150px;
+            margin-right: 20px;
+        }
+        .trait-score .bar-container {
+            flex-grow: 1;
+            height: 12px;
+            background-color: #e2e8f0;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        .trait-score .bar-fill {
+            height: 100%;
+            background-color: #4299e1;
+            border-radius: 6px;
+            transition: width 0.5s ease-in-out;
+        }
     </style>
 </head>
 <body>
-    <h1>Discover Your Core Values</h1>
+    <h1>Discover Your Core Values & Personality</h1>
     <div id="quiz">
         <div id="currentPage"></div>
         <div class="progress-bar" id="progressBar"><div class="progress-fill" id="progressFill"></div></div>
@@ -287,6 +328,7 @@
             <button id="nextBtn">Next</button>
         </div>
     </div>
+
     <div id="report" style="display: none;">
         <h2>Your Core Values Report</h2>
         <div class="results-intro">This report helps you understand what truly drives you. Your core values are the principles that guide your life and shape your decisions.</div>
@@ -321,475 +363,127 @@
         </div>
     </div>
 
-    <div id="whatsNextPage" style="display: none;">
-        <h2>What's Next? 🤔</h2>
-        <div id="whatsNextAdvice"></div>
+    <div id="personalityQuiz" style="display: none;">
+        <div id="personalityPage"></div>
+        <div class="progress-bar" id="personalityProgressBar"><div class="progress-fill" id="personalityProgressFill"></div></div>
+        <div class="progress-text" id="personalityProgressText"></div>
         <div class="navigation">
-            <button id="backToReport">Back to Report</button>
-            <button onclick="window.print()">Print Report</button>
+            <button id="prevPersonalityBtn">Previous</button>
+            <button id="nextPersonalityBtn">Next</button>
+        </div>
+    </div>
+
+    <div id="finalReport" style="display: none;">
+        <h2>Your Career & Life Report</h2>
+        <div class="results-intro">This report combines your core values with your personality traits to provide a comprehensive look at what makes you unique.</div>
+        <div class="report-section" id="finalPersonalityProfile"></div>
+        <div class="report-section" id="valuesAndPersonality"></div>
+        <div class="report-section">
+            <h3>Career & Job Opportunities</h3>
+            <p>Based on the unique combination of your values and personality, here are some fields and roles where you are likely to find a strong sense of purpose, satisfaction, and success.</p>
+            <div class="career-recommendations" id="careerRecommendations"></div>
         </div>
     </div>
 
     <script>
         const valuesData = [
-            {
-                name: "Fairness & Justice",
-                notes: "You have a strong belief that things should be fair for everyone. This value makes you want to speak up when you see something that isn't right and fight for what's fair.",
-                manifests: "This value shows up when you get angry about unfair rules in a game or stand up for a friend who's being treated poorly. It can guide you to be a leader who ensures everyone's voice is heard in a group project.",
-                questions: {
-                    teens: ["How important is it that everyone at school gets treated fairly?", "Do you feel a strong need to stand up for someone who is being treated unfairly?", "How much do you care that group projects and class rules are fair to everyone?"],
-                    college: ["How important is it that the rules for campus clubs and activities are fair to everyone?", "Do you feel a strong need to speak up about social injustices you see?", "How much do you value professors and leaders who treat all students equitably?"],
-                    early_career: ["How important is it that your company's policies are fair to all employees?", "Do you feel a strong need to speak up when you see a colleague being treated unfairly?", "How much do you value a workplace where decisions are made without bias?"],
-                    mid_career: ["How important is it that your company’s promotion and hiring practices are fair?", "Do you feel a strong need to mentor and advocate for those who may be overlooked?", "How much do you value a leadership team that holds itself accountable to ethical standards?"],
-                    late_career: ["How important is it that the legacy you leave behind is one of fairness and equality?", "Do you feel a need to advocate for younger colleagues to ensure they get a fair start?", "How much do you value a community where everyone has an equal opportunity to succeed?"],
-                    retirement: ["How important is it that social and political systems are fair for all members of society?", "Do you feel a strong need to support local causes that promote fairness and justice?", "How much do you value a legacy where you fought for a more just world?"]
-                }
-            },
-            {
-                name: "Integrity & Honesty",
-                notes: "Being truthful and having strong morals is super important to you. This value guides you to do the right thing, even when it's hard, and helps you build trust with others.",
-                manifests: "You show this value by always telling the truth, even when it's a difficult conversation, and by keeping your promises. It helps you build a reputation as a trustworthy and reliable person.",
-                questions: {
-                    teens: ["How important is it for you to always tell the truth, even if it's difficult?", "How much do you respect people who stick to their word and keep promises?", "How important is it that your actions match what you say you believe in?"],
-                    college: ["How important is it to be honest with your friends, even when it's uncomfortable?", "How much do you respect classmates who are honest about their contributions to group projects?", "How important is it to be a person of your word?"],
-                    early_career: ["How important is it for you to be honest with your boss and team members?", "How much do you respect companies that are transparent and honest with their employees?", "How important is it that you can be trusted to follow through on your commitments?"],
-                    mid_career: ["How important is it that you are seen as an ethical and honest leader?", "How much do you respect colleagues who admit their mistakes and take ownership?", "How important is it that your work reflects your personal moral code?"],
-                    late_career: ["How important is it that you have a reputation for being a person of integrity?", "How much do you respect people who prioritize honesty over personal gain?", "How important is it to you that you have always acted with sincerity?"],
-                    retirement: ["How important is it that you have lived a life of honesty and strong principles?", "How much do you value the trust you have built with family and friends over the years?", "How important is it to you that you are viewed as an ethical person?"]
-                }
-            },
-            {
-                name: "Connection & Belonging",
-                notes: "You need to feel like you're part of a group and have strong, meaningful relationships. This value drives your desire to have close friends and feel accepted.",
-                manifests: "This value is visible in how much effort you put into your friendships and family. It motivates you to join clubs or teams where you feel you truly belong and can connect with others on a deeper level.",
-                questions: {
-                    teens: ["How important is it to feel like you belong in your friend group or a club?", "Do you put a lot of effort into staying close with your friends and family?", "How deeply do you feel a need to be understood and accepted by others?"],
-                    college: ["How important is it to feel connected to your friends and the campus community?", "Do you make a conscious effort to build strong relationships with roommates and classmates?", "How deeply do you feel the need to be part of a supportive group or club?"],
-                    early_career: ["How important is it for you to feel connected to your team and colleagues?", "Do you actively seek out ways to build a sense of community at work?", "How much do you value having a strong support system of friends and family?"],
-                    mid_career: ["How important is it that you feel a sense of belonging in your professional and personal circles?", "Do you prioritize maintaining strong ties with your family and a close-knit group of friends?", "How much do you value being part of a community where you feel understood and accepted?"],
-                    late_career: ["How important is it that your relationships with family and long-time friends are strong?", "Do you feel a need to connect with others who share your life experiences?", "How much do you value being part of a community where you feel you belong?"],
-                    retirement: ["How important is it for you to stay connected with family and friends?", "Do you put a lot of effort into nurturing your relationships?", "How much do you value feeling connected and engaged with your community?"]
-                }
-            },
-            {
-                name: "Autonomy & Freedom",
-                notes: "You need to have your own space and the ability to make your own choices. This value is all about being independent, self-reliant, and in control of your own life.",
-                manifests: "You show this value by taking the lead on your own projects and feeling frustrated when someone tries to micromanage you. It's a key part of your desire to be self-sufficient and follow your own path.",
-                questions: {
-                    teens: ["How important is it for you to be able to make your own decisions without external pressure?", "How much do you dislike being told exactly what to do all the time?", "How much do you feel a need to be self-sufficient and not overly dependent on others?"],
-                    college: ["How important is it for you to have control over your own schedule and academic choices?", "How much do you dislike being micromanaged by a professor or boss?", "How much do you feel a need to be independent and self-reliant?"],
-                    early_career: ["How important is it for you to have autonomy in your job and projects?", "How much do you dislike a workplace where you are constantly being monitored?", "How much do you value being able to choose your own path without pressure?"],
-                    mid_career: ["How important is it for you to have independence in how you approach your work?", "How much do you dislike being constrained by rigid rules and bureaucracy?", "How much do you value being able to make your own decisions about your career path?"],
-                    late_career: ["How important is it for you to maintain independence and control over your life decisions?", "How much do you dislike being told what to do by others?", "How much do you value the freedom to pursue your interests on your own terms?"],
-                    retirement: ["How important is it for you to maintain your independence and freedom to choose how you spend your time?", "How much do you dislike having your decisions made for you?", "How much do you value being self-reliant and in control of your life?"]
-                }
-            },
-            {
-                name: "Compassion & Empathy",
-                notes: "You are good at understanding how others feel and have a strong desire to help them. This value is behind your acts of kindness and your motivation to ease the suffering of others.",
-                manifests: "You demonstrate this value by being a supportive friend and by stepping in to help someone in need. It's what makes you a caring person who can understand different points of view.",
-                questions: {
-                    teens: ["How important is it for you to help a friend who is going through a tough time?", "Do you try to understand how others are feeling, even if you haven't been in their situation?", "How much do you admire people who are kind and caring toward others?"],
-                    college: ["How important is it for you to be a good listener for friends who are struggling?", "Do you try to see things from other people's perspectives?", "How much do you admire people who are empathetic and supportive?"],
-                    early_career: ["How important is it for you to support a colleague facing a personal or professional challenge?", "Do you try to understand the motivations behind a difficult co-worker's behavior?", "How much do you admire leaders who show empathy for their employees?"],
-                    mid_career: ["How important is it for you to show empathy to your team members and colleagues?", "Do you often consider how your decisions might impact the feelings of others?", "How much do you admire leaders who prioritize compassion?"],
-                    late_career: ["How important is it for you to be a source of support for your friends and family?", "Do you actively try to understand the experiences of others, especially those from different backgrounds?", "How much do you admire people who have dedicated their lives to helping others?"],
-                    retirement: ["How important is it for you to show kindness and compassion to those around you?", "Do you try to understand the challenges that younger generations face?", "How much do you value people who have a caring and empathetic nature?"]
-                }
-            },
-            {
-                name: "Achievement & Competence",
-                notes: "You're driven to succeed and do things well. This value pushes you to set high goals, work hard to reach them, and feel proud of your accomplishments.",
-                manifests: "This value is a big part of who you are. It shows up when you work hard to get a good grade, practice a skill until you're the best, and feel a sense of pride in your successes.",
-                questions: {
-                    teens: ["How important is it for you to do well in school or extracurriculars?", "How much satisfaction do you get from mastering a new video game or a sport?", "How important is it for you to be recognized for your skills and accomplishments?"],
-                    college: ["How important is it for you to get good grades and perform well in your major?", "How much satisfaction do you get from mastering a challenging subject or skill?", "How important is it for you to be recognized for your academic achievements?"],
-                    early_career: ["How important is it for you to excel in your job and meet performance goals?", "How much satisfaction do you get from mastering a new skill or program at work?", "How important is it for you to be recognized for your professional accomplishments?"],
-                    mid_career: ["How important is it for you to be highly competent and successful in your field?", "How much satisfaction do you get from leading a successful project or team?", "How important is it for you to be recognized as an expert in your industry?"],
-                    late_career: ["How important is it for you to continue to achieve and be excellent in your role?", "How much satisfaction do you get from passing on your expertise to others?", "How important is it for your legacy to be one of high achievement and competence?"],
-                    retirement: ["How important is it for you to still feel competent and capable in your daily life?", "How much satisfaction do you get from mastering a new hobby or skill in retirement?", "How important is it that you feel a sense of pride in your life's work?"]
-                }
-            },
-            {
-                name: "Growth & Learning",
-                notes: "You love to learn and grow as a person. This value fuels your curiosity and your desire to always be improving and expanding your knowledge and skills.",
-                manifests: "This value is a big part of who you are. It shows up when you get excited about a new class, seek out challenging experiences, or spend time learning a new hobby. It drives your personal development and your desire to constantly improve.",
-                questions: {
-                    teens: ["How important is it for you to always be learning new things?", "How much do you enjoy challenges that help you grow and become a better person?", "Do you actively seek out new knowledge or skills in your free time?"],
-                    college: ["How important is it for you to learn new things that challenge your thinking?", "How much do you enjoy experiences that help you grow personally?", "Do you actively seek out classes or activities that expand your worldview?"],
-                    early_career: ["How important is it for you to continuously learn and improve your skills at work?", "How much do you enjoy taking on new challenges that push you out of your comfort zone?", "Do you actively seek out professional development opportunities?"],
-                    mid_career: ["How important is it for you to continue growing and expanding your expertise?", "How much do you enjoy taking on a new challenge that allows you to develop as a leader?", "Do you actively seek out new skills or knowledge to stay current in your field?"],
-                    late_career: ["How important is it for you to remain a lifelong learner?", "How much do you enjoy teaching others what you have learned over your career?", "Do you actively seek out new hobbies or interests to keep your mind sharp?"],
-                    retirement: ["How important is it for you to continue learning and growing as a person?", "How much do you enjoy taking on new projects or hobbies that challenge you?", "Do you actively seek out new information to stay curious about the world?"]
-                }
-            },
-            {
-                name: "Security & Stability",
-                notes: "You need a safe and predictable life. This value makes you want to have a secure home, financial stability, and a reliable routine so you can have peace of mind.",
-                manifests: "This value shows up when you prioritize having a steady routine, feel uncomfortable with sudden changes, and want to know that you can count on a secure future. It's the foundation of your desire for a safe and calm life.",
-                questions: {
-                    teens: ["How important is it to feel safe and secure at school and at home?", "How much do you worry about having enough money for the things you want to do in the future?", "How important is having a steady, predictable routine in your life?"],
-                    college: ["How important is it to feel financially stable and secure?", "How much do you worry about having a stable job after graduation?", "How important is a predictable routine to your peace of mind?"],
-                    early_career: ["How important is it to feel secure in your job and have a stable income?", "How much do you worry about financial stability and saving for the future?", "How important is having a predictable routine to manage your work and personal life?"],
-                    mid_career: ["How important is it to feel financially secure and stable for your family's future?", "How much do you worry about having a stable career that will last?", "How important is a predictable routine for managing your responsibilities?"],
-                    late_career: ["How important is it to feel financially secure as you approach retirement?", "How much do you worry about having enough savings to live comfortably after you stop working?", "How important is a stable routine for your peace of mind?"],
-                    retirement: ["How important is it to feel financially secure in your retirement?", "How much do you worry about having enough to cover future healthcare or living expenses?", "How important is a predictable routine for your daily life?"]
-                }
-            },
-            {
-                name: "Creativity & Innovation",
-                notes: "You love to express yourself through original ideas and new ways of thinking. This value is all about creating things, finding unique solutions, and thinking outside the box.",
-                manifests: "This value is a big part of who you are. It shows up when you choose art or music electives, enjoy coming up with fresh ideas for school projects, or find new ways to solve problems. It can guide you toward future careers in design, writing, or technology.",
-                questions: {
-                    teens: ["How important is it for you to express yourself through things like art, music, or writing?", "Do you enjoy coming up with new and original ideas?", "How much do you like finding new and different ways to solve problems?"],
-                    college: ["How important is it for you to be creative in your class projects and assignments?", "Do you enjoy coming up with fresh, original ideas?", "How much do you like finding new and innovative solutions to problems?"],
-                    early_career: ["How important is it for you to have a creative outlet at work or in your free time?", "Do you enjoy coming up with new ideas or ways to improve processes at work?", "How much do you like finding innovative solutions to professional challenges?"],
-                    mid_career: ["How important is it for you to find new and innovative ways to lead your team?", "Do you enjoy coming up with fresh ideas to solve long-standing problems?", "How much do you value finding innovative solutions that make a real impact?"],
-                    late_career: ["How important is it for you to still be creative and innovative in your work?", "Do you enjoy mentoring younger colleagues to help them think more creatively?", "How much do you value finding new ways to approach challenges in your life?"],
-                    retirement: ["How important is it for you to express your creativity through hobbies?", "Do you enjoy coming up with new ideas for personal projects or community events?", "How much do you like finding innovative ways to approach life after work?"]
-                }
-            },
-            {
-                name: "Purpose & Meaning",
-                notes: "You need to feel like your life has a direction and a bigger reason for being. This value motivates you to find activities and goals that feel important and worthwhile to you.",
-                manifests: "This value shows up when you feel a strong need for your actions to have a positive impact. It's what drives you to volunteer for a cause, choose a career that helps others, and think about the legacy you want to leave.",
-                questions: {
-                    teens: ["How important is it for you to feel like your life has a purpose?", "How much do you want your schoolwork or hobbies to feel meaningful and important?", "Do you often think about what you want to accomplish that's bigger than yourself?"],
-                    college: ["How important is it that your life has a clear purpose?", "How much do you want your academic and career choices to have a positive impact?", "Do you often think about what legacy you want to leave behind?"],
-                    early_career: ["How important is it for your work to feel meaningful and purposeful?", "How much do you want your job to have a positive impact on the world?", "Do you often think about the purpose behind your career path?"],
-                    mid_career: ["How important is it that your work contributes to something bigger than yourself?", "How much do you want your career to feel purposeful and fulfilling?", "Do you often think about the legacy you are building?"],
-                    late_career: ["How important is it that your career has had a meaningful impact on others?", "How much do you want to feel that your work has been worthwhile?", "Do you often think about how you will continue to find purpose after retirement?"],
-                    retirement: ["How important is it for you to feel like your life has had a purpose?", "How much do you want your retirement to be a time of meaningful activity?", "Do you often think about how you can continue to have a positive impact on your community?"]
-                }
-            },
-            {
-                name: "Respect",
-                notes: "You believe that everyone has worth and should be treated with dignity. This value guides you to be courteous to others and to appreciate different viewpoints and personal boundaries.",
-                manifests: "You demonstrate this value by treating everyone with dignity, even when you disagree with them. It shows up in your friendships by honoring boundaries and in your daily interactions by listening to others' opinions.",
-                questions: {
-                    teens: ["How important is it to treat others with kindness, even if you disagree with them?", "How much do you value having your own opinions and ideas respected by others?", "How important is it for people to respect each other's differences?"],
-                    college: ["How important is it for you to treat everyone on campus with respect, regardless of their background?", "How much do you value professors who respect your opinions, even if they differ from theirs?", "How important is it to you that people in groups respect each other's ideas?"],
-                    early_career: ["How important is it for you to treat all colleagues with respect, regardless of their role?", "How much do you value a workplace where different ideas and perspectives are respected?", "How important is it that you have a respectful working relationship with your manager?"],
-                    mid_career: ["How important is it for you to create a culture of respect within your team or department?", "How much do you value working in an environment where people from all backgrounds are respected?", "How important is it for you to be a respectful leader who listens to others?"],
-                    late_career: ["How important is it for you to treat younger colleagues with respect and dignity?", "How much do you value being in a community where diverse viewpoints are respected?", "How important is it to you that you are a role model for respect?"],
-                    retirement: ["How important is it for you to treat others with respect in all your interactions?", "How much do you value being in a community where people respect each other's differences?", "How important is it for you to feel respected by your family and friends?"]
-                }
-            },
-            {
-                name: "Loyalty & Trust",
-                notes: "You value being committed to others and being able to rely on them completely. This value is key to building deep, lasting friendships and feeling secure in your relationships.",
-                manifests: "This value shows up in your life through your strong commitments to friends and family. It’s what makes you a reliable person and why you expect the same from others, forming the basis of your closest relationships.",
-                questions: {
-                    teens: ["How important is it to be loyal to your friends and not talk about them behind their backs?", "Do you think it's important to be someone your friends can always count on?", "How much do you value having friends who are reliable and trustworthy?"],
-                    college: ["How important is it to be loyal to your friends and stand by them?", "Do you think it's important to be a trustworthy and reliable friend or roommate?", "How much do you value having friends you can confide in?"],
-                    early_career: ["How important is it for you to be loyal to your team and company?", "Do you think it's important to be a trustworthy and reliable colleague?", "How much do you value having a boss you can trust?"],
-                    mid_career: ["How important is it for you to be a loyal and trustworthy leader?", "Do you think it's important to build trust with your team and colleagues?", "How much do you value having a strong sense of loyalty with your close friends and family?"],
-                    late_career: ["How important is it for you to be seen as a loyal and trusted mentor?", "Do you think it's important to be a source of trust for your family and close friends?", "How much do you value the loyalty of those who have been with you for many years?"],
-                    retirement: ["How important is it for you to have the trust and loyalty of your family and friends?", "Do you think it's important to be a reliable and trustworthy person in your community?", "How much do you value having lifelong friendships based on trust?"]
-                }
-            },
-            {
-                name: "Accountability & Responsibility",
-                notes: "You believe in taking ownership of your actions and commitments. This value is all about being reliable, dependable, and building trust with the people around you.",
-                manifests: "You live this value by owning up to your mistakes and making sure to follow through on your promises. It’s what makes you a dependable person in group projects or a leader people can count on.",
-                questions: {
-                    teens: ["How important is it for people to own up to their mistakes?", "How much do you hold yourself responsible for the promises you make?", "Do you expect people in leadership roles (like a team captain or a class president) to be responsible?"],
-                    college: ["How important is it for you to take responsibility for your academic work?", "How much do you hold yourself accountable for your commitments to clubs or projects?", "Do you expect your professors and school administration to be responsible and transparent?"],
-                    early_career: ["How important is it for you to take ownership of your work and commitments?", "How much do you hold yourself accountable for the results of your projects?", "Do you expect your company and managers to be responsible?"],
-                    mid_career: ["How important is it for you to be a responsible and accountable leader?", "How much do you hold yourself accountable for the success and failure of your team?", "Do you expect your company to take responsibility for its impact on the community?"],
-                    late_career: ["How important is it for you to model accountability for younger colleagues?", "How much do you feel responsible for the success of your team or project?", "Do you expect leaders in your industry to be accountable for their actions?"],
-                    retirement: ["How important is it for you to remain responsible for your family and community?", "How much do you hold yourself accountable for your own health and well-being?", "Do you expect your community leaders to be accountable for their decisions?"]
-                }
-            },
-            {
-                name: "Gratitude & Appreciation",
-                notes: "You focus on and are thankful for the good things in your life. This value helps you build strong relationships and stay positive by recognizing the good around you.",
-                manifests: "This value shows up when you say thank you to people who have helped you and when you take a moment to appreciate the good things you have. It makes you a more positive person and strengthens your relationships.",
-                questions: {
-                    teens: ["How important is it to thank people who have helped you?", "How much do you appreciate what you have in your life, big and small?", "How often do you think about the things you are thankful for?"],
-                    college: ["How important is it for you to show appreciation to your friends and family?", "How much do you appreciate the opportunities you have in college?", "How often do you take a moment to be grateful for the good things in your life?"],
-                    early_career: ["How important is it for you to show appreciation to your colleagues and boss?", "How much do you appreciate the opportunities you have in your career?", "How often do you take a moment to be grateful for what you have?"],
-                    mid_career: ["How important is it for you to show gratitude to your team and mentors?", "How much do you appreciate the career and life you have built?", "How often do you pause to reflect on the good things you have?"],
-                    late_career: ["How important is it for you to show appreciation to your friends and family?", "How much do you appreciate the experiences you have had in your career?", "How often do you think about the things you are thankful for in your life?"],
-                    retirement: ["How important is it for you to show gratitude to your family and friends?", "How much do you appreciate the memories and experiences you have had?", "How often do you reflect on the good things in your life?"]
-                }
-            },
-            {
-                name: "Stewardship & Sustainability",
-                notes: "You feel a responsibility to take care of the environment for future generations. This value guides you to make choices that are good for the planet, like recycling or saving energy.",
-                manifests: "You live this value when you make small choices like recycling or saving water, and when you support causes that protect the planet. It’s what makes you care about how your actions today will affect the world tomorrow.",
-                questions: {
-                    teens: ["How important is it for you to protect the environment?", "How much do you value making choices that help the planet, like recycling or saving water?", "How much do you think about how your actions today will affect the future?"],
-                    college: ["How important is it for you to learn about and support environmental sustainability?", "How much do you value making choices that are eco-friendly?", "How much do you think about the long-term impact of your consumption habits?"],
-                    early_career: ["How important is it for you to work for a company that is environmentally responsible?", "How much do you value making personal choices that support sustainability?", "How much do you think about the impact of your lifestyle on the planet?"],
-                    mid_career: ["How important is it for you that your company or industry is sustainable?", "How much do you value making choices that protect the environment for future generations?", "How much do you think about the impact your family's choices have on the planet?"],
-                    late_career: ["How important is it for you to leave a positive environmental legacy?", "How much do you value supporting causes that promote sustainability?", "How much do you think about how to reduce your environmental footprint?"],
-                    retirement: ["How important is it for you to be a good steward of the environment?", "How much do you value making choices that help preserve nature?", "How much do you think about the world you will leave for future generations?"]
-                }
-            },
-            {
-                name: "Excellence & Mastery",
-                notes: "You're driven to be the best you can be. This value is about setting high standards for yourself, working hard to become an expert, and taking pride in the quality of your work.",
-                manifests: "This value shows up when you work hard to get a top grade, spend hours practicing for a game or recital, and feel a deep sense of satisfaction when you master a new skill. It's what pushes you to excel.",
-                questions: {
-                    teens: ["How important is it for you to do your best and strive for excellence?", "How much do you value becoming really good at something you care about?", "Do you set high standards for yourself in your schoolwork, sports, or hobbies?"],
-                    college: ["How important is it for you to strive for excellence in your academics?", "How much do you value becoming an expert in your chosen field of study?", "Do you set high standards for yourself in your classes and extracurriculars?"],
-                    early_career: ["How important is it for you to strive for excellence in your professional life?", "How much do you value becoming an expert in your role or industry?", "Do you set high standards for the quality of your work?"],
-                    mid_career: ["How important is it for you to be known for your excellence and expertise?", "How much do you value becoming a true master of your craft?", "Do you set high standards for yourself and your team?"],
-                    late_career: ["How important is it for you to maintain a high level of excellence?", "How much do you value being a respected expert and mentor in your field?", "Do you set high standards for the quality of your work and contributions?"],
-                    retirement: ["How important is it for you to maintain a sense of personal excellence?", "How much do you value becoming an expert in a new hobby or area of interest?", "Do you set high standards for yourself in your personal projects?"]
-                }
-            }
+            { name: "Fairness & Justice", notes: "You have a strong belief that things should be fair for everyone. This value makes you want to speak up when you see something that isn't right and fight for what's fair.", manifests: "This value shows up when you get angry about unfair rules in a game or stand up for a friend who's being treated poorly. It can guide you to be a leader who ensures everyone's voice is heard in a group project.", questions: { teens: ["How important is it that everyone at school gets treated fairly?", "Do you feel a strong need to stand up for someone who is being treated unfairly?", "How much do you care that group projects and class rules are fair to everyone?"], college: ["How important is it that the rules for campus clubs and activities are fair to everyone?", "Do you feel a strong need to speak up about social injustices you see?", "How much do you value professors and leaders who treat all students equitably?"], early_career: ["How important is it that your company's policies are fair to all employees?", "Do you feel a strong need to speak up when you see a colleague being treated unfairly?", "How much do you value a workplace where decisions are made without bias?"], mid_career: ["How important is it that your company’s promotion and hiring practices are fair?", "Do you feel a strong need to mentor and advocate for those who may be overlooked?", "How much do you value a leadership team that holds itself accountable to ethical standards?"], late_career: ["How important is it that the legacy you leave behind is one of fairness and equality?", "Do you feel a need to advocate for younger colleagues to ensure they get a fair start?", "How much do you value a community where everyone has an equal opportunity to succeed?"], retirement: ["How important is it that social and political systems are fair for all members of society?", "Do you feel a strong need to support local causes that promote fairness and justice?", "How much do you value a legacy where you fought for a more just world?"] } },
+            { name: "Integrity & Honesty", notes: "Being truthful and having strong morals is super important to you. This value guides you to do the right thing, even when it's hard, and helps you build trust with others.", manifests: "You show this value by always telling the truth, even when it's a difficult conversation, and by keeping your promises. It helps you build a reputation as a trustworthy and reliable person.", questions: { teens: ["How important is it for you to always tell the truth, even if it's difficult?", "How much do you respect people who stick to their word and keep promises?", "How important is it that your actions match what you say you believe in?"], college: ["How important is it to be honest with your friends, even when it's uncomfortable?", "How much do you respect classmates who are honest about their contributions to group projects?", "How important is it to be a person of your word?"], early_career: ["How important is it for you to be honest with your boss and team members?", "How much do you respect companies that are transparent and honest with their employees?", "How important is it that you can be trusted to follow through on your commitments?"], mid_career: ["How important is it that you are seen as an ethical and honest leader?", "How much do you respect colleagues who admit their mistakes and take ownership?", "How important is it that your work reflects your personal moral code?"], late_career: ["How important is it that you have a reputation for being a person of integrity?", "How much do you respect people who prioritize honesty over personal gain?", "How important is it to you that you have always acted with sincerity?"], retirement: ["How important is it that you have lived a life of honesty and strong principles?", "How much do you value the trust you have built with family and friends over the years?", "How important is it to you that you are viewed as an ethical person?"] } },
+            { name: "Connection & Belonging", notes: "You need to feel like you're part of a group and have strong, meaningful relationships. This value drives your desire to have close friends and feel accepted.", manifests: "This value is visible in how much effort you put into your friendships and family. It motivates you to join clubs or teams where you feel you truly belong and can connect with others on a deeper level.", questions: { teens: ["How important is it to feel like you belong in your friend group or a club?", "Do you put a lot of effort into staying close with your friends and family?", "How deeply do you feel a need to be understood and accepted by others?"], college: ["How important is it to feel connected to your friends and the campus community?", "Do you make a conscious effort to build strong relationships with roommates and classmates?", "How deeply do you feel the need to be part of a supportive group or club?"], early_career: ["How important is it for you to feel connected to your team and colleagues?", "Do you actively seek out ways to build a sense of community at work?", "How much do you value having a strong support system of friends and family?"], mid_career: ["How important is it that you feel a sense of belonging in your professional and personal circles?", "Do you prioritize maintaining strong ties with your family and a close-knit group of friends?", "How much do you value being part of a community where you feel understood and accepted?"], late_career: ["How important is it that your relationships with family and long-time friends are strong?", "Do you feel a need to connect with others who share your life experiences?", "How much do you value being part of a community where you feel you belong?"], retirement: ["How important is it for you to stay connected with family and friends?", "Do you put a lot of effort into nurturing your relationships?", "How much do you value feeling connected and engaged with your community?"] } },
+            { name: "Autonomy & Freedom", notes: "You need to have your own space and the ability to make your own choices. This value is all about being independent, self-reliant, and in control of your own life.", manifests: "You show this value by taking the lead on your own projects and feeling frustrated when someone tries to micromanage you. It's a key part of your desire to be self-sufficient and follow your own path.", questions: { teens: ["How important is it for you to be able to make your own decisions without external pressure?", "How much do you dislike being told exactly what to do all the time?", "How much do you feel a need to be self-sufficient and not overly dependent on others?"], college: ["How important is it for you to have control over your own schedule and academic choices?", "How much do you dislike being micromanaged by a professor or boss?", "How much do you feel a need to be independent and self-reliant?"], early_career: ["How important is it for you to have autonomy in your job and projects?", "How much do you dislike a workplace where you are constantly being monitored?", "How much do you value being able to choose your own path without pressure?"], mid_career: ["How important is it for you to have independence in how you approach your work?", "How much do you dislike being constrained by rigid rules and bureaucracy?", "How much do you value being able to make your own decisions about your career path?"], late_career: ["How important is it for you to maintain independence and control over your life decisions?", "How much do you dislike being told what to do by others?", "How much do you value the freedom to pursue your interests on your own terms?"], retirement: ["How important is it for you to maintain your independence and freedom to choose how you spend your time?", "How much do you dislike having your decisions made for you?", "How much do you value being self-reliant and in control of your life?"] } },
+            { name: "Compassion & Empathy", notes: "You are good at understanding how others feel and have a strong desire to help them. This value is behind your acts of kindness and your motivation to ease the suffering of others.", manifests: "You demonstrate this value by being a supportive friend and by stepping in to help someone in need. It's what makes you a caring person who can understand different points of view.", questions: { teens: ["How important is it for you to help a friend who is going through a tough time?", "Do you try to understand how others are feeling, even if you haven't been in their situation?", "How much do you admire people who are kind and caring toward others?"], college: ["How important is it for you to be a good listener for friends who are struggling?", "Do you try to see things from other people's perspectives?", "How much do you admire people who are empathetic and supportive?"], early_career: ["How important is it for you to support a colleague facing a personal or professional challenge?", "Do you try to understand the motivations behind a difficult co-worker's behavior?", "How much do you admire leaders who show empathy for their employees?"], mid_career: ["How important is it for you to show empathy to your team members and colleagues?", "Do you often consider how your decisions might impact the feelings of others?", "How much do you admire leaders who prioritize compassion?"], late_career: ["How important is it for you to be a source of support for your friends and family?", "Do you actively try to understand the experiences of others, especially those from different backgrounds?", "How much do you admire people who have dedicated their lives to helping others?"], retirement: ["How important is it for you to show kindness and compassion to those around you?", "Do you try to understand the challenges that younger generations face?", "How much do you value people who have a caring and empathetic nature?"] } },
+            { name: "Achievement & Competence", notes: "You're driven to succeed and do things well. This value pushes you to set high goals, work hard to reach them, and feel proud of your accomplishments.", manifests: "This value is a big part of who you are. It shows up when you work hard to get a good grade, practice a skill until you're the best, and feel a sense of pride in your successes.", questions: { teens: ["How important is it for you to do well in school or extracurriculars?", "How much satisfaction do you get from mastering a new video game or a sport?", "How important is it for you to be recognized for your skills and accomplishments?"], college: ["How important is it for you to get good grades and perform well in your major?", "How much satisfaction do you get from mastering a challenging subject or skill?", "How important is it for you to be recognized for your academic achievements?"], early_career: ["How important is it for you to excel in your job and meet performance goals?", "How much satisfaction do you get from mastering a new skill or program at work?", "How important is it for you to be recognized for your professional accomplishments?"], mid_career: ["How important is it for you to be highly competent and successful in your field?", "How much satisfaction do you get from leading a successful project or team?", "How important is it for you to be recognized as an expert in your industry?"], late_career: ["How important is it for you to continue to achieve and be excellent in your role?", "How much satisfaction do you get from passing on your expertise to others?", "How important is it for your legacy to be one of high achievement and competence?"], retirement: ["How important is it for you to still feel competent and capable in your daily life?", "How much satisfaction do you get from mastering a new hobby or skill in retirement?", "How important is it that you feel a sense of pride in your life's work?"] } },
+            { name: "Growth & Learning", notes: "You love to learn and grow as a person. This value fuels your curiosity and your desire to always be improving and expanding your knowledge and skills.", manifests: "This value is a big part of who you are. It shows up when you get excited about a new class, seek out challenging experiences, or spend time learning a new hobby. It drives your personal development and your desire to constantly improve.", questions: { teens: ["How important is it for you to always be learning new things?", "How much do you enjoy challenges that help you grow and become a better person?", "Do you actively seek out new knowledge or skills in your free time?"], college: ["How important is it for you to learn new things that challenge your thinking?", "How much do you enjoy experiences that help you grow personally?", "Do you actively seek out classes or activities that expand your worldview?"], early_career: ["How important is it for you to continuously learn and improve your skills at work?", "How much do you enjoy taking on new challenges that push you out of your comfort zone?", "Do you actively seek out professional development opportunities?"], mid_career: ["How important is it for you to continue growing and expanding your expertise?", "How much do you enjoy taking on a new challenge that allows you to develop as a leader?", "Do you actively seek out new skills or knowledge to stay current in your field?"], late_career: ["How important is it for you to remain a lifelong learner?", "How much do you enjoy teaching others what you have learned over your career?", "Do you actively seek out new hobbies or interests to keep your mind sharp?"], retirement: ["How important is it for you to continue learning and growing as a person?", "How much do you enjoy taking on new projects or hobbies that challenge you?", "Do you actively seek out new information to stay curious about the world?"] } },
+            { name: "Security & Stability", notes: "You need a safe and predictable life. This value makes you want to have a secure home, financial stability, and a reliable routine so you can have peace of mind.", manifests: "This value shows up when you prioritize having a steady routine, feel uncomfortable with sudden changes, and want to know that you can count on a secure future. It's the foundation of your desire for a safe and calm life.", questions: { teens: ["How important is it to feel safe and secure at school and at home?", "How much do you worry about having enough money for the things you want to do in the future?", "How important is having a steady, predictable routine in your life?"], college: ["How important is it to feel financially stable and secure?", "How much do you worry about having a stable job after graduation?", "How important is a predictable routine to your peace of mind?"], early_career: ["How important is it to feel secure in your job and have a stable income?", "How much do you worry about financial stability and saving for the future?", "How important is having a predictable routine to manage your work and personal life?"], mid_career: ["How important is it to feel financially secure and stable for your family's future?", "How much do you worry about having a stable career that will last?", "How important is a predictable routine for managing your responsibilities?"], late_career: ["How important is it to feel financially secure as you approach retirement?", "How much do you worry about having enough savings to live comfortably after you stop working?", "How important is a stable routine for your peace of mind?"], retirement: ["How important is it to feel financially secure in your retirement?", "How much do you worry about having enough to cover future healthcare or living expenses?", "How important is a predictable routine for your daily life?"] } },
+            { name: "Creativity & Innovation", notes: "You love to express yourself through original ideas and new ways of thinking. This value is all about creating things, finding unique solutions, and thinking outside the box.", manifests: "This value is a big part of who you are. It shows up when you choose art or music electives, enjoy coming up with fresh ideas for school projects, or find new ways to solve problems. It can guide you toward future careers in design, writing, or technology.", questions: { teens: ["How important is it for you to express yourself through things like art, music, or writing?", "Do you enjoy coming up with new and original ideas?", "How much do you like finding new and different ways to solve problems?"], college: ["How important is it for you to be creative in your class projects and assignments?", "Do you enjoy coming up with fresh, original ideas?", "How much do you like finding new and innovative solutions to problems?"], early_career: ["How important is it for you to have a creative outlet at work or in your free time?", "Do you enjoy coming up with new ideas or ways to improve processes at work?", "How much do you like finding innovative solutions to professional challenges?"], mid_career: ["How important is it for you to find new and innovative ways to lead your team?", "Do you enjoy coming up with fresh ideas to solve long-standing problems?", "How much do you value finding innovative solutions that make a real impact?"], late_career: ["How important is it for you to still be creative and innovative in your work?", "Do you enjoy mentoring younger colleagues to help them think more creatively?", "How much do you value finding new ways to approach challenges in your life?"], retirement: ["How important is it for you to express your creativity through hobbies?", "Do you enjoy coming up with new ideas for personal projects or community events?", "How much do you like finding innovative ways to approach life after work?"] } },
+            { name: "Purpose & Meaning", notes: "You need to feel like your life has a direction and a bigger reason for being. This value motivates you to find activities and goals that feel important and worthwhile to you.", manifests: "This value shows up when you feel a strong need for your actions to have a positive impact. It's what drives you to volunteer for a cause, choose a career that helps others, and think about the legacy you want to leave.", questions: { teens: ["How important is it for you to feel like your life has a purpose?", "How much do you want your schoolwork or hobbies to feel meaningful and important?", "Do you often think about what you want to accomplish that's bigger than yourself?"], college: ["How important is it that your life has a clear purpose?", "How much do you want your academic and career choices to have a positive impact?", "Do you often think about what legacy you want to leave behind?"], early_career: ["How important is it for your work to feel meaningful and purposeful?", "How much do you want your job to have a positive impact on the world?", "Do you often think about the purpose behind your career path?"], mid_career: ["How important is it that your work contributes to something bigger than yourself?", "How much do you want your career to feel purposeful and fulfilling?", "Do you often think about the legacy you are building?"], late_career: ["How important is it that your career has had a meaningful impact on others?", "How much do you want to feel that your work has been worthwhile?", "Do you often think about how you will continue to find purpose after retirement?"], retirement: ["How important is it for you to feel like your life has had a purpose?", "How much do you want your retirement to be a time of meaningful activity?", "Do you often think about how you can continue to have a positive impact on your community?"] } },
+            { name: "Respect", notes: "You believe that everyone has worth and should be treated with dignity. This value guides you to be courteous to others and to appreciate different viewpoints and personal boundaries.", manifests: "You demonstrate this value by treating everyone with dignity, even when you disagree with them. It shows up in your friendships by honoring boundaries and in your daily interactions by listening to others' opinions.", questions: { teens: ["How important is it to treat others with kindness, even if you disagree with them?", "How much do you value having your own opinions and ideas respected by others?", "How important is it for people to respect each other's differences?"], college: ["How important is it for you to treat everyone on campus with respect, regardless of their background?", "How much do you value professors who respect your opinions, even if they differ from theirs?", "How important is it to you that people in groups respect each other's ideas?"], early_career: ["How important is it for you to treat all colleagues with respect, regardless of their role?", "How much do you value a workplace where different ideas and perspectives are respected?", "How important is it that you have a respectful working relationship with your manager?"], mid_career: ["How important is it for you to create a culture of respect within your team or department?", "How much do you value working in an environment where people from all backgrounds are respected?", "How important is it for you to be a respectful leader who listens to others?"], late_career: ["How important is it for you to treat younger colleagues with respect and dignity?", "How much do you value being in a community where diverse viewpoints are respected?", "How important is it to you that you are a role model for respect?"], retirement: ["How important is it for you to treat others with respect in all your interactions?", "How much do you value being in a community where people respect each other's differences?", "How important is it for you to feel respected by your family and friends?"] } },
+            { name: "Loyalty & Trust", notes: "You value being committed to others and being able to rely on them completely. This value is key to building deep, lasting friendships and feeling secure in your relationships.", manifests: "This value shows up in your life through your strong commitments to friends and family. It’s what makes you a reliable person and why you expect the same from others, forming the basis of your closest relationships.", questions: { teens: ["How important is it to be loyal to your friends and not talk about them behind their backs?", "Do you think it's important to be someone your friends can always count on?", "How much do you value having friends who are reliable and trustworthy?"], college: ["How important is it to be loyal to your friends and stand by them?", "Do you think it's important to be a trustworthy and reliable friend or roommate?", "How much do you value having friends you can confide in?"], early_career: ["How important is it for you to be loyal to your team and company?", "Do you think it's important to be a trustworthy and reliable colleague?", "How much do you value having a boss you can trust?"], mid_career: ["How important is it for you to be a loyal and trustworthy leader?", "Do you think it's important to build trust with your team and colleagues?", "How much do you value having a strong sense of loyalty with your close friends and family?"], late_career: ["How important is it for you to be seen as a loyal and trusted mentor?", "Do you think it's important to be a source of trust for your family and close friends?", "How much do you value the loyalty of those who have been with you for many years?"], retirement: ["How important is it for you to have the trust and loyalty of your family and friends?", "Do you think it's important to be a reliable and trustworthy person in your community?", "How much do you value having lifelong friendships based on trust?"] } },
+            { name: "Accountability & Responsibility", notes: "You believe in taking ownership of your actions and commitments. This value is all about being reliable, dependable, and building trust with the people around you.", manifests: "You live this value by owning up to your mistakes and making sure to follow through on your promises. It’s what makes you a dependable person in group projects or a leader people can count on.", questions: { teens: ["How important is it for people to own up to their mistakes?", "How much do you hold yourself responsible for the promises you make?", "Do you expect people in leadership roles (like a team captain or a class president) to be responsible?"], college: ["How important is it for you to take responsibility for your academic work?", "How much do you hold yourself accountable for your commitments to clubs or projects?", "Do you expect your professors and school administration to be responsible and transparent?"], early_career: ["How important is it for you to take ownership of your work and commitments?", "How much do you hold yourself accountable for the results of your projects?", "Do you expect your company and managers to be responsible?"], mid_career: ["How important is it for you to be a responsible and accountable leader?", "How much do you hold yourself accountable for the success and failure of your team?", "Do you expect your company to take responsibility for its impact on the community?"], late_career: ["How important is it for you to model accountability for younger colleagues?", "How much do you feel responsible for the success of your team or project?", "Do you expect leaders in your industry to be accountable for their actions?"], retirement: ["How important is it for you to remain responsible for your family and community?", "How much do you hold yourself accountable for your own health and well-being?", "Do you expect your community leaders to be accountable for their decisions?"] } },
+            { name: "Gratitude & Appreciation", notes: "You focus on and are thankful for the good things in your life. This value helps you build strong relationships and stay positive by recognizing the good around you.", manifests: "This value shows up when you say thank you to people who have helped you and when you take a moment to appreciate the good things you have. It makes you a more positive person and strengthens your relationships.", questions: { teens: ["How important is it to thank people who have helped you?", "How much do you appreciate what you have in your life, big and small?", "How often do you think about the things you are thankful for?"], college: ["How important is it for you to show appreciation to your friends and family?", "How much do you appreciate the opportunities you have in college?", "How often do you take a moment to be grateful for the good things in your life?"], early_career: ["How important is it for you to show appreciation to your colleagues and boss?", "How much do you appreciate the opportunities you have in your career?", "How often do you take a moment to be grateful for what you have?"], mid_career: ["How important is it for you to show gratitude to your team and mentors?", "How much do you appreciate the career and life you have built?", "How often do you pause to reflect on the good things you have?"], late_career: ["How important is it for you to show appreciation to your friends and family?", "How much do you appreciate the experiences you have had in your career?", "How often do you think about the things you are thankful for in your life?"], retirement: ["How important is it for you to show gratitude to your family and friends?", "How much do you appreciate the memories and experiences you have had?", "How often do you reflect on the good things in your life?"] } },
+            { name: "Stewardship & Sustainability", notes: "You feel a responsibility to take care of the environment for future generations. This value guides you to make choices that are good for the planet, like recycling or saving energy.", manifests: "You live this value when you make small choices like recycling or saving water, and when you support causes that protect the planet. It’s what makes you care about how your actions today will affect the world tomorrow.", questions: { teens: ["How important is it for you to protect the environment?", "How much do you value making choices that help the planet, like recycling or saving water?", "How much do you think about how your actions today will affect the future?"], college: ["How important is it for you to learn about and support environmental sustainability?", "How much do you value making choices that are eco-friendly?", "How much do you think about the long-term impact of your consumption habits?"], early_career: ["How important is it for you to work for a company that is environmentally responsible?", "How much do you value making personal choices that support sustainability?", "How much do you think about the impact of your lifestyle on the planet?"], mid_career: ["How important is it that your company or industry is sustainable?", "How much do you value making choices that protect the environment for future generations?", "How much do you think about the impact your family's choices have on the planet?"], late_career: ["How important is it for you to leave a positive environmental legacy?", "How much do you value supporting causes that promote sustainability?", "How much do you think about how to reduce your environmental footprint?"], retirement: ["How important is it for you to be a good steward of the environment?", "How much do you value making choices that help preserve nature?", "How much do you think about the world you will leave for future generations?"] } },
+            { name: "Excellence & Mastery", notes: "You're driven to be the best you can be. This value is about setting high standards for yourself, working hard to become an expert, and taking pride in the quality of your work.", manifests: "This value shows up when you work hard to get a top grade, spend hours practicing for a game or recital, and feel a deep sense of satisfaction when you master a new skill. It's what pushes you to excel.", questions: { teens: ["How important is it for you to do your best and strive for excellence?", "How much do you value becoming really good at something you care about?", "Do you set high standards for yourself in your schoolwork, sports, or hobbies?"], college: ["How important is it for you to strive for excellence in your academics?", "How much do you value becoming an expert in your chosen field of study?", "Do you set high standards for yourself in your classes and extracurriculars?"], early_career: ["How important is it for you to strive for excellence in your professional life?", "How much do you value becoming an expert in your role or industry?", "Do you set high standards for the quality of your work?"], mid_career: ["How important is it for you to be known for your excellence and expertise?", "How much do you value becoming a true master of your craft?", "Do you set high standards for yourself and your team?"], late_career: ["How important is it for you to maintain a high level of excellence?", "How much do you value being a respected expert and mentor in your field?", "How important is it for your life's work to be an example of quality and dedication?"], retirement: ["How important is it for you to maintain a sense of personal excellence?", "How much do you value becoming an expert in a new hobby or area of interest?", "Do you set high standards for yourself in your personal projects?"] } }
         ];
 
         const triggerExamples = {
-            "Fairness & Justice": {
-                teens: { upset: "Seeing a friend get an unfair grade because the teacher plays favorites.", happy: "Watching a team win because they followed the rules and worked together." },
-                college: { upset: "Finding out a professor graded a group project unfairly based on a personal bias.", happy: "Working with a team where everyone's contributions are valued equally." },
-                early_career: { upset: "Realizing that promotions are not based on merit, but on favoritism.", happy: "Working in a company with transparent and equitable hiring practices." },
-                mid_career: { upset: "Seeing a colleague discriminated against in a hiring or promotion process.", happy: "Leading a project where every team member is given a fair chance to succeed." },
-                late_career: { upset: "Hearing about an unfair policy that negatively impacts younger colleagues.", happy: "Advocating for a community initiative that provides equal opportunities for everyone." },
-                retirement: { upset: "Seeing social policies that unfairly impact vulnerable members of society.", happy: "Supporting a local cause that promotes equality and justice for all." }
-            },
-            "Integrity & Honesty": {
-                teens: { upset: "Finding out a friend has been talking about you behind your back.", happy: "Having a tough conversation with a friend that ends up making your trust in them even stronger." },
-                college: { upset: "Discovering a classmate cheated on a project or exam.", happy: "Being able to openly admit a mistake in a class presentation and still have the respect of your peers." },
-                early_career: { upset: "A colleague taking credit for your work or misrepresenting a project's status.", happy: "Working for a company that is transparent and honest with its employees and clients." },
-                mid_career: { upset: "Working in a company where leaders are not honest about business challenges.", happy: "Mentoring a junior colleague and modeling what it means to be a person of your word." },
-                late_career: { upset: "Seeing a trusted business partner act unethically for personal gain.", happy: "Being known as an ethical and honest leader in your industry." },
-                retirement: { upset: "Seeing public figures or companies act with a lack of integrity.", happy: "Being able to look back on a life lived with honesty and strong moral principles." }
-            },
-            "Connection & Belonging": {
-                teens: { upset: "Feeling left out when your friends make plans without you.", happy: "Laughing with your best friends at a sleepover or feeling like you're a real part of a school club." },
-                college: { upset: "Feeling like you don't fit in with your roommate or a club you joined.", happy: "Finding a close-knit group of friends who truly accept you for who you are." },
-                early_career: { upset: "Feeling isolated from your team or not being invited to social events.", happy: "Building strong, supportive friendships with your colleagues at work." },
-                mid_career: { upset: "Feeling disconnected from your spouse or children due to work demands.", happy: "Hosting a dinner party with close friends and family, and feeling a strong sense of community." },
-                late_career: { upset: "Feeling disconnected from family or long-time friends.", happy: "Organizing a reunion or get-together with people you've been close to for years." },
-                retirement: { upset: "Feeling lonely after moving or retiring from a career you loved.", happy: "Joining a community group and feeling a strong sense of purpose and belonging." }
-            },
-            "Autonomy & Freedom": {
-                teens: { upset: "Being told exactly what to wear or how to do a school project, leaving no room for your own ideas.", happy: "Getting to choose your own elective classes or having the freedom to pursue a passion project on your own." },
-                college: { upset: "Being micromanaged by a professor or a boss at a part-time job.", happy: "Creating your own schedule and having the freedom to explore different academic interests." },
-                early_career: { upset: "A manager constantly checking in on your work and telling you how to do it.", happy: "Being trusted to work independently on a project and manage your own time." },
-                mid_career: { upset: "Being constrained by rigid corporate rules that stifle innovation.", happy: "Having the freedom to shape your team's strategy and make key decisions on your own." },
-                late_career: { upset: "Feeling like you no longer have control over your life decisions.", happy: "Having the financial freedom to choose your own projects and volunteer work." },
-                retirement: { upset: "Being told by others how you should spend your retirement.", happy: "Enjoying the freedom to pursue hobbies and travel on your own terms." }
-            },
-            "Compassion & Empathy": {
-                teens: { upset: "Seeing someone being bullied and feeling helpless to stop it.", happy: "Standing up for someone being picked on or raising money for a cause you care about." },
-                college: { upset: "Seeing a classmate struggle with mental health, and no one offers support.", happy: "Volunteering for a campus charity or being a supportive friend to someone going through a tough time." },
-                early_career: { upset: "Working for a company that doesn't care about its employees' well-being.", happy: "Mentoring a junior colleague and helping them navigate a difficult time." },
-                mid_career: { upset: "Seeing a leader who lacks empathy for their team's struggles.", happy: "Creating a supportive and compassionate team culture." },
-                late_career: { upset: "Seeing others ignore social issues and injustices.", happy: "Using your expertise to help a non-profit organization." },
-                retirement: { upset: "Hearing about a hardship faced by a family member and feeling helpless.", happy: "Spending time volunteering or donating to a cause that helps those in need." }
-            },
-            "Achievement & Competence": {
-                teens: { upset: "Putting in a ton of effort on a test and still failing.", happy: "Finally getting an 'A' on a really hard test or winning a big game after all your practice." },
-                college: { upset: "Not making the grade you wanted in a difficult class, despite your hard work.", happy: "Earning a top spot in a competitive internship or winning an academic award." },
-                early_career: { upset: "Feeling like your hard work is not recognized or valued by your employer.", happy: "Getting a promotion or a bonus for a project you led to success." },
-                mid_career: { upset: "A project you led failing to meet its goals.", happy: "Successfully leading a team to achieve a difficult target or launching a successful product." },
-                late_career: { upset: "Not being able to pass on your knowledge and expertise to others.", happy: "Receiving an industry award or recognition for a lifetime of work." },
-                retirement: { upset: "Feeling like you are no longer productive or needed.", happy: "Mastering a new hobby like painting or gardening and creating something you are proud of." }
-            },
-            "Growth & Learning": {
-                teens: { upset: "Having a boring class where you don't learn anything new.", happy: "Mastering a new instrument, learning a complex coding skill, or finally understanding a difficult subject." },
-                college: { upset: "Taking classes that are easy but don't challenge you to think critically.", happy: "Attending a workshop or conference that teaches you a new skill or changes your perspective." },
-                early_career: { upset: "A job that has you doing the same thing every day with no chance to learn.", happy: "Being given a new project that requires you to learn new skills and think creatively." },
-                mid_career: { upset: "Feeling like you've reached a plateau in your career.", happy: "Taking on a new leadership challenge or getting a certification in a new area." },
-                late_career: { upset: "Feeling like your knowledge is becoming outdated.", happy: "Mentoring younger colleagues and learning new things from them." },
-                retirement: { upset: "Having too much free time and no desire to learn new things.", happy: "Taking a class at a local college or learning a new skill through online tutorials." }
-            },
-            "Security & Stability": {
-                teens: { upset: "Worrying about money, or having a big fight at home that makes things feel unstable.", happy: "Having a stable friend group you know will always be there." },
-                college: { upset: "Feeling stressed about student loans or not knowing what to do after graduation.", happy: "Getting a stable part-time job or having a clear plan for your future." },
-                early_career: { upset: "Worrying about getting laid off or not being able to pay your bills.", happy: "Building a savings account and having a steady, predictable routine." },
-                mid_career: { upset: "Having a sudden financial setback or a major career change you didn't plan for.", happy: "Feeling financially secure enough to provide for your family's future." },
-                late_career: { upset: "Worrying about whether you have enough money to retire comfortably.", happy: "Knowing you have a solid financial plan and can live a comfortable retirement." },
-                retirement: { upset: "Worrying about the cost of living or unexpected health issues.", happy: "Having a predictable routine and knowing your financial needs are met." }
-            },
-            "Creativity & Innovation": {
-                teens: { upset: "Being forced to write a report with no room for personal expression.", happy: "Writing an amazing song, creating a cool piece of art, or coming up with a clever solution for a school problem." },
-                college: { upset: "Being stuck with a rigid assignment that doesn't allow for creative thinking.", happy: "Coming up with a unique idea for a project that gets a great response from your professor and peers." },
-                early_career: { upset: "A job that has you following a strict script with no room for new ideas.", happy: "Successfully pitching a new idea to your manager and getting to lead its development." },
-                mid_career: { upset: "A company culture that stifles new ideas and is resistant to change.", happy: "Leading a team that's praised for its innovative approach to a long-standing problem." },
-                late_career: { upset: "Feeling like your ideas are no longer valued because of your age.", happy: "Mentoring a younger colleague and helping them think more creatively about a problem." },
-                retirement: { upset: "Having no outlet for your creative energy.", happy: "Pursuing a new hobby like woodworking, painting, or writing a memoir." }
-            },
-            "Purpose & Meaning": {
-                teens: { upset: "Feeling like what you do in school doesn't matter.", happy: "Volunteering for a cause you believe in or starting a project that helps your community." },
-                college: { upset: "Feeling disconnected from your academic path, questioning its purpose.", happy: "Choosing a major that aligns with your passions and has a clear positive impact on the world." },
-                early_career: { upset: "A job that feels like 'just a paycheck' with no greater purpose.", happy: "Working for a company with a strong mission you believe in, or volunteering your time for a cause." },
-                mid_career: { upset: "Feeling unfulfilled in your career despite professional success.", happy: "Taking on a role that has a positive impact on others or starting a side project with a social mission." },
-                late_career: { upset: "Worrying that your career has not had a lasting impact.", happy: "Mentoring a new generation of leaders and seeing them thrive." },
-                retirement: { upset: "Feeling like you no longer have a purpose after retiring.", happy: "Volunteering in your community or starting a project that gives back to others." }
-            },
-            "Respect": {
-                teens: { upset: "Someone making fun of your clothing or your beliefs.", happy: "A teacher listening carefully to your opinion in class, even if they don't agree with you." },
-                college: { upset: "Being interrupted or dismissed in a group discussion by a classmate.", happy: "Working with a diverse group of people where everyone's unique perspective is valued." },
-                early_career: { upset: "A manager who talks down to you or ignores your feedback.", happy: "Having a respectful working relationship where your manager trusts your judgment." },
-                mid_career: { upset: "Working in an environment where colleagues are not inclusive of different opinions.", happy: "Leading a team that fosters open dialogue and mutual respect." },
-                late_career: { upset: "Feeling like your years of experience are not respected by younger colleagues.", happy: "Serving as a mentor and having your advice and wisdom genuinely valued." },
-                retirement: { upset: "Being treated as if you are out of touch or your opinions don't matter.", happy: "Having your family and community come to you for advice and guidance." }
-            },
-            "Loyalty & Trust": {
-                teens: { upset: "A close friend telling your secret to others.", happy: "Having a friend stand by you when you're in a tough situation, even if it's not popular." },
-                college: { upset: "A roommate sharing your private information with others.", happy: "Building a close-knit group of friends you can confide in and trust completely." },
-                early_career: { upset: "A colleague betraying your trust for their own career advancement.", happy: "Working with a team you know you can rely on and trust to have your back." },
-                mid_career: { upset: "Finding out a close friend or colleague has been disloyal.", happy: "Having a few trusted friends and family members you know you can always count on." },
-                late_career: { upset: "Seeing an organization break its promises to its employees or customers.", happy: "Being known as a person of your word, building a reputation of trust." },
-                retirement: { upset: "Having a long-time friend or family member betray your trust.", happy: "Having lifelong friendships and family ties built on a foundation of deep trust." }
-            },
-            "Accountability & Responsibility": {
-                teens: { upset: "When a group project fails because one person didn't do their part and then blamed everyone else.", happy: "Successfully completing a challenging project you were in charge of." },
-                college: { upset: "A group member failing to do their work, jeopardizing the whole project.", happy: "Getting a great grade on a project because you took ownership and made sure everyone followed through." },
-                early_career: { upset: "A manager who blames their team for their own mistakes.", happy: "Being given responsibility for an important project and being trusted to see it through." },
-                mid_career: { upset: "Working with colleagues who constantly pass the buck and avoid accountability.", happy: "Successfully leading a team and holding yourself and others responsible for achieving goals." },
-                late_career: { upset: "A leader in your industry not taking responsibility for their actions.", happy: "Mentoring a junior colleague on the importance of taking ownership and being reliable." },
-                retirement: { upset: "Feeling like a political leader is not taking responsibility for their actions.", happy: "Taking on a leadership role in your community and being a dependable resource." }
-            },
-            "Gratitude & Appreciation": {
-                teens: { upset: "Working hard on a presentation and not getting any credit for your effort.", happy: "Getting a heartfelt thank you from a friend or teacher." },
-                college: { upset: "A professor not acknowledging the effort you put into a difficult paper.", happy: "Feeling a sense of gratitude for your friends and the opportunities you have in college." },
-                early_career: { upset: "Working hard on a project, but your manager never acknowledges your contribution.", happy: "Being thanked by a client or manager for going the extra mile on a project." },
-                mid_career: { upset: "Feeling unappreciated by your team or family.", happy: "Taking a moment to appreciate the career and life you have built." },
-                late_career: { upset: "Feeling like your years of hard work have gone unappreciated.", happy: "Receiving a heartfelt thank you from a mentee or colleague." },
-                retirement: { upset: "Feeling that people have taken your contributions for granted.", happy: "Reflecting on your life and feeling a deep sense of gratitude for the people and experiences you've had." }
-            },
-            "Stewardship & Sustainability": {
-                teens: { upset: "Seeing people litter or hearing about an oil spill that hurts animals.", happy: "Participating in a school clean-up day or successfully convincing your family to start recycling." },
-                college: { upset: "Seeing your campus waste a lot of resources with no environmental initiatives.", happy: "Joining a campus environmental club and helping to organize a sustainable event." },
-                early_career: { upset: "Working for a company that is not environmentally conscious.", happy: "Supporting a local environmental charity or making a commitment to reduce your own carbon footprint." },
-                mid_career: { upset: "Seeing your company make a decision that harms the environment.", happy: "Leading a team that implements a new eco-friendly policy or product at your company." },
-                late_career: { upset: "Worrying about the state of the planet for your children and grandchildren.", happy: "Volunteering for a conservation group or supporting a local park." },
-                retirement: { upset: "Seeing a local natural area being developed without concern for the ecosystem.", happy: "Helping to start a community garden or supporting local conservation efforts." }
-            },
-            "Excellence & Mastery": {
-                teens: { upset: "Getting a low grade on a project you didn't put effort into, or seeing a sports team not try their best.", happy: "Getting a perfect score on a test, hitting a game-winning shot in basketball, or creating a piece of work you're truly proud of." },
-                college: { upset: "Doing poorly in a subject you used to excel at.", happy: "Becoming a master of a new skill or receiving a high honor for your academic performance." },
-                early_career: { upset: "Making a critical error at work that shows a lack of attention to detail.", happy: "Successfully completing a difficult task that no one else could figure out." },
-                mid_career: { upset: "Feeling like you're no longer at the top of your game.", happy: "Being recognized as a leader and expert in your field by your peers." },
-                late_career: { upset: "Seeing a project you oversaw fail due to poor execution.", happy: "Receiving an award for your life's work or becoming a highly sought-after mentor." },
-                retirement: { upset: "Feeling like you've lost your edge or skills from your career.", happy: "Becoming a master of a new hobby and taking pride in your new skills." }
-            }
-        };
-
-        const whatsNextAdvice = {
-            teens: `
-                <p>Now that you know your core values, how can you use them to plan for the future? Your values are a powerful compass for making decisions about your education, social life, and career goals.</p>
-                <p>To prepare for the next chapter of your life, consider these questions:</p>
-                <ul>
-                    <li>**College & Career:** Based on your top values like **${'TOP_VALUE_1'}** and **${'TOP_VALUE_2'}**, what college majors or career paths might be the most fulfilling for you? What high school clubs, courses, or volunteer work can you do now to build skills in that field and make your college application stand out?</li>
-                    <li>**Personal Growth:** How can you use your values, like **${'TOP_VALUE_1'}**, to choose a college or living environment that helps you grow as a person? Will a large university with many clubs or a small college with a tight-knit community better align with what's most important to you?</li>
-                    <li>**Building Relationships:** Your values are a guide for who you connect with. How can you find a community of friends in college and beyond who share your values and support your goals?</li>
-                </ul>
-                <p>This report is a tool to help you start thinking about your future with more intention and purpose. Use your values to make choices that feel right for you.</p>
-            `,
-            college: `
-                <p>As you transition from student to professional, your core values can help you build a career and a life that feels meaningful and successful. They can be your guideposts for making pivotal decisions.</p>
-                <p>To plan for the next chapter of your life, consider these questions:</p>
-                <ul>
-                    <li>**Career Path:** Based on your top values like **${'TOP_VALUE_1'}** and **${'TOP_VALUE_2'}**, what specific roles or industries should you explore? If **${'TOP_VALUE_1'}** is a top value, should you prioritize working for a company with a strong mission, or one that offers the freedom to build your own projects?</li>
-                    <li>**Living & Lifestyle:** What kind of lifestyle would best support your values? How much income will you need to feel stable and secure, or to pursue your passions outside of work? Should you live in a city that offers more opportunities for **${'TOP_VALUE_1'}**, or a smaller community that aligns with **${'TOP_VALUE_2'}**?</li>
-                    <li>**Academic Planning:** To achieve these goals, what skills and experiences do you need to build now? Are there specific courses, minors, or internships you can pursue to prepare you for a career that aligns with your values?</li>
-                </ul>
-                <p>This report is a tool to help you start thinking about your future with more intention and purpose. Use your values to make choices that feel right for you.</p>
-            `,
-            early_career: `
-                <p>Your core values are a key asset as you build your career and shape your life as a young professional. Now is the time to ensure your path is truly aligned with what matters most to you.</p>
-                <p>To prepare for the next chapter of your life, consider these questions:</p>
-                <ul>
-                    <li>**Mid-Career Goals:** How can you use your top values, like **${'TOP_VALUE_1'}** and **${'TOP_VALUE_2'}**, to shape your career in the coming years? Should you seek out leadership opportunities, pursue a new professional certification, or even consider a career change to better align with your values?</li>
-                    <li>**Work-Life Alignment:** How do your values influence your decisions about personal life milestones, such as buying a home, starting a family, or pursuing a major passion project? How can you create a better balance between your professional ambitions and your personal life?</li>
-                    <li>**Financial Stability:** Your values, especially a focus on **Security & Stability**, can guide your financial decisions. What steps can you take now to build a stronger financial foundation for your future, allowing you the freedom to make career choices based on passion, not just a paycheck?</li>
-                </ul>
-                <p>This report is a tool to help you start thinking about your future with more intention and purpose. Use your values to make choices that feel right for you.</p>
-            `,
-            mid_career: `
-                <p>Now that you have a solid foundation, your core values can help you find deeper meaning and satisfaction in your career and personal life. They can guide your legacy and help you make choices that matter most.</p>
-                <p>To prepare for the next chapter of your life, consider these questions:</p>
-                <ul>
-                    <li>**Leaving a Legacy:** How can you use your top values, like **${'TOP_VALUE_1'}** and **${'TOP_VALUE_2'}**, to define your professional legacy? What leadership roles or mentoring opportunities could allow you to pass on your wisdom and make a lasting impact that you're proud of?</li>
-                    <li>**Personal Fulfillment:** If you feel you're in a rut, revisit your values. Does your current role still align with what's important to you? Is there a new project, volunteer opportunity, or personal venture that would bring you a sense of purpose and fulfillment?</li>
-                    <li>**Long-Term Planning:** How do your values influence your planning for retirement? If **Autonomy & Freedom** is a key value, what steps can you take now to build the financial freedom to choose how you spend your time in retirement?</li>
-                </ul>
-                <p>This report is a tool to help you start thinking about your future with more intention and purpose. Use your values to make choices that feel right for you.</p>
-            `,
-            late_career: `
-                <p>As you look toward the final stages of your career, your core values can help you plan your future and reflect on your contributions. This is a time to focus on what you've built and what you still want to accomplish.</p>
-                <p>To prepare for the next chapter of your life, consider these questions:</p>
-                <ul>
-                    <li>**Retirement Planning:** How can you use your top values, like **${'TOP_VALUE_1'}** and **${'TOP_VALUE_2'}**, to design a retirement that is purposeful and meaningful? What new activities, hobbies, or community roles will fill the void left by work?</li>
-                    <li>**Mentorship:** Your experience is invaluable. How can you use your values to mentor younger colleagues or community members? If **Integrity & Honesty** is a top value, you can share the importance of building a career on trust. If **Excellence & Mastery** is key, you can teach others to take pride in the quality of their work.</li>
-                    <li>**Personal Legacy:** Reflect on your life's journey. What do you want your legacy to be? How can you continue to live your values, like **${'TOP_VALUE_1'}**, in a way that inspires your family and community?</li>
-                </ul>
-                <p>This report is a tool to help you start thinking about your future with more intention and purpose. Use your values to make choices that feel right for you.</p>
-            `,
-            retirement: `
-                <p>Retirement is a time to reflect on your life and embrace new opportunities. Your core values, which have guided you for a lifetime, can now help you find fulfillment in this new chapter.</p>
-                <p>To continue building a successful and fulfilling life, consider these questions:</p>
-                <ul>
-                    <li>**Finding New Purpose:** How can you use your top values, like **${'TOP_VALUE_1'}** and **${'TOP_VALUE_2'}**, to identify new meaningful projects or volunteer opportunities? What new ventures can you start that align with what is most important to you?</li>
-                    <li>**Ongoing Growth:** It's never too late for personal growth. If **Growth & Learning** is a top value, what new classes, skills, or hobbies can you pursue to keep your mind sharp and engaged?</li>
-                    <li>**Community & Connection:** How do you want to connect with your family and community in a way that reflects your core values? How can you use your wisdom and life experiences to continue to have a positive impact on others?</li>
-                </ul>
-                <p>This report is a tool to help you start thinking about your future with more intention and purpose. Use your values to make choices that feel right for you.</p>
-            `
+            "Fairness & Justice": { teens: { upset: "Feeling angry or frustrated when a friend gets an unfair grade because the teacher plays favorites.", happy: "Feeling happy and proud when you stand up for a friend who's being treated poorly and it makes a difference." }, college: { upset: "Feeling upset when a professor grades a group project unfairly based on personal bias.", happy: "Feeling a sense of satisfaction when you work with a team where everyone's contributions are valued equally." }, early_career: { upset: "Feeling frustrated and resentful when promotions are not based on merit, but on favoritism.", happy: "Feeling a sense of pride and belonging in a company with transparent and equitable hiring practices." }, mid_career: { upset: "Feeling angry and demoralized when a colleague is discriminated against in a hiring or promotion process.", happy: "Feeling a deep sense of purpose when you lead a project where every team member is given a fair chance to succeed." }, late_career: { upset: "Feeling disappointed or concerned about an unfair policy that negatively impacts younger colleagues.", happy: "Feeling fulfilled when you advocate for a community initiative that provides equal opportunities for everyone." }, retirement: { upset: "Feeling upset about social policies that unfairly impact vulnerable members of society.", happy: "Feeling a sense of purpose when you support a local cause that promotes equality and justice for all." } },
+            "Integrity & Honesty": { teens: { upset: "Feeling hurt and betrayed when you find out a friend has been talking about you behind your back.", happy: "Feeling a stronger sense of trust and security after having a tough but honest conversation with a friend." }, college: { upset: "Feeling a sense of betrayal when you discover a classmate cheated on a project or exam.", happy: "Feeling respected and trustworthy when you can openly admit a mistake in a class presentation and your peers still value your honesty." }, early_career: { upset: "Feeling angry and distrustful when a colleague takes credit for your work or misrepresents a project's status.", happy: "Feeling secure and valued when you work for a company that is transparent and honest with its employees and clients." }, mid_career: { upset: "Feeling demoralized when you work in a company where leaders are not honest about business challenges.", happy: "Feeling a sense of pride when you mentor a junior colleague and model what it means to be a person of your word." }, late_career: { upset: "Feeling disappointed when a trusted business partner acts unethically for personal gain.", happy: "Feeling a deep sense of satisfaction in being known as an ethical and honest leader in your industry." }, retirement: { upset: "Feeling a sense of disappointment when you see public figures or companies act with a lack of integrity.", happy: "Feeling a deep sense of peace and fulfillment when you can look back on a life lived with honesty and strong moral principles." } },
+            "Connection & Belonging": { teens: { upset: "Feeling lonely or left out when your friends make plans without you.", happy: "Feeling joy and acceptance when you're laughing with your best friends at a sleepover or feeling like you're a real part of a school club." }, college: { upset: "Feeling anxious or isolated when you feel you don't fit in with your roommate or a club you joined.", happy: "Feeling a sense of comfort and support when you find a close-knit group of friends who truly accept you for who you are." }, early_career: { upset: "Feeling isolated from your team or not being invited to social events.", happy: "Feeling a sense of community and support when you build strong, supportive friendships with your colleagues at work." }, mid_career: { upset: "Feeling guilty or disconnected from your spouse or children due to work demands.", happy: "Feeling a deep sense of joy and belonging when you host a dinner party with close friends and family." }, late_career: { upset: "Feeling a sense of sadness or isolation from family or long-time friends.", happy: "Feeling happy and connected when you organize a reunion or get-together with people you've been close to for years." }, retirement: { upset: "Feeling lonely and a loss of identity after retiring from a career you loved.", happy: "Feeling a sense of purpose and belonging when you join a community group and form new connections." } },
+            "Autonomy & Freedom": { teens: { upset: "Feeling frustrated or stifled when you're told exactly what to wear or how to do a school project, leaving no room for your own ideas.", happy: "Feeling a sense of pride and independence when you get to choose your own elective classes or pursue a passion project on your own." }, college: { upset: "Feeling annoyed or micromanaged by a professor or a boss at a part-time job.", happy: "Feeling empowered and in control when you can create your own schedule and explore different academic interests." }, early_career: { upset: "Feeling controlled and disrespected by a manager who constantly checks in on your work and tells you how to do it.", happy: "Feeling a sense of trust and responsibility when you are given the autonomy to work independently on a project and manage your own time." }, mid_career: { upset: "Feeling stifled and unmotivated by rigid corporate rules that stifle innovation.", happy: "Feeling a sense of ownership and excitement when you have the freedom to shape your team's strategy and make key decisions on your own." }, late_career: { upset: "Feeling a loss of control and independence over your life decisions.", happy: "Feeling a deep sense of satisfaction when you have the financial freedom to choose your own projects and volunteer work." }, retirement: { upset: "Feeling frustrated when others try to make your decisions for you.", happy: "Feeling a sense of peace and contentment when you have the freedom to pursue hobbies and travel on your own terms." } },
+            "Compassion & Empathy": { teens: { upset: "Feeling helpless or angry when you see someone being bullied and can't stop it.", happy: "Feeling a sense of kindness and pride when you stand up for someone being picked on or raise money for a cause you care about." }, college: { upset: "Feeling sad and concerned when you see a classmate struggle with mental health, and no one offers support.", happy: "Feeling a sense of fulfillment when you volunteer for a campus charity or are a supportive friend to someone going through a tough time." }, early_career: { upset: "Feeling morally conflicted when you work for a company that doesn't care about its employees' well-being.", happy: "Feeling a sense of purpose when you mentor a junior colleague and help them navigate a difficult time." }, mid_career: { upset: "Feeling frustrated with a leader who lacks empathy for their team's struggles.", happy: "Feeling a sense of pride when you create a supportive and compassionate team culture." }, late_career: { upset: "Feeling disappointed when others ignore social issues and injustices.", happy: "Feeling a sense of purpose when you use your expertise to help a non-profit organization." }, retirement: { upset: "Feeling helpless when you hear about a hardship faced by a family member.", happy: "Feeling a sense of joy and connection when you spend time volunteering or donating to a cause that helps those in need." } },
+            "Achievement & Competence": { teens: { upset: "Feeling frustrated when you put in a ton of effort on a test and still fail.", happy: "Feeling proud and accomplished when you finally get an 'A' on a really hard test or win a big game after all your practice." }, college: { upset: "Feeling demoralized when you don't make the grade you wanted in a difficult class, despite your hard work.", happy: "Feeling a sense of pride and competence when you earn a top spot in a competitive internship or win an academic award." }, early_career: { upset: "Feeling unmotivated and undervalued when your hard work is not recognized by your employer.", happy: "Feeling a sense of success and accomplishment when you get a promotion or a bonus for a project you led to success." }, mid_career: { upset: "Feeling disappointed or ashamed when a project you led fails to meet its goals.", happy: "Feeling a deep sense of pride when you successfully lead a team to achieve a difficult target or launch a successful product." }, late_career: { upset: "Feeling a loss of purpose or relevance when you can't pass on your knowledge and expertise to others.", happy: "Feeling a sense of honor when you receive an industry award or recognition for a lifetime of work." }, retirement: { upset: "Feeling a lack of purpose when you feel you are no longer productive or needed.", happy: "Feeling a sense of pride and accomplishment when you master a new hobby like painting or gardening and create something you're proud of." } },
+            "Growth & Learning": { teens: { upset: "Feeling bored and disengaged in a class where you don't learn anything new.", happy: "Feeling excited and proud when you master a new instrument, learn a complex coding skill, or finally understand a difficult subject." }, college: { upset: "Feeling unmotivated when you take classes that are easy but don't challenge you to think critically.", happy: "Feeling a sense of personal development when you attend a workshop or conference that teaches you a new skill or changes your perspective." }, early_career: { upset: "Feeling stagnant and bored in a job that has you doing the same thing every day with no chance to learn.", happy: "Feeling energized and motivated when you are given a new project that requires you to learn new skills and think creatively." }, mid_career: { upset: "Feeling invigorated when you take on a new leadership challenge or get a certification in a new area.", happy: "Feeling a sense of pride when you lead a team and foster a culture of continuous learning and improvement." }, late_career: { upset: "Feeling a sense of anxiety that your knowledge is becoming outdated.", happy: "Feeling a sense of purpose when you mentor younger colleagues and learn new things from them in the process." }, retirement: { upset: "Feeling restless or unfulfilled when you have too much free time and no desire to learn new things.", happy: "Feeling a sense of joy and intellectual engagement when you take a class at a local college or learn a new skill through online tutorials." } },
+            "Security & Stability": { teens: { upset: "Feeling anxious about money, or having a big fight at home that makes things feel unstable.", happy: "Feeling a sense of comfort and peace with a stable friend group you know will always be there." }, college: { upset: "Feeling stressed and anxious about student loans or not knowing what to do after graduation.", happy: "Feeling a sense of calm and relief when you get a stable part-time job or have a clear plan for your future." }, early_career: { upset: "Feeling anxious and worried about getting laid off or not being able to pay your bills.", happy: "Feeling a sense of peace and confidence when you build a savings account and have a steady, predictable routine." }, mid_career: { upset: "Feeling stressed and insecure after a sudden financial setback or a major career change you didn't plan for.", happy: "Feeling a deep sense of peace when you feel financially secure enough to provide for your family's future." }, late_career: { upset: "Feeling anxious and worried about whether you have enough money to retire comfortably.", happy: "Feeling a sense of security and confidence when you know you have a solid financial plan and can live a comfortable retirement." }, retirement: { upset: "Feeling stressed and worried about the cost of living or unexpected health issues.", happy: "Feeling a sense of peace and contentment with a predictable routine and knowing your financial needs are met." } },
+            "Creativity & Innovation": { teens: { upset: "Feeling bored and stifled when forced to write a report with no room for personal expression.", happy: "Feeling a sense of pride and inspiration when you write an amazing song, create a cool piece of art, or come up with a clever solution for a school problem." }, college: { upset: "Feeling unmotivated by a rigid assignment that doesn't allow for creative thinking.", happy: "Feeling a sense of accomplishment when you come up with a unique idea for a project that gets a great response from your professor and peers." }, early_career: { upset: "Feeling a sense of frustration in a job that has you following a strict script with no room for new ideas.", happy: "Feeling energized and valued when you successfully pitch a new idea to your manager and get to lead its development." }, mid_career: { upset: "Feeling stifled and uninspired by a company culture that is resistant to change.", happy: "Feeling a sense of pride and excitement when you lead a team that's praised for its innovative approach to a long-standing problem." }, late_career: { upset: "Feeling a sense of irrelevance when you feel your ideas are no longer valued because of your age.", happy: "Feeling a sense of purpose when you mentor a younger colleague and help them think more creatively about a problem." }, retirement: { upset: "Feeling restless and unfulfilled when you have no outlet for your creative energy.", happy: "Feeling a sense of joy and accomplishment when you pursue a new hobby like woodworking, painting, or writing a memoir." } },
+            "Purpose & Meaning": { teens: { upset: "Feeling like what you do in school doesn't matter or serve a greater purpose.", happy: "Feeling a sense of fulfillment when you volunteer for a cause you believe in or start a project that helps your community." }, college: { upset: "Feeling disconnected and unmotivated by your academic path, questioning its purpose.", happy: "Feeling a sense of direction and passion when you choose a major that aligns with your values and has a clear positive impact on the world." }, early_career: { upset: "Feeling a sense of emptiness in a job that feels like 'just a paycheck' with no greater purpose.", happy: "Feeling a deep sense of fulfillment when you work for a company with a strong mission you believe in, or volunteer your time for a cause." }, mid_career: { upset: "Feeling unfulfilled and questioning the meaning of your work, despite professional success.", happy: "Feeling a deep sense of purpose and pride when you take on a role that has a positive impact on others or start a side project with a social mission." }, late_career: { upset: "Feeling a sense of worry that your career has not had a lasting impact.", happy: "Feeling a sense of pride and fulfillment when you mentor a new generation of leaders and see them thrive." }, retirement: { upset: "Feeling a sense of emptiness and a loss of identity after retiring.", happy: "Feeling a deep sense of purpose and community when you volunteer or start a project that gives back to others." } },
+            "Respect": { teens: { upset: "Feeling hurt or angry when someone makes fun of your clothing or your beliefs.", happy: "Feeling heard and valued when a teacher listens carefully to your opinion in class, even if they don't agree with you." }, college: { upset: "Feeling ignored or disrespected when you are interrupted or dismissed in a group discussion by a classmate.", happy: "Feeling a sense of inclusion and collaboration when you work with a diverse group of people where everyone's unique perspective is valued." }, early_career: { upset: "Feeling unappreciated or disrespected by a manager who talks down to you or ignores your feedback.", happy: "Feeling a sense of trust and professionalism in a respectful working relationship where your manager trusts your judgment." }, mid_career: { upset: "Feeling frustrated in an environment where colleagues are not inclusive of different opinions.", happy: "Feeling a sense of pride and leadership when you create a team culture that fosters open dialogue and mutual respect." }, late_career: { upset: "Feeling a sense of irrelevance when you feel your years of experience are not respected by younger colleagues.", happy: "Feeling valued and wise when you serve as a mentor and have your advice and wisdom genuinely appreciated." }, retirement: { upset: "Feeling frustrated or angry when you're treated as if you are out of touch or your opinions don't matter.", happy: "Feeling a sense of honor and respect when your family and community come to you for advice and guidance." } },
+            "Loyalty & Trust": { teens: { upset: "Feeling betrayed and hurt when a close friend tells your secret to others.", happy: "Feeling a deep sense of security and friendship when a friend stands by you when you're in a tough situation, even if it's not popular." }, college: { upset: "Feeling a loss of trust and security when a roommate shares your private information with others.", happy: "Feeling a sense of belonging when you build a close-knit group of friends you can confide in and trust completely." }, early_career: { upset: "Feeling betrayed and angry when a colleague goes behind your back for their own career advancement.", happy: "Feeling a sense of safety and support when you work with a team you know you can rely on and trust to have your back." }, mid_career: { upset: "Feeling disappointed and hurt when a close friend or colleague has been disloyal.", happy: "Feeling a deep sense of gratitude and stability when you have a few trusted friends and family members you know you can always count on." }, late_career: { upset: "Feeling a sense of moral disappointment when an organization breaks its promises to its employees or customers.", happy: "Feeling a deep sense of pride when you are known as a person of your word, building a reputation of trust." }, retirement: { upset: "Feeling a deep sense of betrayal when a long-time friend or family member acts with a lack of loyalty.", happy: "Feeling a sense of peace and security in having lifelong friendships and family ties built on a foundation of deep trust." } },
+            "Accountability & Responsibility": { teens: { upset: "Feeling frustrated and angry when a group project fails because one person didn't do their part and then blamed everyone else.", happy: "Feeling a sense of pride and accomplishment when you successfully complete a challenging project you were in charge of." }, college: { upset: "Feeling angry when a group member fails to do their work, jeopardizing the whole project.", happy: "Feeling a sense of pride and responsibility when you get a great grade on a project because you took ownership and made sure everyone followed through." }, early_career: { upset: "Feeling frustrated and disrespected when a manager blames their team for their own mistakes.", happy: "Feeling a sense of trust and importance when you are given responsibility for an important project and are trusted to see it through." }, mid_career: { upset: "Feeling annoyed and resentful when you work with colleagues who constantly pass the buck and avoid accountability.", happy: "Feeling a deep sense of purpose and pride when you successfully lead a team and hold yourself and others responsible for achieving goals." }, late_career: { upset: "Feeling disappointed when a leader in your industry doesn't take responsibility for their actions.", happy: "Feeling a sense of pride and purpose when you model accountability for younger colleagues and see them learn from your example." }, retirement: { upset: "Feeling angry or frustrated when a community leader is not being held accountable for their decisions.", happy: "Feeling a sense of purpose and trust when you take on a leadership role in your community and are a dependable resource." } },
+            "Gratitude & Appreciation": { teens: { upset: "Feeling unappreciated and disappointed when you work hard on a presentation and don't get any credit for your effort.", happy: "Feeling happy and valued when you receive a heartfelt thank you from a friend or teacher." }, college: { upset: "Feeling unacknowledged when a professor doesn't recognize the effort you put into a difficult paper.", happy: "Feeling a sense of contentment and peace when you take a moment to be grateful for your friends and the opportunities you have in college." }, early_career: { upset: "Feeling unmotivated when you work hard on a project, but your manager never acknowledges your contribution.", happy: "Feeling a sense of pride and motivation when you are thanked by a client or manager for going the extra mile on a project." }, mid_career: { upset: "Feeling unappreciated and resentful by your team or family.", happy: "Feeling a deep sense of joy and contentment when you take a moment to appreciate the career and life you have built." }, late_career: { upset: "Feeling a sense of sadness that your years of hard work have gone unappreciated.", happy: "Feeling a deep sense of honor and satisfaction when you receive a heartfelt thank you from a mentee or colleague." }, retirement: { upset: "Feeling unappreciated when you feel that people have taken your contributions for granted.", happy: "Feeling a sense of peace and joy when you reflect on your life and feel a deep sense of gratitude for the people and experiences you've had." } },
+            "Stewardship & Sustainability": { teens: { upset: "Feeling angry or concerned when you see people litter or hear about an oil spill that hurts animals.", happy: "Feeling a sense of purpose and pride when you participate in a school clean-up day or successfully convince your family to start recycling." }, college: { upset: "Feeling frustrated when your campus wastes a lot of resources with no environmental initiatives.", happy: "Feeling a sense of accomplishment and community when you join a campus environmental club and help to organize a sustainable event." }, early_career: { upset: "Feeling conflicted or morally opposed to working for a company that is not environmentally conscious.", happy: "Feeling a sense of purpose and pride when you support a local environmental charity or make a commitment to reduce your own carbon footprint." }, mid_career: { upset: "Feeling concerned and disappointed when your company makes a decision that harms the environment.", happy: "Feeling a sense of purpose and leadership when you lead a team that implements a new eco-friendly policy or product at your company." }, late_career: { upset: "Feeling anxious and worried about the state of the planet for your children and grandchildren.", happy: "Feeling a sense of fulfillment and pride when you volunteer for a conservation group or support a local park." }, retirement: { upset: "Feeling a sense of helplessness when a local natural area is being developed without concern for the ecosystem.", happy: "Feeling a sense of purpose and legacy when you help to start a community garden or support local conservation efforts." } },
+            "Excellence & Mastery": { teens: { upset: "Feeling disappointed in yourself for getting a low grade on a project you didn't put effort into.", happy: "Feeling a sense of pride and accomplishment when you get a perfect score on a test, hit a game-winning shot in basketball, or create a piece of work you're truly proud of." }, college: { upset: "Feeling demoralized when you do poorly in a subject you used to excel at.", happy: "Feeling a deep sense of competence and mastery when you become an expert in a new skill or receive a high honor for your academic performance." }, early_career: { upset: "Feeling embarrassed and incompetent when you make a critical error at work that shows a lack of attention to detail.", happy: "Feeling a sense of confidence and pride when you successfully complete a difficult task that no one else could figure out." }, mid_career: { upset: "Feeling a loss of confidence when you feel like you're no longer at the top of your game.", happy: "Feeling a deep sense of honor and respect when you are recognized as a leader and expert in your field by your peers." }, late_career: { upset: "Feeling a sense of failure when a project you oversaw fails due to poor execution.", happy: "Feeling a deep sense of pride and fulfillment when you receive an award for your life's work or become a highly sought-after mentor." }, retirement: { upset: "Feeling a sense of frustration that you've lost your edge or skills from your career.", happy: "Feeling a sense of joy and accomplishment when you become a master of a new hobby and take pride in your new skills." } }
         };
 
         const personalityProfiles = {
-            "The Innovator": {
-                title: "The Innovator: A Curious and Creative Thinker",
-                description: "Your core values suggest a high degree of **Openness to Experience**. You are driven by curiosity, imagination, and a desire for novelty. You likely thrive in environments that challenge you to learn, grow, and think outside the box. You are a natural problem-solver who enjoys exploring new ideas and expressing yourself creatively."
-            },
-            "The Harmonizer": {
-                title: "The Harmonizer: A Compassionate and Cooperative Ally",
-                description: "Your core values point to a high degree of **Agreeableness**. You are empathetic, cooperative, and deeply concerned with the well-being of others. You likely excel at building relationships and creating a sense of community. You are driven by a strong moral compass and feel a need to ensure fairness and compassion in your interactions and the world around you."
-            },
-            "The Achiever": {
-                title: "The Achiever: A Disciplined and Reliable Force",
-                description: "Your core values indicate a high degree of **Conscientiousness**. You are organized, responsible, and highly motivated to succeed. You take pride in your work and hold yourself to a high standard of excellence. You are the person people can count on to follow through on commitments and to lead with a clear sense of purpose and direction."
-            },
-            "The Community Builder": {
-                title: "The Community Builder: A Loyal and Empathetic Leader",
-                description: "Your core values suggest a blend of **Agreeableness** and a desire for **Connection**. You are a strong advocate for your community and a loyal friend. You are motivated by a deep sense of empathy and a desire to build and maintain strong, trusting relationships. You feel a sense of purpose when you are helping others and fostering a positive and inclusive environment."
-            },
-            "The Purpose-Driven Leader": {
-                title: "The Purpose-Driven Leader: A Visionary with Integrity",
-                description: "Your values highlight a strong drive for **Purpose & Meaning** combined with **Integrity**. You are not just a leader; you are a visionary who seeks to make a lasting, positive impact. You are guided by a clear sense of right and wrong and are motivated by the desire to contribute to something bigger than yourself. You are likely an inspirational figure who earns trust by living your values."
-            },
-            "The Balanced Individual": {
-                title: "The Balanced Individual: A Well-Rounded and Adaptable Spirit",
-                description: "Your core values are a healthy mix of different traits. You likely possess a unique blend of empathy, a drive for achievement, and a desire for personal growth. This balance makes you highly adaptable, able to thrive in diverse situations, and capable of seeing things from multiple perspectives. You are a versatile individual who can connect with many different types of people and ideas."
-            },
-            "Default": {
-                title: "Your Personality Profile",
-                description: "Based on your responses, your top core values reflect a desire for purpose and a commitment to personal growth. This blend of traits suggests you are a thoughtful individual who is constantly striving to improve and find deeper meaning in your life."
-            }
+            "The Innovator": { title: "The Innovator: A Curious and Creative Thinker", description: "Your core values suggest a high degree of **Openness to Experience**. You are driven by curiosity, imagination, and a desire for novelty. You likely thrive in environments that challenge you to learn, grow, and think outside the box. You are a natural problem-solver who enjoys exploring new ideas and expressing yourself creatively." },
+            "The Harmonizer": { title: "The Harmonizer: A Compassionate and Cooperative Ally", description: "Your core values point to a high degree of **Agreeableness**. You are empathetic, cooperative, and deeply concerned with the well-being of others. You likely excel at building relationships and creating a sense of community. You are driven by a strong moral compass and feel a need to ensure fairness and compassion in your interactions and the world around you." },
+            "The Achiever": { title: "The Achiever: A Disciplined and Reliable Force", description: "Your core values indicate a high degree of **Conscientiousness**. You are organized, responsible, and highly motivated to succeed. You take pride in your work and hold yourself to a high standard of excellence. You are the person people can count on to follow through on commitments and to lead with a clear sense of purpose and direction." },
+            "The Community Builder": { title: "The Community Builder: A Loyal and Empathetic Leader", description: "Your core values suggest a blend of **Agreeableness** and a desire for **Connection**. You are a strong advocate for your community and a loyal friend. You are motivated by a deep sense of empathy and a desire to build and maintain strong, trusting relationships. You feel a sense of purpose when you are helping others and fostering a positive and inclusive environment." },
+            "The Purpose-Driven Leader": { title: "The Purpose-Driven Leader: A Visionary with Integrity", description: "Your values highlight a strong drive for **Purpose & Meaning** combined with **Integrity**. You are not just a leader; you are a visionary who seeks to make a lasting, positive impact. You are guided by a clear sense of right and wrong and are motivated by the desire to contribute to something bigger than yourself. You are likely an inspirational figure who earns trust by living your values." },
+            "The Balanced Individual": { title: "The Balanced Individual: A Well-Rounded and Adaptable Spirit", description: "Your core values are a healthy mix of different traits. You likely possess a unique blend of empathy, a drive for achievement, and a desire for personal growth. This balance makes you highly adaptable, able to thrive in diverse situations, and capable of seeing things from multiple perspectives. You are a versatile individual who can connect with many different types of people and ideas." },
+            "Default": { title: "Your Personality Profile", description: "Based on your responses, your top core values reflect a desire for purpose and a commitment to personal growth. This blend of traits suggests you are a thoughtful individual who is constantly striving to improve and find deeper meaning in your life." }
         };
+
+        const bigFiveQuestions = [
+            { trait: 'Openness to Experience', text: 'I have a vivid imagination.' },
+            { trait: 'Openness to Experience', text: 'I am interested in many different things.' },
+            { trait: 'Openness to Experience', text: 'I like to try new and different things.' },
+            { trait: 'Conscientiousness', text: 'I am always prepared.' },
+            { trait: 'Conscientiousness', text: 'I am a very organized person.' },
+            { trait: 'Conscientiousness', text: 'I pay close attention to details.' },
+            { trait: 'Extraversion', text: 'I am the life of the party.' },
+            { trait: 'Extraversion', text: 'I feel comfortable around people.' },
+            { trait: 'Extraversion', text: 'I start conversations easily.' },
+            { trait: 'Agreeableness', text: 'I am interested in people.' },
+            { trait: 'Agreeableness', text: 'I have a soft heart.' },
+            { trait: 'Agreeableness', text: 'I sympathize with others’ feelings.' },
+            { trait: 'Neuroticism', text: 'I get stressed out easily.' },
+            { trait: 'Neuroticism', text: 'I worry about things.' },
+            { trait: 'Neuroticism', text: 'I am easily disturbed.' }
+        ];
 
         let currentPage = 0;
         let responses = Array(valuesData.length).fill().map(() => Array(3).fill(3));
         let selectedAgeCategory = null;
 
+        let personalityPage = 0;
+        let personalityResponses = {};
+
         const quizContainer = document.getElementById('quiz');
         const reportContainer = document.getElementById('report');
-        const whatsNextPage = document.getElementById('whatsNextPage');
+        const personalityQuizContainer = document.getElementById('personalityQuiz');
+        const finalReportContainer = document.getElementById('finalReport');
         const pageContainer = document.getElementById('currentPage');
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
         const nextBtnReport = document.getElementById('nextBtnReport');
-        const backToReportBtn = document.getElementById('backToReport');
         const progressFill = document.getElementById('progressFill');
         const progressText = document.getElementById('progressText');
 
-        function updateProgressBar(page) {
+        const personalityPageContainer = document.getElementById('personalityPage');
+        const prevPersonalityBtn = document.getElementById('prevPersonalityBtn');
+        const nextPersonalityBtn = document.getElementById('nextPersonalityBtn');
+        const personalityProgressFill = document.getElementById('personalityProgressFill');
+        const personalityProgressText = document.getElementById('personalityProgressText');
+
+        function updateProgressBar(page, total, fillElement, textElement, prefix) {
             if (page === 0) {
-                progressFill.style.width = '0%';
-                progressText.textContent = `Starting the wizard...`;
+                fillElement.style.width = '0%';
+                textElement.textContent = `Starting the wizard...`;
             } else {
-                const progress = (page / valuesData.length) * 100;
-                progressFill.style.width = `${progress}%`;
-                progressText.textContent = `${page}/${valuesData.length} values completed`;
+                const progress = (page / total) * 100;
+                fillElement.style.width = `${progress}%`;
+                textElement.textContent = `${prefix} ${page}/${total} completed`;
             }
         }
 
@@ -815,7 +509,6 @@
                     </div>
                     <p class="intro-text">You'll see a series of values with a few questions to help you think about them. For each question, just use the slider to rate how important it is to you:</p>
                     <p class="intro-text"><strong>1 (Not important at all) to 5 (Extremely important)</strong></p>
-                    <p class="intro-text">At the end, you'll get a personalized report showing your top values and how they influence the way you feel. This can be a great way to understand yourself better and make choices that feel right for you.</p>
                     <p class="intro-text">Ready to get started? Click "Next"!</p>
                 `;
                 prevBtn.style.display = 'none';
@@ -849,7 +542,7 @@
                     </div>
                 `;
                 prevBtn.style.display = 'inline-block';
-                nextBtn.textContent = (page === valuesData.length) ? 'Show My Report' : 'Next';
+                nextBtn.textContent = (page === valuesData.length) ? 'Show My Values Report' : 'Next';
                 document.querySelectorAll('.slider').forEach(slider => {
                     const sliderValue = slider.nextElementSibling;
                     slider.addEventListener('input', (e) => {
@@ -868,7 +561,56 @@
             } else {
                 generateReport();
             }
-            updateProgressBar(page);
+            updateProgressBar(page, valuesData.length, progressFill, progressText, 'Values');
+        }
+
+        function showPersonalityPage(page) {
+            window.scrollTo(0, 0);
+
+            if (page === 0) {
+                 personalityPageContainer.innerHTML = `
+                    <h2>Your Personality Profile: The Big Five</h2>
+                    <p class="intro-text">Now that we've explored your core values, let's look at your personality. This section will help you understand your natural tendencies and behaviors using the **Big Five** personality model, the most respected scientific framework today.</p>
+                    <p class="intro-text">You'll see a series of statements. For each one, please use the slider to rate how accurately it describes you:</p>
+                    <p class="intro-text"><strong>1 (Strongly Disagree) to 5 (Strongly Agree)</strong></p>
+                    <p class="intro-text">This will provide a more complete picture of what drives you, allowing for a more accurate and helpful career report.</p>
+                `;
+                prevPersonalityBtn.style.display = 'none';
+                nextPersonalityBtn.textContent = 'Start Personality Quiz';
+            } else if (page <= bigFiveQuestions.length) {
+                const question = bigFiveQuestions[page - 1];
+                personalityPageContainer.innerHTML = `
+                    <div class="personality-page">
+                        <h2>Statement ${page} of ${bigFiveQuestions.length}</h2>
+                        <div class="question">
+                            <label>"${question.text}"</label>
+                            <div class="slider-container">
+                                <input type="range" min="1" max="5" value="${personalityResponses[page-1] || 3}" class="slider" data-question-index="${page-1}">
+                                <div class="slider-value" style="left: ${((personalityResponses[page-1] || 3) - 1) / 4 * 100}%;">${personalityResponses[page-1] || 3}</div>
+                                <div class="slider-labels">
+                                    <span>1 (Strongly Disagree)</span>
+                                    <span>5 (Strongly Agree)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                prevPersonalityBtn.style.display = 'inline-block';
+                nextPersonalityBtn.textContent = (page === bigFiveQuestions.length) ? 'Show My Final Report' : 'Next';
+                document.querySelectorAll('.slider').forEach(slider => {
+                    const sliderValue = slider.nextElementSibling;
+                    slider.addEventListener('input', (e) => {
+                        const value = e.target.value;
+                        const qIndex = parseInt(e.target.getAttribute('data-question-index'));
+                        personalityResponses[qIndex] = parseInt(value);
+                        sliderValue.textContent = value;
+                        sliderValue.style.left = `${((value - 1) / 4) * 100}%`;
+                    });
+                });
+            } else {
+                generateFinalReport();
+            }
+            updateProgressBar(page, bigFiveQuestions.length, personalityProgressFill, personalityProgressText, 'Personality');
         }
 
         function getTopValues(num) {
@@ -884,7 +626,7 @@
             return averageScores.slice(0, num);
         }
 
-        function getPersonalityProfile(topValues) {
+        function getPersonalityProfileText(topValues) {
             const topNames = topValues.map(v => v.name);
             if (topNames.includes("Creativity & Innovation") || topNames.includes("Growth & Learning")) {
                 if (topNames.includes("Autonomy & Freedom")) return personalityProfiles["The Innovator"];
@@ -904,7 +646,8 @@
         function generateReport() {
             quizContainer.style.display = 'none';
             reportContainer.style.display = 'block';
-            whatsNextPage.style.display = 'none';
+            personalityQuizContainer.style.display = 'none';
+            finalReportContainer.style.display = 'none';
             const topValues = getTopValues(5);
 
             const coreValuesHtml = `
@@ -915,7 +658,7 @@
             `;
             document.getElementById('coreValues').innerHTML = coreValuesHtml;
 
-            const personality = getPersonalityProfile(topValues);
+            const personality = getPersonalityProfileText(topValues);
             const personalityHtml = `
                 <h3>${personality.title}</h3>
                 <p>${personality.description}</p>
@@ -949,35 +692,157 @@
             document.getElementById('triggers').innerHTML = triggersHtml;
         }
 
-        function showWhatsNextPage() {
-            const topValues = getTopValues(5);
-            const topValue1Name = topValues[0].name;
-            const topValue2Name = topValues[1].name;
-            const adviceTemplate = whatsNextAdvice[selectedAgeCategory];
-
-            const populatedAdvice = adviceTemplate
-                .replace('${' + 'TOP_VALUE_1' + '}', topValue1Name)
-                .replace('${' + 'TOP_VALUE_2' + '}', topValue2Name);
-
-            document.getElementById('whatsNextAdvice').innerHTML = populatedAdvice;
-            reportContainer.style.display = 'none';
-            quizContainer.style.display = 'none';
-            whatsNextPage.style.display = 'block';
-            window.scrollTo(0, 0);
+        function calculateBigFiveScores() {
+            const scores = {
+                'Openness to Experience': 0,
+                'Conscientiousness': 0,
+                'Extraversion': 0,
+                'Agreeableness': 0,
+                'Neuroticism': 0
+            };
+            const counts = {
+                'Openness to Experience': 0,
+                'Conscientiousness': 0,
+                'Extraversion': 0,
+                'Agreeableness': 0,
+                'Neuroticism': 0
+            };
+            for (let i = 0; i < bigFiveQuestions.length; i++) {
+                const q = bigFiveQuestions[i];
+                const score = personalityResponses[i] || 3;
+                scores[q.trait] += score;
+                counts[q.trait] += 1;
+            }
+            const finalScores = {};
+            for (const trait in scores) {
+                finalScores[trait] = scores[trait] / counts[trait];
+            }
+            return finalScores;
         }
 
-        function showReportPage() {
-            whatsNextPage.style.display = 'none';
-            reportContainer.style.display = 'block';
-            window.scrollTo(0, 0);
+        function generateFinalReport() {
+            quizContainer.style.display = 'none';
+            reportContainer.style.display = 'none';
+            personalityQuizContainer.style.display = 'none';
+            finalReportContainer.style.display = 'block';
+
+            const topValues = getTopValues(3);
+            const personalityScores = calculateBigFiveScores();
+
+            // Section 1: Personality Profile
+            let personalityHtml = `
+                <h3>Your Big Five Personality Profile</h3>
+                <p>Your personality, measured by the scientifically validated Big Five model, provides a deeper understanding of your natural tendencies and behaviors.</p>
+            `;
+            for (const trait in personalityScores) {
+                const score = personalityScores[trait];
+                const percentage = ((score - 1) / 4) * 100;
+                let description = '';
+                if (trait === 'Openness to Experience') {
+                    description = `You are **${score > 3.5 ? 'highly' : (score < 2.5 ? 'less' : 'moderately')}** open to new experiences, creative ideas, and unconventional thinking.`;
+                } else if (trait === 'Conscientiousness') {
+                    description = `You are **${score > 3.5 ? 'highly' : (score < 2.5 ? 'less' : 'moderately')}** organized, disciplined, and goal-oriented.`;
+                } else if (trait === 'Extraversion') {
+                    description = `You are **${score > 3.5 ? 'highly' : (score < 2.5 ? 'less' : 'moderately')}** outgoing and energized by social situations.`;
+                } else if (trait === 'Agreeableness') {
+                    description = `You are **${score > 3.5 ? 'highly' : (score < 2.5 ? 'less' : 'moderately')}** compassionate, cooperative, and empathetic towards others.`;
+                } else if (trait === 'Neuroticism') {
+                    description = `You tend to be **${score > 3.5 ? 'more' : (score < 2.5 ? 'less' : 'moderately')}** emotionally reactive and sensitive to stress.`;
+                }
+                personalityHtml += `
+                    <div class="trait-score">
+                        <div class="label">${trait}</div>
+                        <div class="bar-container">
+                            <div class="bar-fill" style="width: ${percentage}%"></div>
+                        </div>
+                    </div>
+                    <p>${description}</p>
+                `;
+            }
+            document.getElementById('finalPersonalityProfile').innerHTML = personalityHtml;
+
+            // Section 2: Values + Personality
+            let comboHtml = `<h3>How Your Values & Personality Intersect</h3>`;
+            topValues.forEach(topValue => {
+                const valueName = topValue.name;
+                let insight = '';
+                if (valueName === 'Fairness & Justice') {
+                    insight = `Your focus on **${valueName}** combined with your personality suggests you are a natural advocate. With your sense of justice, you have the potential to excel in roles where you can fight for equality and make a positive impact.`;
+                } else if (valueName === 'Creativity & Innovation') {
+                    insight = `Your high valuation of **${valueName}** is amplified by your personality. You are a true visionary who not only generates new ideas but also has the traits to bring them to life.`;
+                } else if (valueName === 'Connection & Belonging') {
+                    insight = `Your core value of **${valueName}** is strengthened by your personality. This combination makes you a natural at building teams and fostering strong, trusting relationships.`;
+                } else if (valueName === 'Achievement & Competence') {
+                    insight = `Your drive for **${valueName}** is supported by your personality. You have the discipline and focus to achieve ambitious goals, and you're likely to take great pride in your accomplishments.`;
+                } else {
+                    insight = `Your core value of **${valueName}** is a powerful force. It combines with your personality traits to form a unique guide for your decisions and actions.`;
+                }
+                comboHtml += `<h4>**${valueName}**</h4><p>${insight}</p>`;
+            });
+            document.getElementById('valuesAndPersonality').innerHTML = comboHtml;
+
+            // Section 3: Career Recommendations
+            const recommendations = generateCareerRecommendations(topValues, personalityScores);
+            let recommendationsHtml = '<ul>';
+            recommendations.forEach(rec => {
+                recommendationsHtml += `<li>${rec}</li>`;
+            });
+            recommendationsHtml += '</ul>';
+            document.getElementById('careerRecommendations').innerHTML = recommendationsHtml;
+        }
+
+        function generateCareerRecommendations(topValues, personalityScores) {
+            const recommendations = new Set();
+            const topValueNames = topValues.map(v => v.name);
+            const openness = personalityScores['Openness to Experience'];
+            const conscientiousness = personalityScores['Conscientiousness'];
+            const extraversion = personalityScores['Extraversion'];
+            const agreeableness = personalityScores['Agreeableness'];
+
+            if (topValueNames.includes('Creativity & Innovation') && openness > 3.5) {
+                recommendations.add('Fields like Graphic Design, Software Development, or Marketing Strategy');
+            }
+            if (topValueNames.includes('Fairness & Justice') && agreeableness > 3.5) {
+                recommendations.add('Roles in Law, Human Resources, or Non-profit Management');
+            }
+            if (topValueNames.includes('Achievement & Competence') && conscientiousness > 3.5) {
+                recommendations.add('Careers in Engineering, Finance, or Project Management');
+            }
+            if (topValueNames.includes('Connection & Belonging') && extraversion > 3.5) {
+                recommendations.add('Jobs in Sales, Public Relations, or Team Leadership');
+            }
+            if (topValueNames.includes('Purpose & Meaning') && (agreeableness > 3.5 || openness > 3.5)) {
+                recommendations.add('Careers in Education, Healthcare, or Social Work');
+            }
+            if (topValueNames.includes('Autonomy & Freedom') && openness > 3.5) {
+                recommendations.add('Self-employed roles like Freelance Consulting, Entrepreneurship, or Content Creation');
+            }
+            if (topValueNames.includes('Excellence & Mastery') && conscientiousness > 3.5) {
+                recommendations.add('Becoming a recognized expert or specialist in a technical field like Research or Medicine');
+            }
+
+            // Fallback recommendations if none of the above match
+            if (recommendations.size === 0) {
+                 if (openness > 3.5) recommendations.add('Creative or research-based fields.');
+                 if (conscientiousness > 3.5) recommendations.add('Structured roles in finance or project management.');
+                 if (extraversion > 3.5) recommendations.add('People-facing careers like sales or public relations.');
+                 if (agreeableness > 3.5) recommendations.add('Collaborative roles in healthcare or education.');
+                 if (recommendations.size === 0) {
+                     recommendations.add('A balanced career path that offers a mix of collaboration and individual work.');
+                 }
+            }
+
+            return Array.from(recommendations);
         }
 
         nextBtn.addEventListener('click', () => {
             if (currentPage === 0) {
                 selectedAgeCategory = document.getElementById('age-selector').value;
             }
-            currentPage++;
-            showPage(currentPage);
+            if (currentPage <= valuesData.length) {
+                currentPage++;
+                showPage(currentPage);
+            }
         });
 
         prevBtn.addEventListener('click', () => {
@@ -990,8 +855,26 @@
             }
         });
 
-        nextBtnReport.addEventListener('click', showWhatsNextPage);
-        backToReportBtn.addEventListener('click', showReportPage);
+        nextBtnReport.addEventListener('click', () => {
+            reportContainer.style.display = 'none';
+            personalityQuizContainer.style.display = 'block';
+            personalityPage = 0;
+            showPersonalityPage(personalityPage);
+        });
+
+        nextPersonalityBtn.addEventListener('click', () => {
+             if (personalityPage <= bigFiveQuestions.length) {
+                personalityPage++;
+                showPersonalityPage(personalityPage);
+             }
+        });
+
+        prevPersonalityBtn.addEventListener('click', () => {
+             if (personalityPage > 0) {
+                personalityPage--;
+                showPersonalityPage(personalityPage);
+             }
+        });
 
         showPage(currentPage);
     </script>
