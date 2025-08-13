@@ -3,1059 +3,311 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Travel Planning Advisor</title>
-    <link rel="manifest" href="data:application/manifest+json;base64,eyJpY29ucyI6W3sic2l6ZXMiOiIxOTJ4MTkyIiwidHlwZSI6ImltYWdlL3BuZyIsInNyYyI6ImRhdGE6aW1hZ2UvcG5nO2Jhc2U2NCxpVkJPUncwS0dnb0FBQUFOU1VoRUdJQUFBbWdBQUFNSUFBQUN0V0s2ZUE0QUFBQVhOU1JvSUFycjRjNlFBQUEBY1JFUlVRd0VBR0FBQUFnSkRkZjIwTkRkZ2FBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBMnhLQk1nQUlRQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUpmZXJyb2hjaWxmaWxmaW5nY29udGVudHNhcmVuYXJyb3dlcmVwZWF0ZWQ"}]}' />
-
+    <title>Core Human Values Discovery Wizard</title>
     <style>
-        /* Base styles */
         body {
-            font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-            margin: 0;
-            padding: 0;
-            line-height: 1.5;
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
         }
-
-        /* Minimal Tailwind CSS for used classes */
-        .bg-gray-100 { background-color: #f3f4f6; }
-        .min-h-screen { min-height: 100vh; }
-        .flex { display: flex; }
-        .justify-center { justify-content: center; }
-        .items-start { align-items: flex-start; }
-        .p-4 { padding: 1rem; }
-        .w-full { width: 100%; }
-        .max-w-4xl { max-width: 56rem; }
-        .mx-auto { margin-left: auto; margin-right: auto; }
-        .bg-white { background-color: #fff; }
-        .p-6 { padding: 1.5rem; }
-        .rounded-lg { border-radius: 0.5rem; }
-        .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
-        .text-2xl { font-size: 1.5rem; line-height: 2rem; }
-        .font-bold { font-weight: 700; }
-        .mb-4 { margin-bottom: 1rem; }
-        .mb-6 { margin-bottom: 1.5rem; }
-        .text-center { text-align: center; }
-        .block { display: block; }
-        .text-sm { font-size: 0.875rem; line-height: 1.25rem; }
-        .font-medium { font-weight: 500; }
-        .mb-1 { margin-bottom: 0.25rem; }
-        .p-2 { padding: 0.5rem; }
-        .border { border-width: 1px; border-color: #e5e7eb; }
-        .rounded { border-radius: 0.25rem; }
-        .bg-blue-500 { background-color: #3b82f6; }
-        .text-white { color: #fff; }
-        .hover\:bg-blue-600:hover { background-color: #2563eb; }
-        .mr-2 { margin-right: 0.5rem; }
-        .bg-gray-200 { background-color: #e5e7eb; }
-        .text-lg { font-size: 1.125rem; line-height: 1.75rem; }
-        .font-semibold { font-weight: 600; }
-        .text-gray-600 { color: #4b5563; }
-        .text-md { font-size: 1rem; line-height: 1.5rem; }
-        .mt-2 { margin-top: 0.5rem; }
-        .list-disc { list-style-type: disc; }
-        .pl-5 { padding-left: 1.25rem; }
-        .text-xl { font-size: 1.25rem; line-height: 1.75rem; }
-        .mt-6 { margin-top: 1.5rem; }
-        .mb-2 { margin-bottom: 0.5rem; }
-        .capitalize { text-transform: capitalize; }
-
-        /* Custom styles for better button appearance */
+        h1, h2 {
+            text-align: center;
+        }
+        #quiz {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .value-page {
+            margin-bottom: 20px;
+        }
+        .question {
+            margin-bottom: 15px;
+        }
+        .question label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .slider-container {
+            position: relative;
+            margin-top: 20px;
+        }
+        input[type="range"] {
+            width: 100%;
+        }
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+        .slider-value {
+            text-align: center;
+            font-size: 1.1em;
+            margin-top: 5px;
+        }
+        .progress {
+            text-align: center;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+        }
         button {
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
             cursor: pointer;
-            transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+            font-size: 1em;
         }
-        button:focus {
-            outline: none;
-            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5); /* Blue-500 with opacity */
+        button:hover {
+            background: #0056b3;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        #report {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background: #f2f2f2;
+        }
+        ul {
+            list-style-type: disc;
+            padding-left: 20px;
         }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js" type="text/javascript"></script>
-    <script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js" type="text/javascript"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.24.7/babel.min.js" type="text/javascript"></script>
 </head>
-<body class="bg-gray-100 min-h-screen flex justify-center items-start p-4">
-    <div id="root" class="w-full max-w-4xl"></div>
+<body>
+    <h1>Discover Your Core Human Values</h1>
+    <div id="quiz">
+        <div id="currentPage"></div>
+        <div class="progress" id="progress"></div>
+        <div class="navigation">
+            <button id="prevBtn" disabled>Previous</button>
+            <button id="nextBtn">Next</button>
+        </div>
+    </div>
+    <div id="report" style="display: none;">
+        <h2>Your Core Values Report</h2>
+        <div id="coreValues"></div>
+        <h2>Psychological Explanations</h2>
+        <table id="explanationsTable">
+            <thead>
+                <tr>
+                    <th>Core Human Value</th>
+                    <th>Maslow’s Hierarchy Category</th>
+                    <th>Schwartz’s Value Category</th>
+                    <th>Notes</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <h2>Fundamental Trigger Points</h2>
+        <div id="triggers"></div>
+    </div>
 
-    <script type="text/babel">
-        // Helper function for Haversine distance (optional, not strictly needed if using proximityCategory)
-        const haversineDistance = (lat1, lon1, lat2, lon2) => {
-            const R = 6371e3; // metres
-            const φ1 = lat1 * Math.PI / 180; // φ, λ in radians
-            const φ2 = lat2 * Math.PI / 180;
-            const Δφ = (lat2 - lat1) * Math.PI / 180;
-            const Δλ = (lon2 - lon1) * Math.PI / 180;
+    <script>
+        const valuesData = [
+            { name: "Fairness & Justice", maslow: "Esteem / Self-Actualization", schwartz: "Universalism (social justice, equality)", notes: "Often tied to moral reasoning and societal harmony.", questions: ["How important is it for you that people are treated equally in society?", "To what extent do you value standing up against injustice?", "How much do you prioritize fair distribution of resources?"] },
+            { name: "Integrity & Honesty", maslow: "Esteem / Self-Actualization", schwartz: "Universalism, Benevolence", notes: "Strongly linked to trust-building and reputation.", questions: ["How important is telling the truth in all situations?", "To what extent do you value keeping promises?", "How much do you admire people who are honest even when it's hard?"] },
+            { name: "Loyalty & Trust", maslow: "Love & Belonging", schwartz: "Benevolence (loyalty, responsibility)", notes: "A key foundation for stable relationships.", questions: ["How important is staying loyal to friends and family?", "To what extent do you value building trust in relationships?", "How much do you prioritize reliability in others?"] },
+            { name: "Respect", maslow: "Esteem / Love & Belonging", schwartz: "Benevolence, Universalism", notes: "Often tied to dignity and interpersonal equity.", questions: ["How important is treating others with dignity?", "To what extent do you value mutual respect in interactions?", "How much do you appreciate being respected for your opinions?"] },
+            { name: "Security & Stability", maslow: "Safety", schwartz: "Security (personal and societal)", notes: "One of the most basic psychological safety drivers.", questions: ["How important is having a stable job and income?", "To what extent do you value personal safety?", "How much do you prioritize financial security for the future?"] },
+            { name: "Autonomy & Independence", maslow: "Self-Actualization", schwartz: "Self-Direction (freedom, creativity)", notes: "Highly correlated with motivation and fulfillment.", questions: ["How important is making your own decisions?", "To what extent do you value freedom from control by others?", "How much do you enjoy being self-reliant?"] },
+            { name: "Connection & Belonging", maslow: "Love & Belonging", schwartz: "Benevolence, Universalism", notes: "Core social need; lack of it triggers isolation.", questions: ["How important is feeling part of a community?", "To what extent do you value close relationships?", "How much do you seek out social connections?"] },
+            { name: "Achievement & Competence", maslow: "Esteem", schwartz: "Achievement", notes: "Directly connected to self-worth and recognition.", questions: ["How important is accomplishing goals?", "To what extent do you value developing skills?", "How much do you strive for success in your endeavors?"] },
+            { name: "Compassion & Empathy", maslow: "Love & Belonging / Self-Actualization", schwartz: "Benevolence, Universalism", notes: "Supports pro-social behavior and moral action.", questions: ["How important is helping those in need?", "To what extent do you value understanding others' feelings?", "How much do you practice kindness daily?"] },
+            { name: "Creativity", maslow: "Self-Actualization", schwartz: "Self-Direction (creativity, exploration)", notes: "Strongly linked to fulfillment and innovation.", questions: ["How important is expressing yourself creatively?", "To what extent do you value innovative thinking?", "How much do you enjoy creating new things?"] },
+            { name: "Generosity & Kindness", maslow: "Love & Belonging / Self-Actualization", schwartz: "Benevolence", notes: "Tied to reciprocity and trust cycles.", questions: ["How important is giving to others?", "To what extent do you value acts of kindness?", "How much do you appreciate generous people?"] },
+            { name: "Growth & Learning", maslow: "Self-Actualization", schwartz: "Self-Direction (curiosity)", notes: "Core to personal evolution and adaptability.", questions: ["How important is continuous learning?", "To what extent do you value personal development?", "How much do you seek new knowledge?"] },
+            { name: "Accountability & Responsibility", maslow: "Esteem / Self-Actualization", schwartz: "Conformity (responsibility) + Universalism", notes: "Reinforces group trust and order.", questions: ["How important is taking responsibility for actions?", "To what extent do you value accountability in leadership?", "How much do you hold yourself accountable?"] },
+            { name: "Freedom & Rights", maslow: "Esteem / Self-Actualization", schwartz: "Self-Direction + Universalism", notes: "Core in democratic societies and autonomy needs.", questions: ["How important is personal freedom?", "To what extent do you value human rights?", "How much do you support freedom of speech?"] },
+            { name: "Equality & Inclusion", maslow: "Love & Belonging / Esteem", schwartz: "Universalism", notes: "Prevents social fractures and marginalization.", questions: ["How important is equal opportunities for all?", "To what extent do you value inclusivity?", "How much do you promote diversity?"] },
+            { name: "Gratitude & Appreciation", maslow: "Love & Belonging", schwartz: "Benevolence", notes: "Strengthens bonds and positive reinforcement loops.", questions: ["How important is expressing thanks?", "To what extent do you value appreciating what you have?", "How much do you practice gratitude daily?"] },
+            { name: "Purpose & Meaning", maslow: "Self-Actualization", schwartz: "Universalism, Self-Direction", notes: "Deeply tied to motivation and life satisfaction.", questions: ["How important is having a sense of purpose?", "To what extent do you value meaningful work?", "How much do you seek meaning in life?"] },
+            { name: "Hope & Optimism", maslow: "Self-Actualization / Esteem", schwartz: "Universalism", notes: "Buffer against despair, drives perseverance.", questions: ["How important is maintaining a positive outlook?", "To what extent do you value hope in difficult times?", "How much do you believe in better futures?"] },
+            { name: "Love & Affection", maslow: "Love & Belonging", schwartz: "Benevolence", notes: "Essential for emotional health.", questions: ["How important is showing affection?", "To what extent do you value loving relationships?", "How much do you prioritize emotional intimacy?"] },
+            { name: "Dignity", maslow: "Esteem", schwartz: "Universalism, Benevolence", notes: "Vital for self-respect and mutual respect.", questions: ["How important is self-respect?", "To what extent do you value human dignity?", "How much do you avoid humiliating others?"] },
+            { name: "Stewardship & Sustainability", maslow: "Self-Actualization", schwartz: "Universalism (environmental protection)", notes: "Expands moral concern to future generations.", questions: ["How important is protecting the environment?", "To what extent do you value sustainable living?", "How much do you consider future generations?"] },
+            { name: "Tradition & Heritage", maslow: "Love & Belonging / Esteem", schwartz: "Tradition", notes: "Provides identity continuity and stability.", questions: ["How important is preserving traditions?", "To what extent do you value cultural heritage?", "How much do you participate in family customs?"] },
+            { name: "Playfulness & Joy", maslow: "Self-Actualization", schwartz: "Hedonism", notes: "Supports well-being and stress relief.", questions: ["How important is having fun?", "To what extent do you value joy in life?", "How much do you engage in playful activities?"] },
+            { name: "Excellence & Mastery", maslow: "Esteem / Self-Actualization", schwartz: "Achievement", notes: "Linked to expertise, recognition, and high standards.", questions: ["How important is striving for excellence?", "To what extent do you value mastering skills?", "How much do you set high standards?"] }
+        ];
 
-            const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
-                      Math.cos(φ1) * Math.cos(φ2) *
-                      Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
-            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-            const d = R * c; // in metres
-            return d;
+        const triggerExamples = {
+            "Fairness & Justice": { upset: "Witnessing unfair treatment or systemic injustice, such as discrimination in the workplace.", happy: "Seeing justice served, like a fair resolution in a conflict." },
+            "Integrity & Honesty": { upset: "Being lied to or discovering deceit in close relationships.", happy: "Experiencing honest feedback that builds trust." },
+            "Loyalty & Trust": { upset: "Betrayal by a friend or partner.", happy: "Long-term support from loved ones during tough times." },
+            "Respect": { upset: "Being dismissed or belittled in conversations.", happy: "Receiving acknowledgment for your contributions." },
+            "Security & Stability": { upset: "Financial instability or sudden job loss.", happy: "Achieving a secure home environment or steady income." },
+            "Autonomy & Independence": { upset: "Being micromanaged or controlled in decisions.", happy: "Having freedom to pursue personal projects." },
+            "Connection & Belonging": { upset: "Feeling excluded from social groups.", happy: "Forming deep bonds in a community." },
+            "Achievement & Competence": { upset: "Failing at a task after much effort.", happy: "Accomplishing a challenging goal and receiving recognition." },
+            "Compassion & Empathy": { upset: "Seeing others suffer without help.", happy: "Helping someone in need and seeing positive impact." },
+            "Creativity": { upset: "Being stuck in routine without outlets for expression.", happy: "Successfully innovating a new idea or artwork." },
+            "Generosity & Kindness": { upset: "Encountering selfishness in others.", happy: "Acts of kindness being reciprocated." },
+            "Growth & Learning": { upset: "Stagnation in personal development.", happy: "Mastering a new skill through learning." },
+            "Accountability & Responsibility": { upset: "Others shirking duties, causing group failure.", happy: "Taking responsibility and seeing positive outcomes." },
+            "Freedom & Rights": { upset: "Restrictions on personal freedoms.", happy: "Exercising rights in a supportive society." },
+            "Equality & Inclusion": { upset: "Observing exclusion based on identity.", happy: "Participating in inclusive events." },
+            "Gratitude & Appreciation": { upset: "Lack of recognition for efforts.", happy: "Expressing and receiving genuine thanks." },
+            "Purpose & Meaning": { upset: "Feeling life lacks direction.", happy: "Aligning actions with a greater purpose." },
+            "Hope & Optimism": { upset: "Repeated failures leading to despair.", happy: "Overcoming obstacles with positive outlook." },
+            "Love & Affection": { upset: "Emotional distance in relationships.", happy: "Sharing affectionate moments with loved ones." },
+            "Dignity": { upset: "Humiliation in public settings.", happy: "Being treated with respect and honor." },
+            "Stewardship & Sustainability": { upset: "Environmental destruction.", happy: "Contributing to sustainable practices." },
+            "Tradition & Heritage": { upset: "Loss of cultural practices.", happy: "Celebrating family traditions." },
+            "Playfulness & Joy": { upset: "Constant seriousness without fun.", happy: "Engaging in playful activities." },
+            "Excellence & Mastery": { upset: "Mediocrity in important endeavors.", happy: "Achieving mastery in a field." }
         };
 
-        const hotelData = {
-            "Seoul": {
-                name: "Westin Josun Seoul",
-                address: "106 Sogong-ro, Jung-gu, Seoul",
-                station: "City Hall Station", // Closer metro station to Westin Josun
-                line: "Line 1 / Line 2",
-                lat: 37.565804,
-                lon: 126.975147
-            },
-            "Shanghai": {
-                name: "The Ritz-Carlton Shanghai, Pudong",
-                address: "8 Century Ave, Pudong, Shanghai",
-                station: "Lujiazui Station",
-                line: "Line 2",
-                lat: 31.235929,
-                lon: 121.505904
-            },
-            "Hong Kong": {
-                name: "Grand Hyatt Hong Kong",
-                address: "1 Harbour Rd, Wan Chai, Hong Kong",
-                station: "Wan Chai Station",
-                line: "Island Line",
-                lat: 22.280683,
-                lon: 114.174950
-            }
-        };
+        let currentPage = 0;
+        let responses = Array(valuesData.length).fill().map(() => Array(3).fill(3)); // Default to 3 (indifferent)
 
-        const mockData = {
-            "Seoul": {
-                attractions: [
-                    {
-                        name: "Gyeongbokgung Palace", address: "161 Sajik-ro, Jongno-gu, Seoul", lat: 37.5759, lon: 126.9751,
-                        description: "Historic Joseon dynasty palace with traditional architecture. A must-visit for history and culture.",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Seoul"].name} to City Hall Station (Line 1 or Line 2), Exit 7. (approx. 5-7 min walk)`,
-                            `From City Hall Station (Line 1), take the subway towards Uijeongbu / Soyosan and get off at Jonggak Station (1 stop).`,
-                            `Transfer to Line 3 at Jonggak Station (towards Daehwa) and ride to Gyeongbokgung Station (2 stops).`,
-                            `Take Exit 5 from Gyeongbokgung Station. The palace entrance is directly in front of you.`,
-                            `Approximate travel time: 15-20 minutes.`
-                        ],
-                        proximityCategory: "Short Metro Ride"
-                    },
-                    {
-                        name: "Bukchon Hanok Village", address: "37 Gahoe-dong, Jongno-gu, Seoul", lat: 37.5826, lon: 126.9836,
-                        description: "Traditional Korean village with preserved hanok (traditional houses) offering a glimpse into old Seoul.",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Seoul"].name} to Euljiro 1-ga Station (Line 2). (approx. 7-10 min walk)`,
-                            `From Euljiro 1-ga Station (Line 2), take the subway towards Sindang and get off at Euljiro 3-ga Station (1 stop).`,
-                            `Transfer to Line 3 at Euljiro 3-ga Station (towards Daehwa) and ride to Anguk Station (2 stops).`,
-                            `Take Exit 2 from Anguk Station and walk straight for about 300m to enter the village area.`,
-                            `Approximate travel time: 20-25 minutes.`
-                        ],
-                        proximityCategory: "Short Metro Ride"
-                    },
-                    {
-                        name: "N Seoul Tower", address: "105 Namsangongwon-gil, Yongsan-gu, Seoul", lat: 37.5512, lon: 126.9882,
-                        description: "Iconic tower with panoramic city views, especially beautiful at sunset.",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Seoul"].name} to Myeongdong Station (Line 4), Exit 3. (approx. 10-12 min walk)`,
-                            `From Myeongdong Station Exit 3, walk to the Namsan Cable Car platform (approx. 10 mins uphill walk) or take a local bus.`,
-                            `Take the Namsan Cable Car up to N Seoul Tower.`,
-                            `Approximate travel time (including walk/cable car): 30-40 minutes.`
-                        ],
-                        proximityCategory: "Short Metro Ride"
-                    },
-                    {
-                        name: "Changdeokgung Palace & Huwon (Secret Garden)", address: "99 Yulgok-ro, Jongno-gu, Seoul", lat: 37.5790, lon: 126.9915,
-                        description: "UNESCO World Heritage site, famous for its harmonious integration with nature and the beautiful Secret Garden.",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Seoul"].name} to Euljiro 1-ga Station (Line 2). (approx. 7-10 min walk)`,
-                            `From Euljiro 1-ga Station (Line 2), take the subway towards Sindang and get off at Euljiro 3-ga Station (1 stop).`,
-                            `Transfer to Line 3 at Euljiro 3-ga Station (towards Ogeum) and ride to Anguk Station (1 stop).`,
-                            `Take Exit 3 from Anguk Station and walk straight for about 5 minutes. The palace entrance will be on your right.`,
-                            `Approximate travel time: 15-20 minutes.`
-                        ],
-                        proximityCategory: "Short Metro Ride"
-                    }
-                ],
-                dining: [
-                    {
-                        name: "Tosokchon Samgyetang", address: "5 Jahamun-ro 5-gil, Jongno-gu, Seoul", lat: 37.5748, lon: 126.9752,
-                        description: "Famous for its traditional ginseng chicken soup, a local favorite.",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Seoul"].name} to City Hall Station (Line 1 or Line 2), Exit 7. (approx. 5-7 min walk)`,
-                            `From City Hall Station (Line 1), take the subway towards Uijeongbu / Soyosan and get off at Jonggak Station (1 stop).`,
-                            `Transfer to Line 3 at Jonggak Station (towards Daehwa) and ride to Gyeongbokgung Station (2 stops).`,
-                            `Take Exit 2 from Gyeongbokgung Station and walk for about 5-7 minutes along Jahamun-ro 5-gil.`,
-                            `Approximate travel time: 20-25 minutes.`
-                        ],
-                        proximityCategory: "Short Metro Ride"
-                    },
-                    {
-                        name: "Gwangjang Market (Food Stalls)", address: "88 Changgyeonggung-ro, Jongno-gu, Seoul", lat: 37.5709, lon: 126.9972,
-                        description: "A bustling traditional market offering a wide variety of Korean street food, including bibimbap, tteokbokki, and mung bean pancakes.",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Seoul"].name} to Euljiro 1-ga Station (Line 2). (approx. 7-10 min walk)`,
-                            `From Euljiro 1-ga Station (Line 2), take the subway towards Sindang and get off at Euljiro 4-ga Station (2 stops).`,
-                            `Take Exit 4 from Euljiro 4-ga Station and walk straight for about 5 minutes to reach the market's main entrance.`,
-                            `Approximate travel time: 15-20 minutes.`
-                        ],
-                        proximityCategory: "Short Metro Ride"
-                    },
-                    {
-                        name: "Myeongdong Kyoja (Main Branch)", address: "29 Myeongdong 10-gil, Jung-gu, Seoul", lat: 37.5619, lon: 126.9856,
-                        description: "Renowned for its delicious 칼국수 (Kalguksu - Korean noodle soup) and mandu (dumplings).",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Seoul"].name} to Myeongdong Kyoja (approx. 5-7 min walk). It's very close to your hotel.`,
-                            `Approximate travel time: 5-7 minutes (walking).`
-                        ],
-                        proximityCategory: "Walking Distance"
-                    },
-                    {
-                        name: "Mapo Jeong Daepo (Korean BBQ)", address: "47 Dohwa-gil, Mapo-gu, Seoul", lat: 37.5459, lon: 126.9535,
-                        description: "Popular spot for authentic Korean BBQ, known for its delicious pork belly and calm ambiance.",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Seoul"].name} to City Hall Station (Line 2). (approx. 5-7 min walk)`,
-                            `From City Hall Station (Line 2), take the subway towards Chungjeongno and ride to Gongdeok Station (4 stops).`,
-                            `Take Exit 8 from Gongdeok Station and walk straight for about 3-5 minutes along Dohwa-gil.`,
-                            `Approximate travel time: 20-25 minutes.`
-                        ],
-                        proximityCategory: "Longer Metro Ride"
-                    }
-                ],
-                activities: [
-                    {
-                        name: "Han River Park (Yeouido)", address: "Yeouido-dong, Yeongdeungpo-gu, Seoul", lat: 37.5291, lon: 126.9637,
-                        description: "A vast urban park along the Han River, perfect for cycling, picnics, and enjoying the city skyline.",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Seoul"].name} to City Hall Station (Line 2). (approx. 5-7 min walk)`,
-                            `From City Hall Station (Line 2), take the subway towards Gangnam / Sadang and ride to Yeouido Station (4 stops).`,
-                            `Take Exit 3 from Yeouido Station and walk towards the Han River, following signs for Yeouido Hangang Park.`,
-                            `Approximate travel time: 20-25 minutes.`
-                        ],
-                        proximityCategory: "Longer Metro Ride"
-                    },
-                    {
-                        name: "Jogyesa Temple (Buddhism)", address: "45 Gyeonji-dong, Jongno-gu, Seoul", lat: 37.5730, lon: 126.9822,
-                        description: "The chief temple of the Jogye Order of Korean Buddhism, a tranquil oasis in the city center.",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Seoul"].name} towards Jonggak Station (Line 1). (approx. 10-12 min walk)`,
-                            `From Jonggak Station, take Exit 2 and walk straight. You will see the temple on your left after about 5 minutes.`,
-                            `Approximate travel time: 15-20 minutes (mostly walking).`
-                        ],
-                        proximityCategory: "Walking Distance"
-                    },
-                    {
-                        name: "Cheonggyecheon Stream", address: "Cheonggyecheon-ro, Jung-gu, Seoul", lat: 37.5694, lon: 126.9774,
-                        description: "A restored urban stream that offers a peaceful escape and walking paths, often hosts cultural events.",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Seoul"].name} directly to the Cheonggyecheon Stream entrance near Gwanghwamun. (approx. 5-10 min walk)`,
-                            `Approximate travel time: 5-10 minutes (walking).`
-                        ],
-                        proximityCategory: "Walking Distance"
-                    },
-                    {
-                        name: "Dongdaemun Design Plaza (DDP)", address: "281 Euljiro, Jung-gu, Seoul", lat: 37.5661, lon: 127.0094,
-                        description: "A futuristic architectural landmark hosting exhibitions, fashion shows, and cultural events.",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Seoul"].name} to Euljiro 1-ga Station (Line 2). (approx. 7-10 min walk)`,
-                            `From Euljiro 1-ga Station (Line 2), take the subway towards Sindang and get off at Dongdaemun History & Culture Park Station (3 stops).`,
-                            `Take Exit 1 from Dongdaemun History & Culture Park Station. DDP is immediately visible.`,
-                            `Approximate travel time: 15-20 minutes.`
-                        ],
-                        proximityCategory: "Short Metro Ride"
-                    }
-                ],
-                shopping: [
-                    {
-                        name: "Myeongdong Market", address: "Myeongdong-gil, Jung-gu, Seoul", lat: 37.5633, lon: 126.9820,
-                        description: "Vibrant street market for cosmetics, fashion, and trendy street food. A shopping paradise.",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Seoul"].name} to the heart of Myeongdong Market. (approx. 5-10 min walk)`,
-                            `Approximate travel time: 5-10 minutes (walking).`
-                        ],
-                        proximityCategory: "Walking Distance"
-                    },
-                    {
-                        name: "Hongdae Shopping Street", address: "Hongdae, Mapo-gu, Seoul", lat: 37.5575, lon: 126.9246,
-                        description: "Youthful and energetic area known for indie fashion, unique boutiques, and street art.",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Seoul"].name} to Euljiro 1-ga Station (Line 2). (approx. 7-10 min walk)`,
-                            `From Euljiro 1-ga Station (Line 2), take the subway towards Sinchon and ride to Hongik University Station (6 stops).`,
-                            `Take Exit 9 from Hongik University Station to enter the main shopping area.`,
-                            `Approximate travel time: 25-30 minutes.`
-                        ],
-                        proximityCategory: "Longer Metro Ride"
-                    },
-                    {
-                        name: "Insadong Street", address: "Insadong, Jongno-gu, Seoul", lat: 37.5746, lon: 126.9830,
-                        description: "A cultural street selling traditional Korean crafts, art, tea, and souvenirs.",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Seoul"].name} to Jonggak Station (Line 1). (approx. 10-12 min walk)`,
-                            `From Jonggak Station, take Exit 3 and walk straight for about 5 minutes. Insadong main street will be on your left.`,
-                            `Approximate travel time: 15-20 minutes (mostly walking).`
-                        ],
-                        proximityCategory: "Walking Distance"
-                    },
-                    {
-                        name: "Gangnam Underground Shopping Center", address: "Underground, Gangnam Station, Seoul", lat: 37.4981, lon: 127.0276,
-                        description: "A massive underground shopping mall offering affordable fashion, cosmetics, and various goods.",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Seoul"].name} to City Hall Station (Line 2). (approx. 5-7 min walk)`,
-                            `From City Hall Station (Line 2), take the subway towards Gangnam / Sadang and ride to Gangnam Station (8 stops).`,
-                            `The shopping center is directly connected to Gangnam Station.`,
-                            `Approximate travel time: 25-30 minutes.`
-                        ],
-                        proximityCategory: "Longer Metro Ride"
-                    }
-                ],
-                entertainment: [ // Renamed from familyFriendly
-                    {
-                        name: "Lotte World", address: "240 Olympic-ro, Songpa-gu, Seoul", lat: 37.5111, lon: 127.0982,
-                        description: "Popular amusement park with thrilling rides, parades, and a large indoor area.",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Seoul"].name} to Euljiro 1-ga Station (Line 2). (approx. 7-10 min walk)`,
-                            `From Euljiro 1-ga Station (Line 2), take the subway towards Sindang / Gangnam and ride to Jamsil Station (Line 2, 10 stops).`,
-                            `Take Exit 4 from Jamsil Station; Lotte World is directly connected.`,
-                            `Approximate travel time: 30-35 minutes.`
-                        ],
-                        proximityCategory: "Day Trip"
-                    },
-                    {
-                        name: "Nanta Show (Myeongdong)", address: "26 Myeongdong-gil, Jung-gu, Seoul", lat: 37.5630, lon: 126.9840,
-                        description: "A non-verbal comedy performance integrating traditional Korean percussion with modern music.",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Seoul"].name} to Myeongdong Theatre (Nanta Show venue). (approx. 7-10 min walk)`,
-                            `Approximate travel time: 7-10 minutes (walking).`
-                        ],
-                        proximityCategory: "Walking Distance"
-                    },
-                    {
-                        name: "COEX Aquarium", address: "513 Yeongdong-daero, Gangnam-gu, Seoul", lat: 37.5135, lon: 127.0583,
-                        description: "Large aquarium inside the COEX Mall, featuring a diverse collection of marine life.",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Seoul"].name} to Euljiro 1-ga Station (Line 2). (approx. 7-10 min walk)`,
-                            `From Euljiro 1-ga Station (Line 2), take the subway towards Sindang / Gangnam and ride to Samseong Station (Line 2, 10 stops).`,
-                            `Take Exit 5 or 6 from Samseong Station. COEX Mall and Aquarium are connected underground.`,
-                            `Approximate travel time: 30-35 minutes.`
-                        ],
-                        proximityCategory: "Longer Metro Ride"
-                    },
-                    {
-                        name: "Everland Resort", address: "199 Everland-ro, Pogok-eup, Cheoin-gu, Yongin-si, Gyeonggi-do", lat: 37.2934, lon: 127.2023,
-                        description: "South Korea's largest theme park, featuring diverse zones, thrilling rides, and a zoo.",
-                        metroDirectionsFromHotel: [
-                            `Take subway from City Hall Station (Line 2) to Gangnam Station.`,
-                            `From Gangnam Station, take bus #5002 or #5700 directly to Everland.`,
-                            `Alternatively, take the Bundang Line from Gangnam area stations to Giheung Station, then transfer to Everline light rail to Jeondae-Everland Station. From there, take a free shuttle bus to the park.`,
-                            `Approximate travel time: 1.5 - 2 hours (requires bus or multiple transfers).`
-                        ],
-                        proximityCategory: "Day Trip"
-                    }
-                ]
-            },
-            "Shanghai": {
-                attractions: [
-                    {
-                        name: "The Bund", address: "Zhongshan East 1st Rd, Huangpu, Shanghai", lat: 31.2402, lon: 121.4903,
-                        description: "Historic waterfront with colonial buildings on one side and the futuristic Pudong skyline on the other.",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Shanghai"].name} to Lujiazui Station (Line 2). (approx. 5-7 min walk)`,
-                            `From Lujiazui Station (Line 2), take the subway one stop towards East Xujing to East Nanjing Road Station.`,
-                            `Take Exit 2 from East Nanjing Road Station and walk east along Nanjing Road towards the river. The Bund is about a 10-15 minute walk.`,
-                            `Approximate travel time: 15-20 minutes.`
-                        ],
-                        proximityCategory: "Short Metro Ride"
-                    },
-                    {
-                        name: "Yu Garden", address: "279 Yuyuan Old St, Huangpu, Shanghai", lat: 31.2277, lon: 121.4924,
-                        description: "Classical Chinese garden with pavilions, rockeries, and ponds, a serene escape.",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Shanghai"].name} to Lujiazui Station (Line 2). (approx. 5-7 min walk)`,
-                            `From Lujiazui Station (Line 2), take the subway two stops towards East Xujing to East Nanjing Road Station.`,
-                            `Transfer to Line 10 (towards Hongqiao Railway Station) at East Nanjing Road Station and ride to Yuyuan Garden Station (1 stop).`,
-                            `Take Exit 1 from Yuyuan Garden Station. The garden entrance is a short walk away.`,
-                            `Approximate travel time: 20-25 minutes.`
-                        ],
-                        proximityCategory: "Short Metro Ride"
-                    },
-                    {
-                        name: "Oriental Pearl TV Tower", address: "1 Century Ave, Pudong, Shanghai", lat: 31.2393, lon: 121.4996,
-                        description: "Iconic Shanghai landmark offering observation decks with stunning city views.",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Shanghai"].name} to Oriental Pearl TV Tower. It's very close. (approx. 5-7 min walk)`,
-                            `Approximate travel time: 5-7 minutes (walking).`
-                        ],
-                        proximityCategory: "Walking Distance"
-                    },
-                    {
-                        name: "Shanghai Museum", address: "201 Renmin Ave, Huangpu, Shanghai", lat: 31.2307, lon: 121.4746,
-                        description: "A world-class museum showcasing ancient Chinese art and artifacts.",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Shanghai"].name} to Lujiazui Station (Line 2). (approx. 5-7 min walk)`,
-                            `From Lujiazui Station (Line 2), take the subway three stops towards East Xujing to People's Square Station.`,
-                            `Take Exit 1 from People's Square Station. The museum is a short walk from the exit.`,
-                            `Approximate travel time: 15-20 minutes.`
-                        ],
-                        proximityCategory: "Short Metro Ride"
-                    }
-                ],
-                dining: [
-                    {
-                        name: "Din Tai Fung (Super Brand Mall)", address: "168 Lujiazui Ring Rd, Pudong, Shanghai", lat: 31.2376, lon: 121.5032,
-                        description: "World-famous for its delicate xiao long bao (soup dumplings) and other Taiwanese dishes.",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Shanghai"].name} to Super Brand Mall. (approx. 5-7 min walk)`,
-                            `Approximate travel time: 5-7 minutes (walking).`
-                        ],
-                        proximityCategory: "Walking Distance"
-                    },
-                    {
-                        name: "Yang's Fry Dumplings (Huanghe Road)", address: "97 Huanghe Rd, Huangpu, Shanghai", lat: 31.2413, lon: 121.4739,
-                        description: "A local institution for shengjianbao (pan-fried soup dumplings) – crispy on the bottom, juicy inside.",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Shanghai"].name} to Lujiazui Station (Line 2). (approx. 5-7 min walk)`,
-                            `From Lujiazui Station (Line 2), take the subway three stops towards East Xujing to People's Square Station.`,
-                            `Take Exit 8 from People's Square Station and walk north along Huanghe Road for about 5 minutes.`,
-                            `Approximate travel time: 15-20 minutes.`
-                        ],
-                        proximityCategory: "Short Metro Ride"
-                    },
-                    {
-                        name: "Jia Jia Tang Bao (for soup dumplings)", address: "90 Huanghe Rd, Huangpu, Shanghai", lat: 31.2413, lon: 121.4739,
-                        description: "Another highly-rated spot for traditional Shanghai xiao long bao, simple and authentic.",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Shanghai"].name} to Lujiazui Station (Line 2). (approx. 5-7 min walk)`,
-                            `From Lujiazui Station (Line 2), take the subway three stops towards East Xujing to People's Square Station.`,
-                            `Take Exit 8 from People's Square Station and walk north along Huanghe Road for about 5 minutes.`,
-                            `Approximate travel time: 15-20 minutes.`
-                        ],
-                        proximityCategory: "Short Metro Ride"
-                    },
-                    {
-                        name: "Lost Heaven (Yunnan Cuisine)", address: "17 Yan'an Dong Lu, Huangpu, Shanghai", lat: 31.2338, lon: 121.4930,
-                        description: "Upscale restaurant offering delicious and unique Yunnan provincial cuisine in a stylish setting.",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Shanghai"].name} to Lujiazui Station (Line 2). (approx. 5-7 min walk)`,
-                            `From Lujiazui Station (Line 2), take the subway two stops towards East Xujing to East Nanjing Road Station.`,
-                            `Walk southwest along the Bund area or take a short taxi/Didi ride (approx. 10-15 min walk from station).`,
-                            `Approximate travel time: 20-25 minutes.`
-                        ],
-                        proximityCategory: "Short Metro Ride"
-                    }
-                ],
-                activities: [
-                    {
-                        name: "Zhujiajiao Water Town", address: "Zhujiajiao, Qingpu, Shanghai", lat: 31.1123, lon: 121.0570,
-                        description: "Ancient water town with canals, bridges, and traditional architecture. Offers boat rides.",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Shanghai"].name} to Lujiazui Station (Line 2). (approx. 5-7 min walk)`,
-                            `From Lujiazui Station (Line 2), take the subway towards East Xujing to Hongqiao Railway Station (Line 2).`,
-                            `Transfer to Line 17 (towards Oriental Land) at Hongqiao Railway Station and ride to Zhujiajiao Station.`,
-                            `From Zhujiajiao Station, walk or take a local bus/taxi to the water town entrance.`,
-                            `Approximate travel time: 1 hour 30 minutes - 2 hours.`
-                        ],
-                        proximityCategory: "Day Trip"
-                    },
-                    {
-                        name: "Shanghai Acrobatic Show (ERA Intersection of Time)", address: "1941 Gonghexin Rd, Jing'an, Shanghai", lat: 31.2829, lon: 121.4604,
-                        description: "Spectacular acrobatic performance with stunning visuals and daring feats.",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Shanghai"].name} to Lujiazui Station (Line 2). (approx. 5-7 min walk)`,
-                            `From Lujiazui Station (Line 2), take the subway three stops towards East Xujing to People's Square Station (3 stops).`,
-                            `Transfer to Line 1 (towards Fujin Road) at People's Square Station and ride to Shanghai Circus World Station (5 stops).`,
-                            `Take Exit 3 or 4 from Shanghai Circus World Station; the venue is across the road.`,
-                            `Approximate travel time: 35-45 minutes.`
-                        ],
-                        proximityCategory: "Longer Metro Ride"
-                    },
-                    {
-                        name: "Tianzifang", address: "210 Taikang Rd, Huangpu, Shanghai", lat: 31.2057, lon: 121.4660,
-                        description: "Charming arts and crafts enclave with narrow alleyways, galleries, cafes, and boutiques.",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Shanghai"].name} to Lujiazui Station (Line 2). (approx. 5-7 min walk)`,
-                            `From Lujiazui Station (Line 2), take the subway towards East Xujing to Longyang Road Station.`, // Or other transfer options
-                            `Transfer to Line 9 (towards Songjiang South Railway Station) at Longyang Road Station and ride to Dapuqiao Station.`,
-                            `Take Exit 1 from Dapuqiao Station. Tianzifang is a short walk away.`,
-                            `Approximate travel time: 30-35 minutes.`
-                        ],
-                        proximityCategory: "Longer Metro Ride"
-                    },
-                    {
-                        name: "Cruising the Huangpu River", address: "Various piers along The Bund or Lujiazui", lat: 31.2400, lon: 121.4900,
-                        description: "Enjoy breathtaking views of both Pudong and Puxi skylines from the Huangpu River, especially at night.",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Shanghai"].name} to Lujiazui Station (Line 2). (approx. 5-7 min walk)`,
-                            `From Lujiazui Station (Line 2), walk towards the riverfront to find various pier options near the Oriental Pearl TV Tower or IFC mall.`,
-                            `Approximate travel time: 10-15 minutes (walking).`
-                        ],
-                        proximityCategory: "Walking Distance"
-                    }
-                ],
-                shopping: [
-                    {
-                        name: "Nanjing Road", address: "Nanjing Rd Pedestrian St, Huangpu, Shanghai", lat: 31.2349, lon: 121.4750,
-                        description: "One of the world's busiest shopping streets, offering everything from luxury brands to local goods.",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Shanghai"].name} to Lujiazui Station (Line 2). (approx. 5-7 min walk)`,
-                            `From Lujiazui Station (Line 2), take the subway one stop towards East Xujing to East Nanjing Road Station.`,
-                            `Nanjing Road Pedestrian Street starts right outside East Nanjing Road Station.`,
-                            `Approximate travel time: 10-15 minutes.`
-                        ],
-                        proximityCategory: "Short Metro Ride"
-                    },
-                    {
-                        name: "IFC Mall", address: "8 Century Ave, Pudong, Shanghai", lat: 31.2393, lon: 121.5038,
-                        description: "High-end luxury shopping mall with international brands and fine dining, connected to your hotel.",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Shanghai"].name} directly into IFC Mall. It is integrated with The Ritz-Carlton.`,
-                            `Approximate travel time: 0-2 minutes (indoor walk).`
-                        ],
-                        proximityCategory: "Walking Distance"
-                    },
-                    {
-                        name: "Xintiandi", address: "Lane 181, Taicang Rd, Huangpu, Shanghai", lat: 31.2227, lon: 121.4740,
-                        description: "A stylish pedestrian area of restored traditional shikumen (stone-gate houses) housing boutiques, cafes, and restaurants.",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Shanghai"].name} to Lujiazui Station (Line 2). (approx. 5-7 min walk)`,
-                            `From Lujiazui Station (Line 2), take the subway three stops towards East Xujing to People's Square Station.`,
-                            `Transfer to Line 1 (towards Xinzhuang) at People's Square Station and ride to South Huangpi Road Station (1 stop).`,
-                            `Take Exit 3 from South Huangpi Road Station and walk for about 5 minutes to Xintiandi.`,
-                            `Approximate travel time: 20-25 minutes.`
-                        ],
-                        proximityCategory: "Short Metro Ride"
-                    },
-                    {
-                        name: "Taobao City Market (Fake Market)", address: "580 Nanjing West Road, Jing'an, Shanghai", lat: 31.2335, lon: 121.4705,
-                        description: "A multi-story indoor market famous for bargaining for 'replica' goods, electronics, and souvenirs.",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Shanghai"].name} to Lujiazui Station (Line 2). (approx. 5-7 min walk)`,
-                            `From Lujiazui Station (Line 2), take the subway three stops towards East Xujing to People's Square Station.`,
-                            `Transfer to Line 1 (towards Xinzhuang) at People's Square Station and ride to People's Square Station. (Taobao City is near this area, though actual building might vary)`,
-                            `Walk to the market location on Nanjing West Road (approx. 5-10 min walk from People's Square).`,
-                            `Approximate travel time: 20-25 minutes.`
-                        ],
-                        proximityCategory: "Short Metro Ride"
-                    }
-                ],
-                entertainment: [ // Renamed from familyFriendly
-                    {
-                        name: "Shanghai Disneyland", address: "310 Huangzhao Rd, Pudong, Shanghai", lat: 31.1440, lon: 121.6570,
-                        description: "Magical theme park with unique rides, shows, and attractions, a world-class Disney experience.",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Shanghai"].name} to Lujiazui Station (Line 2). (approx. 5-7 min walk)`,
-                            `From Lujiazui Station (Line 2), take the subway towards East Xujing to Longyang Road Station.`,
-                            `Transfer to Line 11 (towards Disney Resort) at Longyang Road Station and ride to Disney Resort Station.`,
-                            `The park entrance is a short walk from the station.`,
-                            `Approximate travel time: 45 minutes - 1 hour.`
-                        ],
-                        proximityCategory: "Day Trip"
-                    },
-                    {
-                        name: "Happy Valley Shanghai", address: "888 Linhu Rd, Songjiang, Shanghai", lat: 31.0960, lon: 121.1990,
-                        description: "Large amusement park with various themed areas and roller coasters for thrill-seekers.",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Shanghai"].name} to Lujiazui Station (Line 2). (approx. 5-7 min walk)`,
-                            `From Lujiazui Station (Line 2), take the subway towards East Xujing to Sheshan Station (Line 9).`,
-                            `From Sheshan Station, take the free shuttle bus to Happy Valley.`,
-                            `Approximate travel time: 1 hour 15 minutes - 1 hour 30 minutes.`
-                        ],
-                        proximityCategory: "Day Trip"
-                    },
-                    {
-                        name: "Shanghai Ocean Aquarium", address: "1388 Lujiazui Ring Rd, Pudong, Shanghai", lat: 31.2372, lon: 121.5008,
-                        description: "One of the largest aquariums in Asia, featuring a diverse collection of aquatic animals and a long underwater tunnel.",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Shanghai"].name} to Shanghai Ocean Aquarium. (approx. 5-7 min walk)`,
-                            `Approximate travel time: 5-7 minutes (walking).`
-                        ],
-                        proximityCategory: "Walking Distance"
-                    },
-                    {
-                        name: "The Cirque du Soleil: X - The Land of Fantasy (Hangzhou)", address: "Hangzhou Grand Theatre, Hangzhou", lat: 30.2528, lon: 120.2078,
-                        description: "A spectacular permanent Cirque du Soleil show located in Hangzhou, a high-speed rail trip away.",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Shanghai"].name} to Lujiazui Station (Line 2).`,
-                            `Take Line 2 to Hongqiao Railway Station.`,
-                            `Take a High-Speed Train from Shanghai Hongqiao Railway Station to Hangzhou East Railway Station.`,
-                            `From Hangzhou East Station, take Hangzhou Metro or taxi to the theatre.`,
-                            `Approximate travel time: 3-4 hours one way (including HSR). This is an all-day trip.`
-                        ],
-                        proximityCategory: "Day Trip" // Or "Further Out" if you want to explicitly exclude
-                    }
-                ]
-            },
-            "Hong Kong": {
-                attractions: [
-                    {
-                        name: "Victoria Peak", address: "Peak Rd, Hong Kong", lat: 22.2759, lon: 114.1455,
-                        description: "Stunning panoramic city and harbor views from Hong Kong's highest point, accessible by Peak Tram.",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Hong Kong"].name} to Wan Chai Station (Island Line), Exit A3. (approx. 10-12 min walk)`,
-                            `From Wan Chai Station, take the Island Line towards Sheung Wan to Central Station (2 stops).`,
-                            `Take Exit J2 from Central Station and walk uphill (approx. 10-15 min) to the Peak Tram Lower Terminus on Garden Road.`,
-                            `Take the Peak Tram to Victoria Peak.`,
-                            `Approximate travel time: 30-40 minutes.`
-                        ],
-                        proximityCategory: "Short Metro Ride"
-                    },
-                    {
-                        name: "Star Ferry (Tsim Sha Tsui)", address: "Tsim Sha Tsui Ferry Pier, Hong Kong", lat: 22.2938, lon: 114.1688,
-                        description: "An iconic and affordable way to cross Victoria Harbour, offering breathtaking skyline views.",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Hong Kong"].name} to Wan Chai Ferry Pier (approx. 10-12 min walk).`,
-                            `Take the Star Ferry from Wan Chai to Tsim Sha Tsui.`,
-                            `Approximate travel time: 20-25 minutes (including walk and ferry ride).`
-                        ],
-                        proximityCategory: "Walking Distance" // if you consider ferry as "walk" across harbor
-                    },
-                    {
-                        name: "Temple Street Night Market", address: "Temple St, Yau Ma Tei, Hong Kong", lat: 22.3107, lon: 114.1702,
-                        description: "Vibrant night market with street food, souvenirs, electronics, and fortune tellers.",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Hong Kong"].name} to Wan Chai Station (Island Line). (approx. 10-12 min walk)`,
-                            `From Wan Chai Station, take the Island Line towards Chai Wan to Admiralty Station (1 stop).`,
-                            `Transfer to Tsuen Wan Line (towards Tsuen Wan) at Admiralty Station and ride to Jordan Station (3 stops).`,
-                            `Take Exit A from Jordan Station and walk straight on Jordan Road, then turn right onto Temple Street.`,
-                            `Approximate travel time: 25-30 minutes.`
-                        ],
-                        proximityCategory: "Longer Metro Ride"
-                    },
-                    {
-                        name: "Ngong Ping 360 & Big Buddha", address: "Ngong Ping, Lantau Island, Hong Kong", lat: 22.2530, lon: 113.9041,
-                        description: "Cable car ride to Ngong Ping village, home to the Tian Tan Buddha (Big Buddha) and Po Lin Monastery.",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Hong Kong"].name} to Wan Chai Station (Island Line). (approx. 10-12 min walk)`,
-                            `From Wan Chai Station, take the Island Line towards Sheung Wan to Central Station (2 stops).`,
-                            `Transfer to Tung Chung Line (towards Tung Chung) at Central Station and ride to Tung Chung Station (7 stops).`,
-                            `From Tung Chung Station, walk to the Ngong Ping 360 Cable Car Terminal.`,
-                            `Approximate travel time: 1 hour - 1 hour 15 minutes.`
-                        ],
-                        proximityCategory: "Day Trip"
-                    }
-                ],
-                dining: [
-                    {
-                        name: "Tim Ho Wan (Sham Shui Po)", address: "9 Fuk Wing St, Sham Shui Po, Hong Kong", lat: 22.3275, lon: 114.1627,
-                        description: "Michelin-starred dim sum at incredibly affordable prices. Expect a queue!",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Hong Kong"].name} to Wan Chai Station (Island Line). (approx. 10-12 min walk)`,
-                            `From Wan Chai Station, take the Island Line towards Sheung Wan to Admiralty Station (1 stop).`,
-                            `Transfer to Tsuen Wan Line (towards Tsuen Wan) at Admiralty Station and ride to Sham Shui Po Station (4 stops).`,
-                            `Take Exit B2 from Sham Shui Po Station and walk straight on Fuk Wing Street.`,
-                            `Approximate travel time: 30-35 minutes.`
-                        ],
-                        proximityCategory: "Longer Metro Ride"
-                    },
-                    {
-                        name: "Luk Yu Tea House", address: "24 Stanley St, Central, Hong Kong", lat: 22.2818, lon: 114.1561,
-                        description: "Historic tea house offering traditional Cantonese dim sum and an old-world Hong Kong ambiance.",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Hong Kong"].name} to Wan Chai Station (Island Line). (approx. 10-12 min walk)`,
-                            `From Wan Chai Station, take the Island Line towards Sheung Wan to Central Station (2 stops).`,
-                            `Take Exit D2 from Central Station and walk to Stanley Street (approx. 5-7 min walk).`,
-                            `Approximate travel time: 20-25 minutes.`
-                        ],
-                        proximityCategory: "Short Metro Ride"
-                    },
-                    {
-                        name: "Yardbird", address: "154-158 Wing Lok St, Sheung Wan, Hong Kong", lat: 22.2859, lon: 114.1517,
-                        description: "Popular Japanese izakaya known for its yakitori and creative small plates.",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Hong Kong"].name} to Wan Chai Station (Island Line). (approx. 10-12 min walk)`,
-                            `From Wan Chai Station, take the Island Line towards Sheung Wan to Sheung Wan Station (3 stops).`,
-                            `Take Exit A2 from Sheung Wan Station and walk to Wing Lok Street (approx. 5-7 min walk).`,
-                            `Approximate travel time: 25-30 minutes.`
-                        ],
-                        proximityCategory: "Longer Metro Ride"
-                    },
-                    {
-                        name: "Mak's Noodle (Central)", address: "77 Wellington St, Central, Hong Kong", lat: 22.2831, lon: 114.1542,
-                        description: "Famous for its classic wonton noodles with delicate dumplings and flavorful broth.",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Hong Kong"].name} to Wan Chai Station (Island Line). (approx. 10-12 min walk)`,
-                            `From Wan Chai Station, take the Island Line towards Sheung Wan to Central Station (2 stops).`,
-                            `Take Exit D2 from Central Station and walk to Wellington Street (approx. 5-7 min walk).`,
-                            `Approximate travel time: 20-25 minutes.`
-                        ],
-                        proximityCategory: "Short Metro Ride"
-                    }
-                ],
-                activities: [
-                    {
-                        name: "Lantau Island (Hiking)", address: "Lantau Island, Hong Kong", lat: 22.2637, lon: 113.9518,
-                        description: "Offers numerous hiking trails, from leisurely walks to challenging climbs, with stunning natural beauty.",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Hong Kong"].name} to Wan Chai Station (Island Line). (approx. 10-12 min walk)`,
-                            `From Wan Chai Station, take the Island Line towards Sheung Wan to Central Station (2 stops).`,
-                            `Transfer to Tung Chung Line (towards Tung Chung) at Central Station and ride to Tung Chung Station (7 stops).`,
-                            `From Tung Chung, access various hiking trails, or take bus to starting points like Mui Wo or Tai O.`,
-                            `Approximate travel time: 1 hour - 1 hour 30 minutes.`
-                        ],
-                        proximityCategory: "Day Trip"
-                    },
-                    {
-                        name: "Hong Kong Zoological and Botanical Gardens", address: "Albany Rd, Central, Hong Kong", lat: 22.2798, lon: 114.1557,
-                        description: "A beautiful oasis in the city center, featuring a diverse collection of plants and animals.",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Hong Kong"].name} to Wan Chai Station (Island Line). (approx. 10-12 min walk)`,
-                            `From Wan Chai Station, take the Island Line towards Sheung Wan to Central Station (2 stops).`,
-                            `Take Exit D1 from Central Station and walk uphill towards Albany Road (approx. 10-15 min walk).`,
-                            `Approximate travel time: 25-30 minutes.`
-                        ],
-                        proximityCategory: "Short Metro Ride"
-                    },
-                    {
-                        name: "Man Mo Temple", address: "124-126 Hollywood Rd, Sheung Wan, Hong Kong", lat: 22.2838, lon: 114.1506,
-                        description: "A historic temple dedicated to the Gods of Literature (Man) and War (Mo), known for its intricate decorations and incense coils.",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Hong Kong"].name} to Wan Chai Station (Island Line). (approx. 10-12 min walk)`,
-                            `From Wan Chai Station, take the Island Line towards Sheung Wan to Sheung Wan Station (3 stops).`,
-                            `Take Exit A2 from Sheung Wan Station and walk uphill along Hollywood Road (approx. 10-15 min walk).`,
-                            `Approximate travel time: 25-30 minutes.`
-                        ],
-                        proximityCategory: "Longer Metro Ride"
-                    },
-                    {
-                        name: "Hong Kong Global Geopark", address: "Sai Kung, New Territories, Hong Kong", lat: 22.4200, lon: 114.3500,
-                        description: "A UNESCO-supported geopark showcasing stunning geological formations and coastal scenery.",
-                        metroDirectionsFromHotel: [
-                            `Take MTR from Wan Chai Station (Island Line) to North Point, transfer to Tseung Kwan O Line to Po Lam.`,
-                            `From Po Lam, take a taxi or bus to Sai Kung Pier (a main gateway to the geopark).`,
-                            `From Sai Kung, you'll need to arrange boat trips to specific sites within the geopark.`,
-                            `Approximate travel time: 1.5 - 2.5 hours one way (requires multiple transfers and potentially a boat).`
-                        ],
-                        proximityCategory: "Day Trip"
-                    }
-                ],
-                shopping: [
-                    {
-                        name: "Causeway Bay", address: "Hennessy Rd, Causeway Bay, Hong Kong", lat: 22.2795, lon: 114.1849,
-                        description: "A bustling shopping district offering everything from luxury malls to department stores and street markets.",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Hong Kong"].name} to Causeway Bay via Harbour Road and Great George Street (approx. 15-20 min walk).`,
-                            `Alternatively, take the tram from near the hotel towards Causeway Bay.`,
-                            `Approximate travel time: 15-20 minutes (walking/tram).`
-                        ],
-                        proximityCategory: "Walking Distance"
-                    },
-                    {
-                        name: "Mong Kok (Ladies' Market)", address: "Tung Choi St, Mong Kok, Hong Kong", lat: 22.3175, lon: 114.1702,
-                        description: "One of Hong Kong's most famous street markets, offering clothing, accessories, and souvenirs.",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Hong Kong"].name} to Wan Chai Station (Island Line). (approx. 10-12 min walk)`,
-                            `From Wan Chai Station, take the Island Line towards Sheung Wan to Admiralty Station (1 stop).`,
-                            `Transfer to Tsuen Wan Line (towards Tsuen Wan) at Admiralty Station and ride to Mong Kok Station (4 stops).`,
-                            `Take Exit E2 from Mong Kok Station; Ladies' Market is a short walk away.`,
-                            `Approximate travel time: 25-30 minutes.`
-                        ],
-                        proximityCategory: "Longer Metro Ride"
-                    },
-                    {
-                        name: "PMQ", address: "35 Aberdeen St, Central, Hong Kong", lat: 22.2828, lon: 114.1500,
-                        description: "A creative hub housed in a former police married quarters, featuring local design studios, boutiques, and cafes.",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Hong Kong"].name} to Wan Chai Station (Island Line). (approx. 10-12 min walk)`,
-                            `From Wan Chai Station, take the Island Line towards Sheung Wan to Sheung Wan Station (3 stops).`,
-                            `Take Exit A2 from Sheung Wan Station and walk uphill to Aberdeen Street (approx. 10-15 min walk).`,
-                            `Approximate travel time: 25-30 minutes.`
-                        ],
-                        proximityCategory: "Longer Metro Ride"
-                    },
-                    {
-                        name: "Admiralty (Pacific Place)", address: "88 Queensway, Admiralty, Hong Kong", lat: 22.2785, lon: 114.1645,
-                        description: "Upscale shopping mall with international luxury brands, cinemas, and restaurants.",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Hong Kong"].name} to Pacific Place (approx. 5-7 min walk). It's very close.`,
-                            `Approximate travel time: 5-7 minutes (walking).`
-                        ],
-                        proximityCategory: "Walking Distance"
-                    }
-                ],
-                entertainment: [ // Renamed from familyFriendly
-                    {
-                        name: "Hong Kong Disneyland", address: "Lantau Island, Hong Kong", lat: 22.3129, lon: 114.0412,
-                        description: "Family-friendly theme park with rides, parades, and character meet-and-greets.",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Hong Kong"].name} to Wan Chai Station (Island Line). (approx. 10-12 min walk)`,
-                            `From Wan Chai Station, take the Island Line towards Sheung Wan to Central Station (2 stops).`,
-                            `Transfer to Tung Chung Line (towards Tung Chung) at Central Station and ride to Sunny Bay Station (6 stops).`,
-                            `Transfer to Disneyland Resort Line at Sunny Bay Station and ride to Disneyland Resort Station.`,
-                            `Approximate travel time: 45 minutes - 1 hour.`
-                        ],
-                        proximityCategory: "Day Trip"
-                    },
-                    {
-                        name: "Ocean Park Hong Kong", address: "180 Wong Chuk Hang Rd, Aberdeen, Hong Kong", lat: 22.2472, lon: 114.1751,
-                        description: "Marine mammal park, oceanarium, and amusement park featuring animal exhibits and thrill rides.",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Hong Kong"].name} to Wan Chai Station (Island Line). (approx. 10-12 min walk)`,
-                            `From Wan Chai Station, take the Island Line towards Chai Wan to Admiralty Station (1 stop).`,
-                            `Transfer to South Island Line (towards South Horizons) at Admiralty Station and ride to Ocean Park Station (2 stops).`,
-                            `The park entrance is directly connected to the station.`,
-                            `Approximate travel time: 25-30 minutes.`
-                        ],
-                        proximityCategory: "Longer Metro Ride"
-                    },
-                    {
-                        name: "Symphony of Lights (Victoria Harbour)", address: "Victoria Harbour, Tsim Sha Tsui Promenade or Central Piers", lat: 22.2938, lon: 114.1688,
-                        description: "A spectacular daily light and music show featuring Hong Kong's iconic skyline.",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Hong Kong"].name} to Wan Chai Ferry Pier (approx. 10-12 min walk).`,
-                            `Take the Star Ferry to Tsim Sha Tsui side for best views (or stay on HK Island side at Central Piers).`,
-                            `Show starts at 8 PM nightly.`,
-                            `Approximate travel time: 20-25 minutes (including walk and ferry ride).`
-                        ],
-                        proximityCategory: "Walking Distance" // if you consider ferry as "walk" across harbor
-                    },
-                    {
-                        name: "Lan Kwai Fong / SoHo (Nightlife)", address: "Lan Kwai Fong / SoHo, Central, Hong Kong", lat: 22.2811, lon: 114.1534,
-                        description: "Vibrant districts known for their bars, pubs, clubs, and restaurants, popular for evening entertainment.",
-                        metroDirectionsFromHotel: [
-                            `Walk from ${hotelData["Hong Kong"].name} to Wan Chai Station (Island Line). (approx. 10-12 min walk)`,
-                            `From Wan Chai Station, take the Island Line towards Sheung Wan to Central Station (2 stops).`,
-                            `Take Exits D1/D2 and walk towards Lan Kwai Fong or SoHo (approx. 5-10 min walk, involves escalators).`,
-                            `Approximate travel time: 20-25 minutes.`
-                        ],
-                        proximityCategory: "Short Metro Ride"
-                    }
-                ]
-            }
-        };
+        const pageContainer = document.getElementById('currentPage');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const progress = document.getElementById('progress');
 
-        const getMetroDirections = (city, destinationName) => {
-            const destinationItem = Object.values(mockData[city] || {})
-                                        .flat()
-                                        .find(item => item.name === destinationName);
-            return destinationItem?.metroDirectionsFromHotel || ["Detailed directions not available for this item."];
-        };
-
-        const proximityCategoryOrder = ["Walking Distance", "Short Metro Ride", "Longer Metro Ride", "Day Trip", "Uncategorized"];
-
-        const groupByProximity = (items) => {
-            const groups = {};
-            items.forEach(item => {
-                const category = item.proximityCategory || "Uncategorized";
-                if (!groups[category]) groups[category] = [];
-                groups[category].push(item);
-            });
-
-            // Sort items within each group alphabetically for consistency
-            for (const category in groups) {
-                groups[category].sort((a, b) => a.name.localeCompare(b.name));
-            }
-
-            // Order the groups based on proximityCategoryOrder
-            const sortedGroups = {};
-            proximityCategoryOrder.forEach(cat => {
-                if (groups[cat]) {
-                    sortedGroups[cat] = groups[cat];
-                }
-            });
-            return sortedGroups;
-        };
-
-        const App = () => {
-            const [city, setCity] = React.useState("");
-            const [hotelDisplayAddress, setHotelDisplayAddress] = React.useState(""); // New state for display
-            const [view, setView] = React.useState("categorized");
-            const [recommendations, setRecommendations] = React.useState(null);
-
-            React.useEffect(() => {
-                if (city && hotelData[city]) {
-                    // Update to show hotel name and address
-                    setHotelDisplayAddress(`${hotelData[city].name}, ${hotelData[city].address}`);
-                } else {
-                    setHotelDisplayAddress("");
-                }
-            }, [city]);
-
-            const handleSubmit = (e) => {
-                e.preventDefault();
-                if (mockData[city]) {
-                    setRecommendations(mockData[city]);
-                } else {
-                    alert("Please select a city: Seoul, Shanghai, or Hong Kong.");
-                    setCity("");
-                    setRecommendations(null);
-                }
-            };
-
-            const renderRecommendation = (item) => ( // Removed unused 'type' parameter
-                <div key={item.name} className="bg-white p-4 rounded-lg shadow mb-4">
-                    <h3 className="text-lg font-semibold">{item.name}</h3>
-                    <p className="text-sm text-gray-600">{item.address}</p>
-                    <p className="text-sm">{item.description}</p>
-                    <h4 className="text-md font-medium mt-2">Metro Directions from {hotelData[city]?.name || "Hotel"}:</h4>
-                    <ul className="list-disc pl-5 text-sm">
-                        {getMetroDirections(city, item.name).map((step, idx) => (
-                            <li key={idx}>{step}</li>
-                        ))}
-                    </ul>
-                </div>
-            );
-
-            const renderCategorizedView = () => (
-                <div>
-                    {['attractions', 'dining', 'activities', 'shopping', 'entertainment'].map(type => (
-                        recommendations[type]?.length > 0 && (
-                            <div key={type}>
-                                <h2 className="text-xl font-bold capitalize mt-6 mb-2">{type.replace(/([A-Z])/g, ' $1')}</h2>
-                                {recommendations[type].map(item => renderRecommendation(item))}
-                            </div>
-                        )
-                    ))}
-                </div>
-            );
-
-            const renderProximityView = () => {
-                const allItems = Object.values(recommendations).flat();
-                const grouped = groupByProximity(allItems);
-                return (
-                    <div>
-                        {Object.entries(grouped).map(([area, items]) => (
-                            <div key={area}>
-                                <h2 className="text-xl font-bold mt-6 mb-2">{area}</h2>
-                                {items.map(item => renderRecommendation(item))}
-                            </div>
-                        ))}
-                    </div>
-                );
-            };
-
-            return (
-                <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-4xl mx-auto">
-                    <h1 className="text-2xl font-bold mb-4 text-center">Travel Planning Advisor</h1>
-                    <form onSubmit={handleSubmit} className="mb-6">
-                        <div className="mb-4">
-                            <label htmlFor="city-select" className="block text-sm font-medium mb-1">City</label>
-                            <select
-                                id="city-select"
-                                value={city}
-                                onChange={(e) => setCity(e.target.value)}
-                                className="w-full p-2 border rounded"
-                            >
-                                <option value="">Select a city</option>
-                                <option value="Seoul">Seoul</option>
-                                <option value="Shanghai">Shanghai</option>
-                                <option value="Hong Kong">Hong Kong</option>
-                            </select>
-                        </div>
-                        <div className="mb-4">
-                            <label htmlFor="hotel-address" className="block text-sm font-medium mb-1">Hotel Address</label>
-                            <input
-                                type="text"
-                                id="hotel-address"
-                                value={hotelDisplayAddress} // Use the new state variable here
-                                readOnly
-                                className="w-full p-2 border rounded bg-gray-100"
-                            />
-                        </div>
-                        <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">
-                            Generate Plan
-                        </button>
-                    </form>
-                    {recommendations && ( // Only show view toggles if recommendations exist
-                        <>
-                            <div className="flex justify-center mb-4">
-                                <button
-                                    onClick={() => setView("categorized")}
-                                    className={`mr-2 p-2 rounded ${view === "categorized" ? "bg-blue-500 text-white" : "bg-gray-200"}`}
-                                >
-                                    Categorized View
-                                </button>
-                                <button
-                                    onClick={() => setView("proximity")}
-                                    className={`p-2 rounded ${view === "proximity" ? "bg-blue-500 text-white" : "bg-gray-200"}`}
-                                >
-                                    Proximity View
-                                </button>
-                            </div>
-                            {view === "categorized" ? renderCategorizedView() : renderProximityView()}
-                        </>
-                    )}
-                </div>
-            );
-        };
-
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<App />);
-
-        // --- Service Worker Logic (Embedded as a Blob) ---
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                const swCode = `
-                    const CACHE_NAME = 'travel-advisor-cache-v2';
-                    const urlsToCache = [
-                        '/', // Attempts to cache the root, but might not fully work for index.html itself
-                        'https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js',
-                        'https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js',
-                        'https://cdn.jsdelivr.net/npm/@babel/standalone@7.24.7/babel.min.js'
-                        // Icons for manifest are data: URLs and don't need explicit caching here
-                    ];
-
-                    self.addEventListener('install', (event) => {
-                        event.waitUntil(
-                            caches.open(CACHE_NAME)
-                                .then((cache) => {
-                                    console.log('Service Worker: Opened cache');
-                                    return cache.addAll(urlsToCache);
-                                })
-                                .catch(error => {
-                                    console.error('Service Worker: Failed to cache all URLs', error);
-                                })
-                        );
-                    });
-
-                    self.addEventListener('fetch', (event) => {
-                        event.respondWith(
-                            caches.match(event.request)
-                                .then((response) => {
-                                    if (response) {
-                                        console.log('Service Worker: Serving from cache:', event.request.url);
-                                        return response;
-                                    }
-                                    return fetch(event.request).then(
-                                        (networkResponse) => {
-                                            if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
-                                                return networkResponse;
-                                            }
-                                            const responseToCache = networkResponse.clone();
-                                            caches.open(CACHE_NAME)
-                                                .then((cache) => {
-                                                    cache.put(event.request, responseToCache);
-                                                });
-                                            return networkResponse;
-                                        }
-                                    ).catch(error => {
-                                        console.error('Service Worker: Fetch failed:', event.request.url, error);
-                                    });
-                                })
-                        );
-                    });
-
-                    self.addEventListener('activate', (event) => {
-                        const cacheWhitelist = [CACHE_NAME];
-                        event.waitUntil(
-                            caches.keys().then((cacheNames) => {
-                                return Promise.all(
-                                    cacheNames.map((cacheName) => {
-                                        if (cacheWhitelist.indexOf(cacheName) === -1) {
-                                            console.log('Service Worker: Deleting old cache:', cacheName);
-                                            return caches.delete(cacheName);
-                                        }
-                                    })
-                                );
-                            })
-                        );
-                    });
+        function showPage(page) {
+            if (page === 0) {
+                // Intro page
+                pageContainer.innerHTML = `
+                    <h2>Welcome to the Core Values Discovery Wizard</h2>
+                    <p>This app is designed to help you uncover your core human values by exploring what matters most to you. Through a series of questions, you'll reflect on 24 key values, rating their importance to you. Each value will be presented one at a time, with three probing questions to help you think deeply about its role in your life.</p>
+                    <p>You'll rate each question on a scale from 1 (least important) to 5 (most important), with 3 being indifferent. At the end, you'll receive a personalized report identifying your top core values, explaining them through psychological frameworks like Maslow’s Hierarchy of Needs and Schwartz’s Value Theory, and highlighting situations that may make you happy or upset based on those values.</p>
+                    <p>Click "Next" to begin your journey of self-discovery!</p>
                 `;
+                prevBtn.style.display = 'none';
+                progress.textContent = `Starting the wizard...`;
+            } else {
+                // Value pages
+                const value = valuesData[page - 1];
+                pageContainer.innerHTML = `
+                    <h2>${value.name} (${page}/${valuesData.length})</h2>
+                    <div class="value-page">
+                        ${value.questions.map((q, qIndex) => `
+                            <div class="question">
+                                <label for="q${qIndex}">${q}</label>
+                                <div class="slider-container">
+                                    <div class="slider-labels">
+                                        <span>1 (Least Important)</span>
+                                        <span>5 (Most Important)</span>
+                                    </div>
+                                    <input type="range" id="q${qIndex}" min="1" max="5" value="${responses[page - 1][qIndex]}">
+                                    <div class="slider-value" id="sliderValue${qIndex}">${responses[page - 1][qIndex]}</div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                prevBtn.style.display = 'inline-block';
+                progress.textContent = `${valuesData.length - (page - 1)} value${(valuesData.length - (page - 1)) === 1 ? '' : 's'} remaining`;
 
-                const blob = new Blob([swCode], { type: 'application/javascript' });
-                const swUrl = URL.createObjectURL(blob);
+                value.questions.forEach((q, qIndex) => {
+                    const slider = document.getElementById(`q${qIndex}`);
+                    const output = document.getElementById(`sliderValue${qIndex}`);
+                    slider.oninput = function() {
+                        output.innerHTML = this.value;
+                        responses[page - 1][qIndex] = parseInt(this.value);
+                    };
+                });
+            }
 
-                navigator.serviceWorker.register(swUrl)
-                    .then(registration => {
-                        console.log('SW registered:', registration);
-                    })
-                    .catch(registrationError => {
-                        console.log('SW registration failed:', registrationError);
-                    });
-            });
+            prevBtn.disabled = page === 0;
+            nextBtn.textContent = page === valuesData.length ? 'Submit' : 'Next';
         }
+
+        prevBtn.addEventListener('click', () => {
+            if (currentPage > 0) {
+                currentPage--;
+                showPage(currentPage);
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentPage < valuesData.length) {
+                currentPage++;
+                showPage(currentPage);
+            } else {
+                // Submit
+                const ratings = valuesData.map((value, i) => {
+                    const sum = responses[i].reduce((a, b) => a + b, 0);
+                    const avg = sum / 3;
+                    const scaled = ((avg - 1) * (9 / 4)) + 1; // Scale 1-5 to 1-10
+                    return { ...value, rating: scaled.toFixed(2) };
+                });
+
+                ratings.sort((a, b) => b.rating - a.rating);
+                let coreValues = ratings.filter(v => v.rating >= 7).slice(0, 5);
+                if (coreValues.length < 5) {
+                    const additional = ratings.filter(v => v.rating >= 6).slice(0, 5 - coreValues.length);
+                    coreValues.push(...additional);
+                }
+
+                document.getElementById('quiz').style.display = 'none';
+                const report = document.getElementById('report');
+                report.style.display = 'block';
+
+                const coreList = document.getElementById('coreValues');
+                coreList.innerHTML = '<p>Your top core values based on your ratings (scaled to 1-10):</p><ul>' + coreValues.map(v => `<li>${v.name} (Rating: ${v.rating})</li>`).join('') + '</ul>';
+
+                const tableBody = document.querySelector('#explanationsTable tbody');
+                tableBody.innerHTML = '';
+                coreValues.forEach(v => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${v.name}</td>
+                        <td>${v.maslow}</td>
+                        <td>${v.schwartz}</td>
+                        <td>${v.notes}</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+
+                const triggersDiv = document.getElementById('triggers');
+                triggersDiv.innerHTML = '<p>Summary of triggers that may make you upset or happy based on your core values:</p>';
+                coreValues.forEach(v => {
+                    const section = document.createElement('div');
+                    section.innerHTML = `
+                        <h3>${v.name}</h3>
+                        <ul>
+                            <li><strong>Upset by:</strong> ${triggerExamples[v.name].upset}</li>
+                            <li><strong>Happy by:</strong> ${triggerExamples[v.name].happy}</li>
+                        </ul>
+                    `;
+                    triggersDiv.appendChild(section);
+                });
+            }
+        });
+
+        // Initial load
+        showPage(currentPage);
     </script>
 </body>
 </html>
+
+
