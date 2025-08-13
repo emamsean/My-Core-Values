@@ -235,6 +235,7 @@
             padding: 12px;
             text-align: left;
             vertical-align: top;
+            font-size: 0.9em;
         }
         th {
             background: #f2f2f2;
@@ -257,6 +258,41 @@
             border-radius: 6px;
             border: 1px solid #cbd5e0;
             cursor: pointer;
+        }
+
+        /* Responsive Table */
+        @media (max-width: 600px) {
+            table, thead, tbody, th, td, tr {
+                display: block;
+            }
+            thead tr {
+                display: none;
+            }
+            tr {
+                margin-bottom: 15px;
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                padding: 10px;
+            }
+            td {
+                border: none;
+                position: relative;
+                padding-left: 50%;
+                text-align: right;
+            }
+            td:before {
+                content: attr(data-label);
+                position: absolute;
+                left: 10px;
+                width: 45%;
+                padding-right: 10px;
+                white-space: nowrap;
+                text-align: left;
+                font-weight: bold;
+            }
+            td:nth-of-type(1):before { content: "Core Human Value"; }
+            td:nth-of-type(2):before { content: "Why it Matters to You"; }
+            td:nth-of-type(3):before { content: "What it Looks Like in Life"; }
         }
     </style>
 </head>
@@ -738,6 +774,7 @@
                 document.getElementById('quiz').style.display = 'none';
                 const report = document.getElementById('report');
                 report.style.display = 'block';
+                window.scrollTo(0, 0); // Scroll to top on report page
 
                 const coreList = document.getElementById('coreValues');
                 coreList.innerHTML = `<h3>Your Top Values Are:</h3><ul>` + coreValues.map(v => `<li><strong>${v.name}</strong> (Rating: ${v.rating}/10)</li>`).join('') + '</ul>';
