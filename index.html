@@ -264,6 +264,16 @@
             border: 1px solid #cbd5e0;
             cursor: pointer;
         }
+        #personalityProfile h3 {
+            font-size: 1.5em;
+            color: #4299e1;
+            margin-bottom: 10px;
+        }
+        #personalityProfile p {
+            font-size: 1.1em;
+            color: #4a5568;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
@@ -281,6 +291,12 @@
         <h2>Your Core Values Report</h2>
         <div class="results-intro">This report helps you understand what truly drives you. Your core values are the principles that guide your life and shape your decisions.</div>
         <div class="report-section" id="coreValues"></div>
+
+        <div class="report-section">
+            <h2>Your Personality Profile</h2>
+            <div id="personalityProfile"></div>
+        </div>
+
         <div class="report-section">
             <h2>What Your Values Mean</h2>
             <div class="table-container">
@@ -519,22 +535,134 @@
         ];
         
         const triggerExamples = {
-            "Fairness & Justice": { upset: "Witnessing a classmate get an unfair grade because the teacher plays favorites, or seeing a friend get blamed for something they didn't do.", happy: "Seeing a situation where a bully is held accountable, or watching a team win because they followed the rules and worked together." },
-            "Integrity & Honesty": { upset: "Finding out a friend has been talking about you behind your back or lied to get out of trouble.", happy: "Having a tough conversation with a friend that ends up making your trust in them even stronger." },
-            "Connection & Belonging": { upset: "Feeling left out when your friends make plans without you, or being the new kid and not having anyone to sit with at lunch.", happy: "Laughing with your best friends at a sleepover or feeling like you're a real part of a school club." },
-            "Autonomy & Freedom": { upset: "Being told exactly what to wear or how to do a school project, leaving no room for your own ideas.", happy: "Getting to choose your own elective classes or having the freedom to pursue a passion project on your own." },
-            "Compassion & Empathy": { upset: "Seeing someone being bullied and feeling helpless to stop it, or watching someone cry and no one tries to comfort them.", happy: "Standing up for someone being picked on or raising money for a cause you care about." },
-            "Achievement & Competence": { upset: "Putting in a ton of effort on a test and still failing, or not making the team after trying your hardest.", happy: "Finally getting an 'A' on a really hard test or winning a big game after all your practice." },
-            "Growth & Learning": { upset: "Having a boring class where you don't learn anything new, or feeling like you're stuck in the same routine.", happy: "Mastering a new instrument, learning a complex coding skill, or finally understanding a difficult subject." },
-            "Security & Stability": { upset: "Worrying about money, or having a big fight at home that makes things feel unstable.", happy: "Having a stable friend group you know will always be there, or getting a part-time job that gives you a sense of financial security." },
-            "Creativity & Innovation": { upset: "Being forced to write a report with no room for personal expression, or feeling stuck in a rut with no new ideas.", happy: "Writing an amazing song, creating a cool piece of art, or coming up with a clever solution for a school problem." },
-            "Purpose & Meaning": { upset: "Feeling like what you do in school or your part-time job doesn't matter.", happy: "Volunteering for a cause you believe in or starting a project that helps your community." },
-            "Respect": { upset: "Someone making fun of your clothing or your beliefs, or an adult talking down to you.", happy: "A teacher listening carefully to your opinion in class, even if they don't agree with you." },
-            "Loyalty & Trust": { upset: "A close friend telling your secret to others, or finding out a friend has been secretly hanging out with someone who has treated you poorly.", happy: "Having a friend stand by you when you're in a tough situation, even if it's not popular." },
-            "Accountability & Responsibility": { upset: "When a group project fails because one person didn't do their part and then blamed everyone else.", happy: "Successfully completing a challenging project you were in charge of, or apologizing to someone for a mistake and making things right." },
-            "Gratitude & Appreciation": { upset: "Working hard on a presentation and not getting any credit for your effort.", happy: "Getting a heartfelt thank you from a friend or family member, or taking a moment to appreciate something simple, like a good meal." },
-            "Stewardship & Sustainability": { upset: "Seeing people litter or hearing about an oil spill that hurts animals.", happy: "Participating in a school clean-up day or successfully convincing your family to start recycling." },
-            "Excellence & Mastery": { upset: "Getting a low grade on a project you didn't put effort into, or seeing a sports team not try their best.", happy: "Getting a perfect score on a test, hitting a game-winning shot in basketball, or creating a piece of work you're truly proud of." }
+            "Fairness & Justice": {
+                teens: { upset: "Seeing a friend get an unfair grade because the teacher plays favorites.", happy: "Watching a team win because they followed the rules and worked together." },
+                college: { upset: "Finding out a professor graded a group project unfairly based on a personal bias.", happy: "Working with a team where everyone's contributions are valued equally." },
+                early_career: { upset: "Realizing that promotions are not based on merit, but on favoritism.", happy: "Working in a company with transparent and equitable hiring practices." },
+                mid_career: { upset: "Seeing a colleague discriminated against in a hiring or promotion process.", happy: "Leading a project where every team member is given a fair chance to succeed." },
+                late_career: { upset: "Hearing about an unfair policy that negatively impacts younger colleagues.", happy: "Advocating for a community initiative that provides equal opportunities for everyone." },
+                retirement: { upset: "Seeing social policies that unfairly impact vulnerable members of society.", happy: "Supporting a local cause that promotes equality and justice for all." }
+            },
+            "Integrity & Honesty": {
+                teens: { upset: "Finding out a friend has been talking about you behind your back.", happy: "Having a tough conversation with a friend that ends up making your trust in them even stronger." },
+                college: { upset: "Discovering a classmate cheated on a project or exam.", happy: "Being able to openly admit a mistake in a class presentation and still have the respect of your peers." },
+                early_career: { upset: "A colleague taking credit for your work or misrepresenting a project's status.", happy: "Working for a company that is transparent and honest with its employees and clients." },
+                mid_career: { upset: "Working in a company where leaders are not honest about business challenges.", happy: "Mentoring a junior colleague and modeling what it means to be a person of your word." },
+                late_career: { upset: "Seeing a trusted business partner act unethically for personal gain.", happy: "Being known as an ethical and honest leader in your industry." },
+                retirement: { upset: "Seeing public figures or companies act with a lack of integrity.", happy: "Being able to look back on a life lived with honesty and strong moral principles." }
+            },
+            "Connection & Belonging": {
+                teens: { upset: "Feeling left out when your friends make plans without you.", happy: "Laughing with your best friends at a sleepover or feeling like you're a real part of a school club." },
+                college: { upset: "Feeling like you don't fit in with your roommate or a club you joined.", happy: "Finding a close-knit group of friends who truly accept you for who you are." },
+                early_career: { upset: "Feeling isolated from your team or not being invited to social events.", happy: "Building strong, supportive friendships with your colleagues at work." },
+                mid_career: { upset: "Feeling disconnected from your spouse or children due to work demands.", happy: "Hosting a dinner party with close friends and family, and feeling a strong sense of community." },
+                late_career: { upset: "Feeling disconnected from family or long-time friends.", happy: "Organizing a reunion or get-together with people you've been close to for years." },
+                retirement: { upset: "Feeling lonely after moving or retiring from a career you loved.", happy: "Joining a community group and feeling a strong sense of purpose and belonging." }
+            },
+            "Autonomy & Freedom": {
+                teens: { upset: "Being told exactly what to wear or how to do a school project, leaving no room for your own ideas.", happy: "Getting to choose your own elective classes or having the freedom to pursue a passion project on your own." },
+                college: { upset: "Being micromanaged by a professor or a boss at a part-time job.", happy: "Creating your own schedule and having the freedom to explore different academic interests." },
+                early_career: { upset: "A manager constantly checking in on your work and telling you how to do it.", happy: "Being trusted to work independently on a project and manage your own time." },
+                mid_career: { upset: "Being constrained by rigid corporate rules that stifle innovation.", happy: "Having the freedom to shape your team's strategy and make key decisions on your own." },
+                late_career: { upset: "Feeling like you no longer have control over your life decisions.", happy: "Having the financial freedom to choose your own projects and volunteer work." },
+                retirement: { upset: "Being told by others how you should spend your retirement.", happy: "Enjoying the freedom to pursue hobbies and travel on your own terms." }
+            },
+            "Compassion & Empathy": {
+                teens: { upset: "Seeing someone being bullied and feeling helpless to stop it.", happy: "Standing up for someone being picked on or raising money for a cause you care about." },
+                college: { upset: "Seeing a classmate struggle with mental health, and no one offers support.", happy: "Volunteering for a campus charity or being a supportive friend to someone going through a tough time." },
+                early_career: { upset: "Working for a company that doesn't care about its employees' well-being.", happy: "Mentoring a junior colleague and helping them navigate a difficult time." },
+                mid_career: { upset: "Seeing a leader who lacks empathy for their team's struggles.", happy: "Creating a supportive and compassionate team culture." },
+                late_career: { upset: "Seeing others ignore social issues and injustices.", happy: "Using your expertise to help a non-profit organization." },
+                retirement: { upset: "Hearing about a hardship faced by a family member and feeling helpless.", happy: "Spending time volunteering or donating to a cause that helps those in need." }
+            },
+            "Achievement & Competence": {
+                teens: { upset: "Putting in a ton of effort on a test and still failing.", happy: "Finally getting an 'A' on a really hard test or winning a big game after all your practice." },
+                college: { upset: "Not making the grade you wanted in a difficult class, despite your hard work.", happy: "Earning a top spot in a competitive internship or winning an academic award." },
+                early_career: { upset: "Feeling like your hard work is not recognized or valued by your employer.", happy: "Getting a promotion or a bonus for a project you led to success." },
+                mid_career: { upset: "A project you led failing to meet its goals.", happy: "Successfully leading a team to achieve a difficult target or launching a successful product." },
+                late_career: { upset: "Not being able to pass on your knowledge and expertise to others.", happy: "Receiving an industry award or recognition for a lifetime of work." },
+                retirement: { upset: "Feeling like you are no longer productive or needed.", happy: "Mastering a new hobby like painting or gardening and creating something you are proud of." }
+            },
+            "Growth & Learning": {
+                teens: { upset: "Having a boring class where you don't learn anything new.", happy: "Mastering a new instrument, learning a complex coding skill, or finally understanding a difficult subject." },
+                college: { upset: "Taking classes that are easy but don't challenge you to think critically.", happy: "Attending a workshop or conference that teaches you a new skill or changes your perspective." },
+                early_career: { upset: "A job that has you doing the same thing every day with no chance to learn.", happy: "Being given a new project that requires you to learn new skills and think creatively." },
+                mid_career: { upset: "Feeling like you've reached a plateau in your career.", happy: "Taking on a new leadership challenge or getting a certification in a new area." },
+                late_career: { upset: "Feeling like your knowledge is becoming outdated.", happy: "Mentoring younger colleagues and learning new things from them." },
+                retirement: { upset: "Having too much free time and no desire to learn new things.", happy: "Taking a class at a local college or learning a new skill through online tutorials." }
+            },
+            "Security & Stability": {
+                teens: { upset: "Worrying about money, or having a big fight at home that makes things feel unstable.", happy: "Having a stable friend group you know will always be there." },
+                college: { upset: "Feeling stressed about student loans or not knowing what to do after graduation.", happy: "Getting a stable part-time job or having a clear plan for your future." },
+                early_career: { upset: "Worrying about getting laid off or not being able to pay your bills.", happy: "Building a savings account and having a steady, predictable routine." },
+                mid_career: { upset: "Having a sudden financial setback or a major career change you didn't plan for.", happy: "Feeling financially secure enough to provide for your family's future." },
+                late_career: { upset: "Worrying about whether you have enough money to retire comfortably.", happy: "Knowing you have a solid financial plan and can live a comfortable retirement." },
+                retirement: { upset: "Worrying about the cost of living or unexpected health issues.", happy: "Having a predictable routine and knowing your financial needs are met." }
+            },
+            "Creativity & Innovation": {
+                teens: { upset: "Being forced to write a report with no room for personal expression.", happy: "Writing an amazing song, creating a cool piece of art, or coming up with a clever solution for a school problem." },
+                college: { upset: "Being stuck with a rigid assignment that doesn't allow for creative thinking.", happy: "Coming up with a unique idea for a project that gets a great response from your professor and peers." },
+                early_career: { upset: "A job that has you following a strict script with no room for new ideas.", happy: "Successfully pitching a new idea to your manager and getting to lead its development." },
+                mid_career: { upset: "A company culture that stifles new ideas and is resistant to change.", happy: "Leading a team that's praised for its innovative approach to a long-standing problem." },
+                late_career: { upset: "Feeling like your ideas are no longer valued because of your age.", happy: "Mentoring a younger colleague and helping them think more creatively about a problem." },
+                retirement: { upset: "Having no outlet for your creative energy.", happy: "Pursuing a new hobby like woodworking, painting, or writing a memoir." }
+            },
+            "Purpose & Meaning": {
+                teens: { upset: "Feeling like what you do in school doesn't matter.", happy: "Volunteering for a cause you believe in or starting a project that helps your community." },
+                college: { upset: "Feeling disconnected from your academic path, questioning its purpose.", happy: "Choosing a major that aligns with your passions and has a clear positive impact on the world." },
+                early_career: { upset: "A job that feels like 'just a paycheck' with no greater purpose.", happy: "Working for a company with a strong mission you believe in, or volunteering your time for a cause." },
+                mid_career: { upset: "Feeling unfulfilled in your career despite professional success.", happy: "Taking on a role that has a positive impact on others or starting a side project with a social mission." },
+                late_career: { upset: "Worrying that your career has not had a lasting impact.", happy: "Mentoring a new generation of leaders and seeing them thrive." },
+                retirement: { upset: "Feeling like you no longer have a purpose after retiring.", happy: "Volunteering in your community or starting a project that gives back to others." }
+            },
+            "Respect": {
+                teens: { upset: "Someone making fun of your clothing or your beliefs.", happy: "A teacher listening carefully to your opinion in class, even if they don't agree with you." },
+                college: { upset: "Being interrupted or dismissed in a group discussion by a classmate.", happy: "Working with a diverse group of people where everyone's unique perspective is valued." },
+                early_career: { upset: "A manager who talks down to you or ignores your feedback.", happy: "Having a respectful working relationship where your manager trusts your judgment." },
+                mid_career: { upset: "Working in an environment where colleagues are not inclusive of different opinions.", happy: "Leading a team that fosters open dialogue and mutual respect." },
+                late_career: { upset: "Feeling like your years of experience are not respected by younger colleagues.", happy: "Serving as a mentor and having your advice and wisdom genuinely valued." },
+                retirement: { upset: "Being treated as if you are out of touch or your opinions don't matter.", happy: "Having your family and community come to you for advice and guidance." }
+            },
+            "Loyalty & Trust": {
+                teens: { upset: "A close friend telling your secret to others.", happy: "Having a friend stand by you when you're in a tough situation, even if it's not popular." },
+                college: { upset: "A roommate sharing your private information with others.", happy: "Building a close-knit group of friends you can confide in and trust completely." },
+                early_career: { upset: "A colleague betraying your trust for their own career advancement.", happy: "Working with a team you know you can rely on and trust to have your back." },
+                mid_career: { upset: "Finding out a close friend or colleague has been disloyal.", happy: "Having a few trusted friends and family members you know you can always count on." },
+                late_career: { upset: "Seeing an organization break its promises to its employees or customers.", happy: "Being known as a person of your word, building a reputation of trust." },
+                retirement: { upset: "Having a long-time friend or family member betray your trust.", happy: "Having lifelong friendships and family ties built on a foundation of deep trust." }
+            },
+            "Accountability & Responsibility": {
+                teens: { upset: "When a group project fails because one person didn't do their part and then blamed everyone else.", happy: "Successfully completing a challenging project you were in charge of." },
+                college: { upset: "A group member failing to do their work, jeopardizing the whole project.", happy: "Getting a great grade on a project because you took ownership and made sure everyone followed through." },
+                early_career: { upset: "A manager who blames their team for their own mistakes.", happy: "Being given responsibility for an important project and being trusted to see it through." },
+                mid_career: { upset: "Working with colleagues who constantly pass the buck and avoid accountability.", happy: "Successfully leading a team and holding yourself and others responsible for achieving goals." },
+                late_career: { upset: "A leader in your industry not taking responsibility for their company's mistakes.", happy: "Mentoring a junior colleague on the importance of taking ownership and being reliable." },
+                retirement: { upset: "Feeling like a political leader is not taking responsibility for their actions.", happy: "Taking on a leadership role in your community and being a dependable resource." }
+            },
+            "Gratitude & Appreciation": {
+                teens: { upset: "Working hard on a presentation and not getting any credit for your effort.", happy: "Getting a heartfelt thank you from a friend or teacher." },
+                college: { upset: "A professor not acknowledging the effort you put into a difficult paper.", happy: "Feeling a sense of gratitude for your friends and the opportunities you have in college." },
+                early_career: { upset: "Working hard on a project, but your manager never acknowledges your contribution.", happy: "Being thanked by a client or manager for going the extra mile on a project." },
+                mid_career: { upset: "Feeling unappreciated by your team or family.", happy: "Taking a moment to appreciate the career and life you have built." },
+                late_career: { upset: "Feeling like your years of hard work have gone unappreciated.", happy: "Receiving a heartfelt thank you from a mentee or colleague." },
+                retirement: { upset: "Feeling that people have taken your contributions for granted.", happy: "Reflecting on your life and feeling a deep sense of gratitude for the people and experiences you've had." }
+            },
+            "Stewardship & Sustainability": {
+                teens: { upset: "Seeing people litter or hearing about an oil spill that hurts animals.", happy: "Participating in a school clean-up day or successfully convincing your family to start recycling." },
+                college: { upset: "Seeing your campus waste a lot of resources with no environmental initiatives.", happy: "Joining a campus environmental club and helping to organize a sustainable event." },
+                early_career: { upset: "Working for a company that is not environmentally conscious.", happy: "Supporting a local environmental charity or making a commitment to reduce your own carbon footprint." },
+                mid_career: { upset: "Seeing your company make a decision that harms the environment.", happy: "Leading a team that implements a new eco-friendly policy or product at your company." },
+                late_career: { upset: "Worrying about the state of the planet for your children and grandchildren.", happy: "Volunteering for a conservation group or supporting a local park." },
+                retirement: { upset: "Seeing a local natural area being developed without concern for the ecosystem.", happy: "Helping to start a community garden or supporting local conservation efforts." }
+            },
+            "Excellence & Mastery": {
+                teens: { upset: "Getting a low grade on a project you didn't put effort into, or seeing a sports team not try their best.", happy: "Getting a perfect score on a test, hitting a game-winning shot in basketball, or creating a piece of work you're truly proud of." },
+                college: { upset: "Doing poorly in a subject you used to excel at.", happy: "Becoming a master of a new skill or receiving a high honor for your academic performance." },
+                early_career: { upset: "Making a critical error at work that shows a lack of attention to detail.", happy: "Successfully completing a difficult task that no one else could figure out." },
+                mid_career: { upset: "Feeling like you're no longer at the top of your game.", happy: "Being recognized as a leader and expert in your field by your peers." },
+                late_career: { upset: "Seeing a project you oversaw fail due to poor execution.", happy: "Receiving an award for your life's work or becoming a highly sought-after mentor." },
+                retirement: { upset: "Feeling like you've lost your edge or skills from your career.", happy: "Becoming a master of a new hobby and taking pride in your new skills." }
+            }
         };
         
         const whatsNextAdvice = {
@@ -593,6 +721,38 @@
                 <p>Your values are a part of you. Use this report as a tool to live a life that is authentic and meaningful to you.</p>
             `
         };
+
+        const personalityProfiles = {
+            "The Innovator": {
+                title: "The Innovator: A Curious and Creative Thinker",
+                description: "Your core values suggest a high degree of **Openness to Experience**. You are driven by curiosity, imagination, and a desire for novelty. You likely thrive in environments that challenge you to learn, grow, and think outside the box. You are a natural problem-solver who enjoys exploring new ideas and expressing yourself creatively."
+            },
+            "The Harmonizer": {
+                title: "The Harmonizer: A Compassionate and Cooperative Ally",
+                description: "Your core values point to a high degree of **Agreeableness**. You are empathetic, cooperative, and deeply concerned with the well-being of others. You likely excel at building relationships and creating a sense of community. You are driven by a strong moral compass and feel a need to ensure fairness and compassion in your interactions and the world around you."
+            },
+            "The Achiever": {
+                title: "The Achiever: A Disciplined and Reliable Force",
+                description: "Your core values indicate a high degree of **Conscientiousness**. You are organized, responsible, and highly motivated to succeed. You take pride in your work and hold yourself to a high standard of excellence. You are the person people can count on to follow through on commitments and to lead with a clear sense of purpose and direction."
+            },
+            "The Community Builder": {
+                title: "The Community Builder: A Loyal and Empathetic Leader",
+                description: "Your core values suggest a blend of **Agreeableness** and a desire for **Connection**. You are a strong advocate for your community and a loyal friend. You are motivated by a deep sense of empathy and a desire to build and maintain strong, trusting relationships. You feel a sense of purpose when you are helping others and fostering a positive and inclusive environment."
+            },
+            "The Purpose-Driven Leader": {
+                title: "The Purpose-Driven Leader: A Visionary with Integrity",
+                description: "Your values highlight a strong drive for **Purpose & Meaning** combined with **Integrity**. You are not just a leader; you are a visionary who seeks to make a lasting, positive impact. You are guided by a clear sense of right and wrong and are motivated by the desire to contribute to something bigger than yourself. You are likely an inspirational figure who earns trust by living your values."
+            },
+            "The Balanced Individual": {
+                title: "The Balanced Individual: A Well-Rounded and Adaptable Spirit",
+                description: "Your core values are a healthy mix of different traits. You likely possess a unique blend of empathy, a drive for achievement, and a desire for personal growth. This balance makes you highly adaptable, able to thrive in diverse situations, and capable of seeing things from multiple perspectives. You are a versatile individual who can connect with many different types of people and ideas."
+            },
+            "Default": {
+                title: "Your Personality Profile",
+                description: "Based on your responses, your top core values reflect a desire for purpose and a commitment to personal growth. This blend of traits suggests you are a thoughtful individual who is constantly striving to improve and find deeper meaning in your life."
+            }
+        };
+
 
         let currentPage = 0;
         let responses = Array(valuesData.length).fill().map(() => Array(3).fill(3));
@@ -708,6 +868,28 @@
             }
         }
 
+        function getPersonalityProfile(topValues) {
+            const topValueNames = topValues.map(v => v.name);
+            if (topValueNames.includes("Growth & Learning") || topValueNames.includes("Creativity & Innovation")) {
+                return "The Innovator";
+            }
+            if (topValueNames.includes("Fairness & Justice") || topValueNames.includes("Compassion & Empathy") || topValueNames.includes("Respect")) {
+                return "The Harmonizer";
+            }
+            if (topValueNames.includes("Excellence & Mastery") || topValueNames.includes("Accountability & Responsibility") || topValueNames.includes("Achievement & Competence")) {
+                return "The Achiever";
+            }
+            if (topValueNames.includes("Connection & Belonging") || topValueNames.includes("Loyalty & Trust")) {
+                return "The Community Builder";
+            }
+            if (topValueNames.includes("Purpose & Meaning") && (topValueNames.includes("Integrity & Honesty") || topValueNames.includes("Fairness & Justice"))) {
+                return "The Purpose-Driven Leader";
+            }
+            
+            return "The Balanced Individual";
+        }
+
+
         prevBtn.addEventListener('click', () => {
             if (currentPage > 0) {
                 currentPage--;
@@ -751,6 +933,14 @@
                 const coreList = document.getElementById('coreValues');
                 coreList.innerHTML = `<h3>Your Top Values Are:</h3><ul>` + coreValues.map(v => `<li><strong>${v.name}</strong> (Rating: ${v.rating}/10)</li>`).join('') + '</ul>';
 
+                const personalityDiv = document.getElementById('personalityProfile');
+                const profileName = getPersonalityProfile(coreValues);
+                const profile = personalityProfiles[profileName] || personalityProfiles["Default"];
+                personalityDiv.innerHTML = `
+                    <h3>${profile.title}</h3>
+                    <p>${profile.description}</p>
+                `;
+
                 const tableBody = document.querySelector('#explanationsTable tbody');
                 tableBody.innerHTML = '';
                 coreValues.forEach(v => {
@@ -768,11 +958,12 @@
                 coreValues.forEach(v => {
                     const section = document.createElement('div');
                     section.className = 'trigger-section';
+                    const triggersForAge = triggerExamples[v.name][selectedAgeCategory] || triggerExamples[v.name].teens;
                     section.innerHTML = `
                         <h3>${v.name}</h3>
                         <ul>
-                            <li><strong>You might feel upset when:</strong> ${triggerExamples[v.name].upset}</li>
-                            <li><strong>You might feel happy when:</strong> ${triggerExamples[v.name].happy}</li>
+                            <li><strong>You might feel upset when:</strong> ${triggersForAge.upset}</li>
+                            <li><strong>You might feel happy when:</strong> ${triggersForAge.happy}</li>
                         </ul>
                     `;
                     triggersDiv.appendChild(section);
