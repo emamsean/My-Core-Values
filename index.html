@@ -11,6 +11,7 @@
             margin: 0 auto;
             padding: 20px;
             background-color: #f4f4f4;
+            line-height: 1.6;
         }
         h1, h2 {
             text-align: center;
@@ -25,47 +26,70 @@
             margin-bottom: 20px;
         }
         .question {
-            margin-bottom: 15px;
+            margin-bottom: 25px;
         }
         .question label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
+            font-weight: bold;
+            font-size: 1.1em;
+            color: #333;
         }
         .slider-container {
             position: relative;
-            margin-top: 20px;
+            margin-top: 15px;
         }
         input[type="range"] {
             width: 100%;
+            height: 8px;
+            cursor: pointer;
+            background: #ddd;
+            border-radius: 4px;
+            outline: none;
+            -webkit-appearance: none;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #007bff;
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: 0 0 5px rgba(0,0,0,0.2);
         }
         .slider-labels {
             display: flex;
             justify-content: space-between;
             font-size: 0.9em;
             margin-bottom: 5px;
+            color: #555;
         }
         .slider-value {
             text-align: center;
-            font-size: 1.1em;
+            font-size: 1.2em;
+            font-weight: bold;
             margin-top: 5px;
+            color: #007bff;
         }
         .progress {
             text-align: center;
             margin-bottom: 20px;
             font-style: italic;
+            color: #666;
         }
         .navigation {
             display: flex;
             justify-content: space-between;
         }
         button {
-            padding: 10px 20px;
+            padding: 12px 25px;
             background: #007bff;
             color: white;
             border: none;
             border-radius: 4px;
             cursor: pointer;
             font-size: 1em;
+            transition: background-color 0.3s ease;
         }
         button:hover {
             background: #0056b3;
@@ -81,6 +105,11 @@
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
             margin-top: 20px;
         }
+        #report h2 {
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
         table {
             width: 100%;
             border-collapse: collapse;
@@ -88,15 +117,36 @@
         }
         th, td {
             border: 1px solid #ddd;
-            padding: 8px;
+            padding: 12px;
             text-align: left;
         }
         th {
             background: #f2f2f2;
+            font-weight: bold;
         }
         ul {
-            list-style-type: disc;
-            padding-left: 20px;
+            list-style-type: none;
+            padding-left: 0;
+        }
+        li {
+            background: #e9f5ff;
+            margin-bottom: 8px;
+            padding: 10px;
+            border-left: 4px solid #007bff;
+            border-radius: 4px;
+        }
+        .trigger-section {
+            margin-bottom: 25px;
+            border-bottom: 1px dashed #ccc;
+            padding-bottom: 15px;
+        }
+        .trigger-section:last-child {
+            border-bottom: none;
+        }
+        .intro-text {
+            font-size: 1.1em;
+            text-align: center;
+            color: #444;
         }
     </style>
 </head>
@@ -118,70 +168,54 @@
             <thead>
                 <tr>
                     <th>Core Human Value</th>
-                    <th>Maslow’s Hierarchy Category</th>
-                    <th>Schwartz’s Value Category</th>
-                    <th>Notes</th>
+                    <th>Maslow’s Hierarchy</th>
+                    <th>Schwartz’s Value Theory</th>
+                    <th>How it Manifests</th>
                 </tr>
             </thead>
             <tbody></tbody>
         </table>
-        <h2>Fundamental Trigger Points</h2>
+        <h2>Understanding Your Triggers</h2>
         <div id="triggers"></div>
     </div>
 
     <script>
         const valuesData = [
-            { name: "Fairness & Justice", maslow: "Esteem / Self-Actualization", schwartz: "Universalism (social justice, equality)", notes: "Often tied to moral reasoning and societal harmony.", questions: ["How important is it for you that people are treated equally in society?", "To what extent do you value standing up against injustice?", "How much do you prioritize fair distribution of resources?"] },
-            { name: "Integrity & Honesty", maslow: "Esteem / Self-Actualization", schwartz: "Universalism, Benevolence", notes: "Strongly linked to trust-building and reputation.", questions: ["How important is telling the truth in all situations?", "To what extent do you value keeping promises?", "How much do you admire people who are honest even when it's hard?"] },
-            { name: "Loyalty & Trust", maslow: "Love & Belonging", schwartz: "Benevolence (loyalty, responsibility)", notes: "A key foundation for stable relationships.", questions: ["How important is staying loyal to friends and family?", "To what extent do you value building trust in relationships?", "How much do you prioritize reliability in others?"] },
-            { name: "Respect", maslow: "Esteem / Love & Belonging", schwartz: "Benevolence, Universalism", notes: "Often tied to dignity and interpersonal equity.", questions: ["How important is treating others with dignity?", "To what extent do you value mutual respect in interactions?", "How much do you appreciate being respected for your opinions?"] },
-            { name: "Security & Stability", maslow: "Safety", schwartz: "Security (personal and societal)", notes: "One of the most basic psychological safety drivers.", questions: ["How important is having a stable job and income?", "To what extent do you value personal safety?", "How much do you prioritize financial security for the future?"] },
-            { name: "Autonomy & Independence", maslow: "Self-Actualization", schwartz: "Self-Direction (freedom, creativity)", notes: "Highly correlated with motivation and fulfillment.", questions: ["How important is making your own decisions?", "To what extent do you value freedom from control by others?", "How much do you enjoy being self-reliant?"] },
-            { name: "Connection & Belonging", maslow: "Love & Belonging", schwartz: "Benevolence, Universalism", notes: "Core social need; lack of it triggers isolation.", questions: ["How important is feeling part of a community?", "To what extent do you value close relationships?", "How much do you seek out social connections?"] },
-            { name: "Achievement & Competence", maslow: "Esteem", schwartz: "Achievement", notes: "Directly connected to self-worth and recognition.", questions: ["How important is accomplishing goals?", "To what extent do you value developing skills?", "How much do you strive for success in your endeavors?"] },
-            { name: "Compassion & Empathy", maslow: "Love & Belonging / Self-Actualization", schwartz: "Benevolence, Universalism", notes: "Supports pro-social behavior and moral action.", questions: ["How important is helping those in need?", "To what extent do you value understanding others' feelings?", "How much do you practice kindness daily?"] },
-            { name: "Creativity", maslow: "Self-Actualization", schwartz: "Self-Direction (creativity, exploration)", notes: "Strongly linked to fulfillment and innovation.", questions: ["How important is expressing yourself creatively?", "To what extent do you value innovative thinking?", "How much do you enjoy creating new things?"] },
-            { name: "Generosity & Kindness", maslow: "Love & Belonging / Self-Actualization", schwartz: "Benevolence", notes: "Tied to reciprocity and trust cycles.", questions: ["How important is giving to others?", "To what extent do you value acts of kindness?", "How much do you appreciate generous people?"] },
-            { name: "Growth & Learning", maslow: "Self-Actualization", schwartz: "Self-Direction (curiosity)", notes: "Core to personal evolution and adaptability.", questions: ["How important is continuous learning?", "To what extent do you value personal development?", "How much do you seek new knowledge?"] },
-            { name: "Accountability & Responsibility", maslow: "Esteem / Self-Actualization", schwartz: "Conformity (responsibility) + Universalism", notes: "Reinforces group trust and order.", questions: ["How important is taking responsibility for actions?", "To what extent do you value accountability in leadership?", "How much do you hold yourself accountable?"] },
-            { name: "Freedom & Rights", maslow: "Esteem / Self-Actualization", schwartz: "Self-Direction + Universalism", notes: "Core in democratic societies and autonomy needs.", questions: ["How important is personal freedom?", "To what extent do you value human rights?", "How much do you support freedom of speech?"] },
-            { name: "Equality & Inclusion", maslow: "Love & Belonging / Esteem", schwartz: "Universalism", notes: "Prevents social fractures and marginalization.", questions: ["How important is equal opportunities for all?", "To what extent do you value inclusivity?", "How much do you promote diversity?"] },
-            { name: "Gratitude & Appreciation", maslow: "Love & Belonging", schwartz: "Benevolence", notes: "Strengthens bonds and positive reinforcement loops.", questions: ["How important is expressing thanks?", "To what extent do you value appreciating what you have?", "How much do you practice gratitude daily?"] },
-            { name: "Purpose & Meaning", maslow: "Self-Actualization", schwartz: "Universalism, Self-Direction", notes: "Deeply tied to motivation and life satisfaction.", questions: ["How important is having a sense of purpose?", "To what extent do you value meaningful work?", "How much do you seek meaning in life?"] },
-            { name: "Hope & Optimism", maslow: "Self-Actualization / Esteem", schwartz: "Universalism", notes: "Buffer against despair, drives perseverance.", questions: ["How important is maintaining a positive outlook?", "To what extent do you value hope in difficult times?", "How much do you believe in better futures?"] },
-            { name: "Love & Affection", maslow: "Love & Belonging", schwartz: "Benevolence", notes: "Essential for emotional health.", questions: ["How important is showing affection?", "To what extent do you value loving relationships?", "How much do you prioritize emotional intimacy?"] },
-            { name: "Dignity", maslow: "Esteem", schwartz: "Universalism, Benevolence", notes: "Vital for self-respect and mutual respect.", questions: ["How important is self-respect?", "To what extent do you value human dignity?", "How much do you avoid humiliating others?"] },
-            { name: "Stewardship & Sustainability", maslow: "Self-Actualization", schwartz: "Universalism (environmental protection)", notes: "Expands moral concern to future generations.", questions: ["How important is protecting the environment?", "To what extent do you value sustainable living?", "How much do you consider future generations?"] },
-            { name: "Tradition & Heritage", maslow: "Love & Belonging / Esteem", schwartz: "Tradition", notes: "Provides identity continuity and stability.", questions: ["How important is preserving traditions?", "To what extent do you value cultural heritage?", "How much do you participate in family customs?"] },
-            { name: "Playfulness & Joy", maslow: "Self-Actualization", schwartz: "Hedonism", notes: "Supports well-being and stress relief.", questions: ["How important is having fun?", "To what extent do you value joy in life?", "How much do you engage in playful activities?"] },
-            { name: "Excellence & Mastery", maslow: "Esteem / Self-Actualization", schwartz: "Achievement", notes: "Linked to expertise, recognition, and high standards.", questions: ["How important is striving for excellence?", "To what extent do you value mastering skills?", "How much do you set high standards?"] }
+            { name: "Fairness & Justice", maslow: "Esteem / Self-Actualization", schwartz: "Universalism (Social Justice)", notes: "A deep-seated belief in equitable treatment and the moral rightness of societal structures. This value drives people to correct imbalances and champion the rights of others.", questions: ["How important is it that people are treated equitably, regardless of their background?", "To what extent do you feel compelled to speak up or act when you see an injustice?", "When making a decision, how much do you prioritize a fair outcome for all involved?"] },
+            { name: "Integrity & Honesty", maslow: "Esteem", schwartz: "Benevolence / Universalism", notes: "The value of being truthful and upholding strong moral principles. It’s the foundation of trust and reliability, guiding your actions even when no one is watching.", questions: ["How essential is it for you to be truthful and transparent in all your interactions?", "How important is it for your actions and words to be consistent with your personal beliefs?", "To what extent do you feel a personal obligation to be a trustworthy and reliable person?"] },
+            { name: "Connection & Belonging", maslow: "Love & Belonging", schwartz: "Benevolence", notes: "A fundamental human need for meaningful relationships and a sense of community. This value drives your desire for close bonds, social acceptance, and shared experiences.", questions: ["How important is having a strong sense of community or close social circles?", "To what extent do you prioritize investing time and energy into your most important relationships?", "How deeply do you feel a need to be understood and accepted by others?"] },
+            { name: "Autonomy & Freedom", maslow: "Self-Actualization", schwartz: "Self-Direction", notes: "The desire for personal independence and the ability to make your own choices. This value is about self-reliance, having control over your own destiny, and the freedom to express yourself.", questions: ["How important is it for you to be able to make your own decisions without external pressure?", "To what extent do you value having the freedom to pursue your interests and goals independently?", "How much do you feel a need to be self-sufficient and not overly dependent on others?"] },
+            { name: "Compassion & Empathy", maslow: "Love & Belonging / Self-Actualization", schwartz: "Benevolence / Universalism", notes: "The capacity to understand and share the feelings of others, and to be moved to help. This value underpins acts of kindness, selflessness, and a desire to alleviate suffering.", questions: ["How important is it for you to be a source of support and kindness for others?", "To what extent do you make an effort to understand someone else's perspective or emotional state?", "How often do you feel a strong desire to help those who are vulnerable or in need?"] },
+            { name: "Achievement & Competence", maslow: "Esteem", schwartz: "Achievement", notes: "A drive for success, mastery, and recognition. This value motivates you to set high standards for yourself, pursue excellence, and take pride in your accomplishments.", questions: ["How important is it for you to be highly skilled and effective in your work or hobbies?", "To what extent do you feel driven to reach ambitious goals and be successful?", "How much satisfaction do you get from mastering a new skill or completing a challenging project?"] },
+            { name: "Growth & Learning", maslow: "Self-Actualization", schwartz: "Self-Direction", notes: "The lifelong pursuit of personal development, knowledge, and self-improvement. This value fuels your curiosity and desire to constantly evolve and expand your horizons.", questions: ["How important is it for you to continuously learn and acquire new knowledge?", "To what extent do you value experiences that challenge you to grow and develop as a person?", "How much do you seek out opportunities to improve your skills or personal understanding?"] },
+            { name: "Security & Stability", maslow: "Safety", schwartz: "Security", notes: "The need for a safe and predictable environment. This value relates to both physical and emotional safety, and it drives your desire for financial security, a stable home, and a predictable future.", questions: ["How important is having a sense of financial security and a stable future?", "To what extent do you prioritize a safe and predictable environment for yourself and your loved ones?", "How much do you value consistency and reliability in your relationships and daily life?"] },
+            { name: "Creativity & Innovation", maslow: "Self-Actualization", schwartz: "Self-Direction", notes: "The expression of imagination and original ideas. This value is about thinking outside the box, creating new things, and finding unique solutions to problems.", questions: ["How important is it for you to express your ideas and feelings through creative outlets?", "To what extent do you value innovative thinking and new perspectives?", "How much do you enjoy creating something new, whether it's an idea, a project, or a piece of art?"] },
+            { name: "Purpose & Meaning", maslow: "Self-Actualization", schwartz: "Universalism / Self-Direction", notes: "The need to feel that your life has a direction and a higher significance. This value is a powerful motivator, driving you to align your actions with what you believe is truly important.", questions: ["How important is it to feel that your life has a clear purpose or mission?", "To what extent do you seek work or activities that feel personally meaningful to you?", "How much do you think about the impact you want to have on the world or on others?"] },
+            { name: "Respect", maslow: "Esteem / Love & Belonging", schwartz: "Benevolence / Universalism", notes: "The recognition of the inherent worth and dignity of oneself and others. This value drives courteous behavior and an appreciation for differing perspectives and boundaries.", questions: ["How important is it for you to treat others with dignity and courtesy?", "To what extent do you value receiving mutual respect in your relationships?", "How much do you believe in respecting different viewpoints and personal boundaries?"] },
+            { name: "Loyalty & Trust", maslow: "Love & Belonging", schwartz: "Benevolence", notes: "A commitment to others and a belief in their reliability. This value is crucial for building deep, lasting relationships and provides a sense of security and belonging.", questions: ["How important is it for you to be loyal to your friends and family?", "To what extent do you value building strong, trusting bonds with people?", "How much do you prioritize reliability and dependability in your closest relationships?"] },
+            { name: "Accountability & Responsibility", maslow: "Esteem / Self-Actualization", schwartz: "Conformity / Universalism", notes: "The willingness to take ownership of one's actions and obligations. This value is about reliability and integrity, and it builds credibility and trust with others.", questions: ["How important is it for people to take ownership of their mistakes?", "To what extent do you hold yourself personally accountable for your commitments?", "How much do you value a leader or team member who is responsible and dependable?"] },
+            { name: "Gratitude & Appreciation", maslow: "Love & Belonging / Esteem", schwartz: "Benevolence", notes: "The recognition and appreciation of the good things in one's life. This value strengthens positive relationships, fosters a positive outlook, and enhances overall well-being.", questions: ["How important is it for you to express thanks to people who have helped you?", "To what extent do you consciously appreciate the good things you have in your life?", "How much do you value and appreciate when others express their gratitude to you?"] },
+            { name: "Stewardship & Sustainability", maslow: "Self-Actualization", schwartz: "Universalism (Environmental Protection)", notes: "A sense of responsibility for the welfare of the environment and future generations. This value drives conscious choices about consumption and a desire to protect the world around us.", questions: ["How important is it for you to live a life that minimizes harm to the environment?", "To what extent do you feel a personal responsibility for the well-being of future generations?", "How much do you value conscious choices about consumption and waste?"] },
+            { name: "Excellence & Mastery", maslow: "Esteem / Self-Actualization", schwartz: "Achievement", notes: "A commitment to setting high standards and striving for perfection. This value is about not just being competent, but about pushing the boundaries of what is possible and becoming a true expert in a field.", questions: ["How important is it for you to strive for excellence in everything you do?", "To what extent do you value mastering skills and becoming an expert in your field?", "How much do you feel driven to set high standards for yourself and others?"] }
         ];
 
         const triggerExamples = {
-            "Fairness & Justice": { upset: "Witnessing unfair treatment or systemic injustice, such as discrimination in the workplace.", happy: "Seeing justice served, like a fair resolution in a conflict." },
-            "Integrity & Honesty": { upset: "Being lied to or discovering deceit in close relationships.", happy: "Experiencing honest feedback that builds trust." },
-            "Loyalty & Trust": { upset: "Betrayal by a friend or partner.", happy: "Long-term support from loved ones during tough times." },
-            "Respect": { upset: "Being dismissed or belittled in conversations.", happy: "Receiving acknowledgment for your contributions." },
-            "Security & Stability": { upset: "Financial instability or sudden job loss.", happy: "Achieving a secure home environment or steady income." },
-            "Autonomy & Independence": { upset: "Being micromanaged or controlled in decisions.", happy: "Having freedom to pursue personal projects." },
-            "Connection & Belonging": { upset: "Feeling excluded from social groups.", happy: "Forming deep bonds in a community." },
-            "Achievement & Competence": { upset: "Failing at a task after much effort.", happy: "Accomplishing a challenging goal and receiving recognition." },
-            "Compassion & Empathy": { upset: "Seeing others suffer without help.", happy: "Helping someone in need and seeing positive impact." },
-            "Creativity": { upset: "Being stuck in routine without outlets for expression.", happy: "Successfully innovating a new idea or artwork." },
-            "Generosity & Kindness": { upset: "Encountering selfishness in others.", happy: "Acts of kindness being reciprocated." },
-            "Growth & Learning": { upset: "Stagnation in personal development.", happy: "Mastering a new skill through learning." },
-            "Accountability & Responsibility": { upset: "Others shirking duties, causing group failure.", happy: "Taking responsibility and seeing positive outcomes." },
-            "Freedom & Rights": { upset: "Restrictions on personal freedoms.", happy: "Exercising rights in a supportive society." },
-            "Equality & Inclusion": { upset: "Observing exclusion based on identity.", happy: "Participating in inclusive events." },
-            "Gratitude & Appreciation": { upset: "Lack of recognition for efforts.", happy: "Expressing and receiving genuine thanks." },
-            "Purpose & Meaning": { upset: "Feeling life lacks direction.", happy: "Aligning actions with a greater purpose." },
-            "Hope & Optimism": { upset: "Repeated failures leading to despair.", happy: "Overcoming obstacles with positive outlook." },
-            "Love & Affection": { upset: "Emotional distance in relationships.", happy: "Sharing affectionate moments with loved ones." },
-            "Dignity": { upset: "Humiliation in public settings.", happy: "Being treated with respect and honor." },
-            "Stewardship & Sustainability": { upset: "Environmental destruction.", happy: "Contributing to sustainable practices." },
-            "Tradition & Heritage": { upset: "Loss of cultural practices.", happy: "Celebrating family traditions." },
-            "Playfulness & Joy": { upset: "Constant seriousness without fun.", happy: "Engaging in playful activities." },
-            "Excellence & Mastery": { upset: "Mediocrity in important endeavors.", happy: "Achieving mastery in a field." }
+            "Fairness & Justice": { upset: "Witnessing systemic injustice or a person being treated unfairly, like a co-worker being passed over for a promotion due to favoritism.", happy: "Seeing a situation where a fair and equitable resolution is reached, or a wrong is righted." },
+            "Integrity & Honesty": { upset: "Discovering you've been lied to or betrayed by someone you trust.", happy: "Receiving honest, constructive feedback that helps you grow, even if it's difficult to hear." },
+            "Connection & Belonging": { upset: "Feeling excluded from a group or social circle, or experiencing a deep sense of loneliness.", happy: "Sharing a meaningful moment with friends or family that reinforces a strong sense of community." },
+            "Autonomy & Freedom": { upset: "Being micromanaged at work or having your personal choices dictated by someone else.", happy: "Having the freedom to take on a project and manage it completely on your own terms." },
+            "Compassion & Empathy": { upset: "Seeing an animal or person suffering and no one is helping them.", happy: "Performing a random act of kindness for someone and seeing the positive impact it has on them." },
+            "Achievement & Competence": { upset: "Failing to meet a personal goal despite putting in a lot of effort.", happy: "Completing a challenging project and receiving well-deserved recognition for your hard work." },
+            "Growth & Learning": { upset: "Feeling stagnant in a job or personal relationship, or like you're not evolving.", happy: "Successfully mastering a complex skill or gaining a profound new insight." },
+            "Security & Stability": { upset: "Experiencing a sudden job loss or an unexpected financial crisis.", happy: "Finding a stable home or a reliable source of income that provides peace of mind." },
+            "Creativity & Innovation": { upset: "Being stuck in a mundane routine with no outlet for self-expression or new ideas.", happy: "Successfully bringing a unique and original idea to life, whether at work or in a personal project." },
+            "Purpose & Meaning": { upset: "Feeling like your daily work or life lacks significance or a greater mission.", happy: "Engaging in an activity that you feel is truly aligned with your deepest values and life goals." },
+            "Respect": { upset: "Being publicly disrespected or having your opinions dismissed without consideration.", happy: "Having your ideas and boundaries respected in a group setting, even if they are different from others'." },
+            "Loyalty & Trust": { upset: "Being betrayed by a close friend or discovering a partner's infidelity.", happy: "Relying on a loved one to support you through a difficult time and knowing they are dependable." },
+            "Accountability & Responsibility": { upset: "Witnessing a person in power blame others for their own mistakes.", happy: "Taking responsibility for a project and seeing it succeed as a result of your commitment." },
+            "Gratitude & Appreciation": { upset: "Putting in a lot of effort and feeling that your contributions are not noticed or valued.", happy: "Receiving a heartfelt thank you from someone you helped, or taking time to appreciate a beautiful sunset." },
+            "Stewardship & Sustainability": { upset: "Hearing about a new policy that will harm the environment or natural resources.", happy: "Participating in a community clean-up or making a positive change to your daily habits to reduce your environmental impact." },
+            "Excellence & Mastery": { upset: "Being forced to work on a project with a low standard of quality and no room for improvement.", happy: "Spending time honing a craft and seeing a noticeable improvement in your skills and performance." }
         };
 
         let currentPage = 0;
@@ -196,10 +230,11 @@
             if (page === 0) {
                 // Intro page
                 pageContainer.innerHTML = `
-                    <h2>Welcome to the Core Values Discovery Wizard</h2>
-                    <p>This app is designed to help you uncover your core human values by exploring what matters most to you. Through a series of questions, you'll reflect on 24 key values, rating their importance to you. Each value will be presented one at a time, with three probing questions to help you think deeply about its role in your life.</p>
-                    <p>You'll rate each question on a scale from 1 (least important) to 5 (most important), with 3 being indifferent. At the end, you'll receive a personalized report identifying your top core values, explaining them through psychological frameworks like Maslow’s Hierarchy of Needs and Schwartz’s Value Theory, and highlighting situations that may make you happy or upset based on those values.</p>
-                    <p>Click "Next" to begin your journey of self-discovery!</p>
+                    <h2>Welcome to the Core Values Discovery Wizard 🧠✨</h2>
+                    <p class="intro-text">This tool is designed to help you uncover the fundamental principles that guide your life. By reflecting on a series of carefully crafted questions, you'll identify the values that truly matter to you and understand how they influence your thoughts and actions.</p>
+                    <p class="intro-text">Each value will be presented with three 'trigger questions' to help you deeply reflect on its importance. Use the slider to rate each question from 1 (Not at all important) to 5 (Extremely important).</p>
+                    <p class="intro-text">At the end, you will receive a personalized report detailing your top core values, how they align with psychological frameworks like **Maslow’s Hierarchy** and **Schwartz’s Value Theory**, and a guide to understanding the **trigger points** that cause you to feel happy or upset. This report can be a powerful tool for self-awareness and decision-making.</p>
+                    <p class="intro-text">Ready to begin your journey of self-discovery? Click "Next" to start!</p>
                 `;
                 prevBtn.style.display = 'none';
                 progress.textContent = `Starting the wizard...`;
@@ -209,13 +244,14 @@
                 pageContainer.innerHTML = `
                     <h2>${value.name} (${page}/${valuesData.length})</h2>
                     <div class="value-page">
+                        <p>${value.notes}</p>
                         ${value.questions.map((q, qIndex) => `
                             <div class="question">
                                 <label for="q${qIndex}">${q}</label>
                                 <div class="slider-container">
                                     <div class="slider-labels">
-                                        <span>1 (Least Important)</span>
-                                        <span>5 (Most Important)</span>
+                                        <span>1 (Not at all important)</span>
+                                        <span>5 (Extremely important)</span>
                                     </div>
                                     <input type="range" id="q${qIndex}" min="1" max="5" value="${responses[page - 1][qIndex]}">
                                     <div class="slider-value" id="sliderValue${qIndex}">${responses[page - 1][qIndex]}</div>
@@ -253,7 +289,7 @@
                 currentPage++;
                 showPage(currentPage);
             } else {
-                // Submit
+                // Submit and generate report
                 const ratings = valuesData.map((value, i) => {
                     const sum = responses[i].reduce((a, b) => a + b, 0);
                     const avg = sum / 3;
@@ -267,13 +303,18 @@
                     const additional = ratings.filter(v => v.rating >= 6).slice(0, 5 - coreValues.length);
                     coreValues.push(...additional);
                 }
+                
+                // Ensure we have at least 3 values for the report
+                if (coreValues.length < 3) {
+                     coreValues = ratings.slice(0, 3);
+                }
 
                 document.getElementById('quiz').style.display = 'none';
                 const report = document.getElementById('report');
                 report.style.display = 'block';
 
                 const coreList = document.getElementById('coreValues');
-                coreList.innerHTML = '<p>Your top core values based on your ratings (scaled to 1-10):</p><ul>' + coreValues.map(v => `<li>${v.name} (Rating: ${v.rating})</li>`).join('') + '</ul>';
+                coreList.innerHTML = `<p>Based on your responses, your top ${coreValues.length} core values are:</p><ul>` + coreValues.map(v => `<li><strong>${v.name}</strong> (Rating: ${v.rating}/10)</li>`).join('') + '</ul>';
 
                 const tableBody = document.querySelector('#explanationsTable tbody');
                 tableBody.innerHTML = '';
@@ -289,14 +330,15 @@
                 });
 
                 const triggersDiv = document.getElementById('triggers');
-                triggersDiv.innerHTML = '<p>Summary of triggers that may make you upset or happy based on your core values:</p>';
+                triggersDiv.innerHTML = '<p>Understanding your core values can help you recognize the **triggers** that strongly affect your emotions. The following are examples of how your top values might manifest in your daily life, causing you to feel upset or happy:</p>';
                 coreValues.forEach(v => {
                     const section = document.createElement('div');
+                    section.className = 'trigger-section';
                     section.innerHTML = `
                         <h3>${v.name}</h3>
                         <ul>
-                            <li><strong>Upset by:</strong> ${triggerExamples[v.name].upset}</li>
-                            <li><strong>Happy by:</strong> ${triggerExamples[v.name].happy}</li>
+                            <li><strong>You might feel upset when:</strong> ${triggerExamples[v.name].upset}</li>
+                            <li><strong>You might feel happy when:</strong> ${triggerExamples[v.name].happy}</li>
                         </ul>
                     `;
                     triggersDiv.appendChild(section);
@@ -309,5 +351,3 @@
     </script>
 </body>
 </html>
-
-
