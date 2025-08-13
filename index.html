@@ -234,7 +234,7 @@
             border: 1px solid #ddd;
             padding: 12px;
             text-align: left;
-            vertical-align: top; /* Ensures content aligns to the top */
+            vertical-align: top;
         }
         th {
             background: #f2f2f2;
@@ -411,6 +411,7 @@
         prevBtn.addEventListener('click', () => {
             if (currentPage > 0) {
                 currentPage--;
+                window.scrollTo(0, 0); 
                 showPage(currentPage);
             }
         });
@@ -418,6 +419,7 @@
         nextBtn.addEventListener('click', () => {
             if (currentPage < valuesData.length) {
                 currentPage++;
+                window.scrollTo(0, 0); 
                 showPage(currentPage);
             } else {
                 const ratings = valuesData.map((value, i) => {
@@ -441,6 +443,7 @@
                 document.getElementById('quiz').style.display = 'none';
                 const report = document.getElementById('report');
                 report.style.display = 'block';
+                window.scrollTo(0, 0);
 
                 const coreList = document.getElementById('coreValues');
                 coreList.innerHTML = `<h3>Your Top Values Are:</h3><ul>` + coreValues.map(v => `<li><strong>${v.name}</strong> (Rating: ${v.rating}/10)</li>`).join('') + '</ul>';
