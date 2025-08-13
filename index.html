@@ -291,6 +291,11 @@
             border-left: 5px solid #4299e1;
             border-radius: 8px;
             font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        #finalReport .career-recommendations li:hover {
+            background-color: #d1e7ff;
         }
         .trait-score {
             display: flex;
@@ -314,6 +319,45 @@
             background-color: #4299e1;
             border-radius: 6px;
             transition: width 0.5s ease-in-out;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 30px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            animation: slideIn 0.4s ease-in-out;
+        }
+        .close-button {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close-button:hover,
+        .close-button:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
     </style>
 </head>
@@ -380,8 +424,16 @@
         <div class="report-section" id="valuesAndPersonality"></div>
         <div class="report-section">
             <h3>Career & Job Opportunities</h3>
-            <p>Based on the unique combination of your values and personality, here are some fields and roles where you are likely to find a strong sense of purpose, satisfaction, and success.</p>
+            <p>Based on the unique combination of your values and personality, here are some fields and roles where you are likely to find a strong sense of purpose, satisfaction, and success. Click on any job to learn why it's a good fit for you.</p>
             <div class="career-recommendations" id="careerRecommendations"></div>
+        </div>
+    </div>
+
+    <div id="recommendationModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h3 id="modalJobTitle"></h3>
+            <p id="modalExplanation"></p>
         </div>
     </div>
 
@@ -407,7 +459,7 @@
 
         const triggerExamples = {
             "Fairness & Justice": { teens: { upset: "Feeling angry or frustrated when a friend gets an unfair grade because the teacher plays favorites.", happy: "Feeling happy and proud when you stand up for a friend who's being treated poorly and it makes a difference." }, college: { upset: "Feeling upset when a professor grades a group project unfairly based on personal bias.", happy: "Feeling a sense of satisfaction when you work with a team where everyone's contributions are valued equally." }, early_career: { upset: "Feeling frustrated and resentful when promotions are not based on merit, but on favoritism.", happy: "Feeling a sense of pride and belonging in a company with transparent and equitable hiring practices." }, mid_career: { upset: "Feeling angry and demoralized when a colleague is discriminated against in a hiring or promotion process.", happy: "Feeling a deep sense of purpose when you lead a project where every team member is given a fair chance to succeed." }, late_career: { upset: "Feeling disappointed or concerned about an unfair policy that negatively impacts younger colleagues.", happy: "Feeling fulfilled when you advocate for a community initiative that provides equal opportunities for everyone." }, retirement: { upset: "Feeling upset about social policies that unfairly impact vulnerable members of society.", happy: "Feeling a sense of purpose when you support a local cause that promotes equality and justice for all." } },
-            "Integrity & Honesty": { teens: { upset: "Feeling hurt and betrayed when you find out a friend has been talking about you behind your back.", happy: "Feeling a stronger sense of trust and security after having a tough but honest conversation with a friend." }, college: { upset: "Feeling a sense of betrayal when you discover a classmate cheated on a project or exam.", happy: "Feeling respected and trustworthy when you can openly admit a mistake in a class presentation and your peers still value your honesty." }, early_career: { upset: "Feeling angry and distrustful when a colleague takes credit for your work or misrepresents a project's status.", happy: "Feeling secure and valued when you work for a company that is transparent and honest with its employees and clients." }, mid_career: { upset: "Feeling demoralized when you work in a company where leaders are not honest about business challenges.", happy: "Feeling a sense of pride when you mentor a junior colleague and model what it means to be a person of your word." }, late_career: { upset: "Feeling disappointed when a trusted business partner acts unethically for personal gain.", happy: "Feeling a deep sense of satisfaction in being known as an ethical and honest leader in your industry." }, retirement: { upset: "Feeling a sense of disappointment when you see public figures or companies act with a lack of integrity.", happy: "Feeling a deep sense of peace and fulfillment when you can look back on a life lived with honesty and strong moral principles." } },
+            "Integrity & Honesty": { teens: { upset: "Feeling hurt and betrayed when you find out a friend has been talking about you behind your back.", happy: "Feeling a stronger sense of trust and security after having a tough but honest conversation with a friend." }, college: { upset: "Feeling a sense of betrayal when you discover a classmate cheated on a project or exam.", happy: "Feeling respected and trustworthy when you can openly admit a mistake in a class presentation and your peers still value your honesty." }, early_career: { upset: "Feeling angry and distrustful when a colleague takes credit for your work or misrepresents a project's status.", happy: "Feeling secure and valued when you work for a company that is transparent and honest with its employees and clients." }, mid_career: { upset: "Feeling demoralized when you work in a company where leaders are not honest about business challenges.", happy: "Feeling a sense of pride when you mentor a junior colleague and model what it means to be a person of your word." }, late_career: { upset: "Feeling disappointed when a trusted business partner acts unethically for personal gain.", happy: "Feeling a deep sense of satisfaction in being known as an ethical and honest leader in your industry." }, retirement: { upset: "Feeling disappointed when you see public figures or companies act with a lack of integrity.", happy: "Feeling a deep sense of peace and fulfillment when you can look back on a life lived with honesty and strong moral principles." } },
             "Connection & Belonging": { teens: { upset: "Feeling lonely or left out when your friends make plans without you.", happy: "Feeling joy and acceptance when you're laughing with your best friends at a sleepover or feeling like you're a real part of a school club." }, college: { upset: "Feeling anxious or isolated when you feel you don't fit in with your roommate or a club you joined.", happy: "Feeling a sense of comfort and support when you find a close-knit group of friends who truly accept you for who you are." }, early_career: { upset: "Feeling isolated from your team or not being invited to social events.", happy: "Feeling a sense of community and support when you build strong, supportive friendships with your colleagues at work." }, mid_career: { upset: "Feeling guilty or disconnected from your spouse or children due to work demands.", happy: "Feeling a deep sense of joy and belonging when you host a dinner party with close friends and family." }, late_career: { upset: "Feeling a sense of sadness or isolation from family or long-time friends.", happy: "Feeling happy and connected when you organize a reunion or get-together with people you've been close to for years." }, retirement: { upset: "Feeling lonely and a loss of identity after retiring from a career you loved.", happy: "Feeling a sense of purpose and belonging when you join a community group and form new connections." } },
             "Autonomy & Freedom": { teens: { upset: "Feeling frustrated or stifled when you're told exactly what to wear or how to do a school project, leaving no room for your own ideas.", happy: "Feeling a sense of pride and independence when you get to choose your own elective classes or pursue a passion project on your own." }, college: { upset: "Feeling annoyed or micromanaged by a professor or a boss at a part-time job.", happy: "Feeling empowered and in control when you can create your own schedule and explore different academic interests." }, early_career: { upset: "Feeling controlled and disrespected by a manager who constantly checks in on your work and tells you how to do it.", happy: "Feeling a sense of trust and responsibility when you are given the autonomy to work independently on a project and manage your own time." }, mid_career: { upset: "Feeling stifled and unmotivated by rigid corporate rules that stifle innovation.", happy: "Feeling a sense of ownership and excitement when you have the freedom to shape your team's strategy and make key decisions on your own." }, late_career: { upset: "Feeling a loss of control and independence over your life decisions.", happy: "Feeling a deep sense of satisfaction when you have the financial freedom to choose your own projects and volunteer work." }, retirement: { upset: "Feeling frustrated when others try to make your decisions for you.", happy: "Feeling a sense of peace and contentment when you have the freedom to pursue hobbies and travel on your own terms." } },
             "Compassion & Empathy": { teens: { upset: "Feeling helpless or angry when you see someone being bullied and can't stop it.", happy: "Feeling a sense of kindness and pride when you stand up for someone being picked on or raise money for a cause you care about." }, college: { upset: "Feeling sad and concerned when you see a classmate struggle with mental health, and no one offers support.", happy: "Feeling a sense of fulfillment when you volunteer for a campus charity or are a supportive friend to someone going through a tough time." }, early_career: { upset: "Feeling morally conflicted when you work for a company that doesn't care about its employees' well-being.", happy: "Feeling a sense of purpose when you mentor a junior colleague and help them navigate a difficult time." }, mid_career: { upset: "Feeling frustrated with a leader who lacks empathy for their team's struggles.", happy: "Feeling a sense of pride when you create a supportive and compassionate team culture." }, late_career: { upset: "Feeling disappointed when others ignore social issues and injustices.", happy: "Feeling a sense of purpose when you use your expertise to help a non-profit organization." }, retirement: { upset: "Feeling helpless when you hear about a hardship faced by a family member.", happy: "Feeling a sense of joy and connection when you spend time volunteering or donating to a cause that helps those in need." } },
@@ -448,6 +500,7 @@
 
         let personalityPage = 0;
         let personalityResponses = {};
+        let finalRecommendations = {};
 
         const quizContainer = document.getElementById('quiz');
         const reportContainer = document.getElementById('report');
@@ -466,6 +519,11 @@
         const personalityProgressFill = document.getElementById('personalityProgressFill');
         const personalityProgressText = document.getElementById('personalityProgressText');
 
+        const modal = document.getElementById("recommendationModal");
+        const modalJobTitle = document.getElementById("modalJobTitle");
+        const modalExplanation = document.getElementById("modalExplanation");
+        const closeButton = document.getElementsByClassName("close-button")[0];
+
         function updateProgressBar(page, total, fillElement, textElement, prefix) {
             if (page === 0) {
                 fillElement.style.width = '0%';
@@ -483,7 +541,7 @@
             if (page === 0) {
                 pageContainer.innerHTML = `
                     <h2>Welcome to the Core Values Discovery! 🚀</h2>
-                    <p class="intro-text">Ever wonder what really makes you tick? This quick quiz is designed to help you figure out what's most important to you in life—your **core values**.</p>
+                    <p class="intro-text">Ever wonder what really makes you tick? This quick survey is designed to help you figure out what's most important to you in life—your "core values."</p>
                     <div class="age-select-container">
                         <label for="age-selector">First, please select your age category:</label>
                         <br><br>
@@ -498,11 +556,11 @@
                         </select>
                     </div>
                     <p class="intro-text">You'll see a series of values with a few questions to help you think about them. For each question, just use the slider to rate how important it is to you:</p>
-                    <p class="intro-text"><strong>1 (Not important at all) to 5 (Extremely important)</strong></p>
+                    <p class="intro-text">"1 (Not important at all) to 5 (Extremely important)"</p>
                     <p class="intro-text">Ready to get started? Click "Next"!</p>
                 `;
                 prevBtn.style.display = 'none';
-                nextBtn.textContent = 'Start Quiz';
+                nextBtn.textContent = 'Start Survey';
                 const ageSelector = document.getElementById('age-selector');
                 ageSelector.value = selectedAgeCategory || '';
                 ageSelector.addEventListener('change', (e) => {
@@ -560,13 +618,13 @@
             if (page === 0) {
                  personalityPageContainer.innerHTML = `
                     <h2>Your Personality Profile: The Big Five</h2>
-                    <p class="intro-text">Now that we've explored your core values, let's look at your personality. This section will help you understand your natural tendencies and behaviors using the **Big Five** personality model, the most respected scientific framework today.</p>
+                    <p class="intro-text">Now that we've explored your core values, let's look at your personality. This section will help you understand your natural tendencies and behaviors using the "Big Five" personality model, the most respected scientific framework today.</p>
                     <p class="intro-text">You'll see a series of statements. For each one, please use the slider to rate how accurately it describes you:</p>
-                    <p class="intro-text"><strong>1 (Strongly Disagree) to 5 (Strongly Agree)</strong></p>
+                    <p class="intro-text">"1 (Strongly Disagree) to 5 (Strongly Agree)"</p>
                     <p class="intro-text">This will provide a more complete picture of what drives you, allowing for a more accurate and helpful career report.</p>
                 `;
                 prevPersonalityBtn.style.display = 'none';
-                nextPersonalityBtn.textContent = 'Start Personality Quiz';
+                nextPersonalityBtn.textContent = 'Start Personality Survey';
             } else if (page <= bigFiveQuestions.length) {
                 const question = bigFiveQuestions[page - 1];
                 personalityPageContainer.innerHTML = `
@@ -643,7 +701,7 @@
             const coreValuesHtml = `
                 <h3>Your Top 5 Core Values:</h3>
                 <ul>
-                    ${topValues.map(value => `<li>**${value.name}** (Score: ${value.score.toFixed(1)})</li>`).join('')}
+                    ${topValues.map(value => `<li>"${value.name}" (Score: ${value.score.toFixed(1)})</li>`).join('')}
                 </ul>
             `;
             document.getElementById('coreValues').innerHTML = coreValuesHtml;
@@ -671,7 +729,7 @@
                 const triggerData = triggerExamples[topValue.name][selectedAgeCategory];
                 return `
                     <div class="trigger-section">
-                        <h3>**${topValue.name}**</h3>
+                        <h3>"${topValue.name}"</h3>
                         <p>When this value is ignored, you may feel:</p>
                         <ul><li>${triggerData.upset}</li></ul>
                         <p>When this value is honored, you may feel:</p>
@@ -700,7 +758,7 @@
             for (let i = 0; i < bigFiveQuestions.length; i++) {
                 const q = bigFiveQuestions[i];
                 const score = personalityResponses[i] || 3;
-                scores[q.trait] += score;
+                scores[q.trait] += q.reverse ? 6 - score : score;
                 counts[q.trait] += 1;
             }
             const finalScores = {};
@@ -720,48 +778,83 @@
 
             let coreDriver = {
                 name: "The Purposeful Strategist",
-                description: `Your strong commitment to **${topValueName}** is amplified by a blend of **Conscientiousness** and **Purpose**. You aren't just driven to achieve; you are motivated to do so in a way that is meaningful and has a positive impact.`,
-                valuesLink: `Your desire for **${topValueName}** is your guiding star, and your high score in **Conscientiousness** is your roadmap. This means you approach your goals with discipline, reliability, and a clear plan, turning your beliefs into tangible results.`,
-                recommendations: ['Strategic Planning Roles', 'Project Management', 'Policy & Governance', 'Executive Leadership']
+                description: `Your strong commitment to "${topValueName}" is amplified by a blend of "Conscientiousness" and "Purpose." You aren't just driven to achieve; you are motivated to do so in a way that is meaningful and has a positive impact.`,
+                valuesLink: `Your desire for "${topValueName}" is your guiding star, and your high score in "Conscientiousness" is your roadmap. This means you approach your goals with discipline, reliability, and a clear plan, turning your beliefs into tangible results.`,
+                recommendations: [
+                    { title: 'Strategic Planning Roles', explanation: 'This role is a great fit for your "Core Driver" because it requires both a big-picture, purposeful mindset and the disciplined execution of a conscientious personality.' },
+                    { title: 'Project Management', explanation: 'Your ability to turn your values into a reliable plan makes you an ideal project manager, ensuring that meaningful goals are met on time and with integrity.' },
+                    { title: 'Policy & Governance', explanation: 'This career path aligns with your desire for purposeful work and your strategic nature. You can create and enforce policies that have a meaningful, positive impact on society.' },
+                    { title: 'Executive Leadership', explanation: 'Your combination of purpose and conscientiousness makes you a natural leader. You can inspire teams to work towards meaningful goals while maintaining a focus on disciplined, ethical action.' }
+                ]
             };
 
             if (topValueName === 'Creativity & Innovation' && highOpenness) {
                 coreDriver = {
                     name: "The Visionary Innovator",
-                    description: `Your core value of **Creativity & Innovation** is powered by your high degree of **Openness**. This makes you a natural visionary, driven not just to create, but to explore unconventional ideas and new ways of thinking.`,
-                    valuesLink: `Your love for new ideas (**Openness**) fuels your passion for **Creative Expression**. You don't just solve problems; you invent entirely new ways to solve them, always seeking to push boundaries and challenge the status quo.`,
-                    recommendations: ['Product Design & Development', 'Entrepreneurship', 'Research & Development', 'UX/UI Design', 'Creative Direction']
+                    description: `Your core value of "Creativity & Innovation" is powered by your high degree of "Openness." This makes you a natural visionary, driven not just to create, but to explore unconventional ideas and new ways of thinking.`,
+                    valuesLink: `Your love for new ideas ("Openness") fuels your passion for "Creative Expression." You don't just solve problems; you invent entirely new ways to solve them, always seeking to push boundaries and challenge the status quo.`,
+                    recommendations: [
+                        { title: 'Product Design & Development', explanation: 'This role perfectly matches your "Visionary Innovator" persona, allowing you to bring new, creative products to life and continuously improve them.' },
+                        { title: 'Entrepreneurship', explanation: 'Your ability to generate unique ideas and your drive to see them through makes you well-suited for starting your own business and innovating independently.' },
+                        { title: 'Research & Development', explanation: 'As a "Visionary Innovator," you would thrive in R&D, where you can explore cutting-edge ideas and push the boundaries of what is possible.' },
+                        { title: 'UX/UI Design', explanation: 'This role combines your creative spirit with a problem-solving mindset, allowing you to design intuitive and engaging user experiences.' },
+                        { title: 'Creative Direction', explanation: 'Your ability to see the big picture and inspire others makes you a natural creative director, guiding teams to produce innovative and impactful work.' }
+                    ]
                 };
             } else if (topValueName === 'Fairness & Justice' && highAgreeableness) {
                 coreDriver = {
                     name: "The Harmonious Advocate",
-                    description: `Your deep-seated value of **Fairness & Justice** is amplified by your empathetic and cooperative nature (**Agreeableness**). You are not just a believer in equity; you are a natural ally who actively works to create a cooperative and equitable environment for all.`,
-                    valuesLink: `Your value of **Fairness** is the cause you fight for, and your **Agreeableness** is how you fight for it. This unique blend allows you to be a powerful advocate while also building consensus and fostering a sense of harmony among others.`,
-                    recommendations: ['Human Resources & Employee Relations', 'Law & Legal Advocacy', 'Social Work', 'Non-profit Management', 'Community Organizing']
+                    description: `Your deep-seated value of "Fairness & Justice" is amplified by your empathetic and cooperative nature ("Agreeableness"). You are not just a believer in equity; you are a natural ally who actively works to create a cooperative and equitable environment for all.`,
+                    valuesLink: `Your value of "Fairness" is the cause you fight for, and your "Agreeableness" is how you fight for it. This unique blend allows you to be a powerful advocate while also building consensus and fostering a sense of harmony among others.`,
+                    recommendations: [
+                        { title: 'Human Resources & Employee Relations', explanation: 'This role is a perfect match for your "Harmonious Advocate" persona, as you can champion fair workplace policies and mediate conflicts with empathy and integrity.' },
+                        { title: 'Law & Legal Advocacy', explanation: 'Your passion for justice and your cooperative nature make you a great legal advocate, allowing you to fight for fairness while building bridges with all parties involved.' },
+                        { title: 'Social Work', explanation: 'This career path allows you to directly apply your empathy and desire for justice to help those in need and advocate for systemic improvements in their lives.' },
+                        { title: 'Non-profit Management', explanation: 'You can use your skills to lead an organization dedicated to a cause you believe in, ensuring its mission is carried out with compassion and fairness.' },
+                        { title: 'Community Organizing', explanation: 'Your ability to build consensus and advocate for a fair cause makes you a great community organizer, bringing people together to create positive change.' }
+                    ]
                 };
             } else if (topValueName === 'Achievement & Competence' && highConscientiousness) {
                 coreDriver = {
                     name: "The Driven Achiever",
-                    description: `Your drive for **Achievement & Competence** is supported by a high degree of **Conscientiousness**. You are a focused, reliable force, committed to excellence and known for your ability to set ambitious goals and see them through to completion.`,
-                    valuesLink: `Your need for **Achievement** is your motivation, and your **Conscientiousness** is the relentless drive that turns that motivation into success. This synergy makes you a highly effective individual who takes immense pride in a job well done.`,
-                    recommendations: ['Engineering & Architecture', 'Finance & Accounting', 'Project & Program Management', 'Operations & Logistics', 'Technical Specialist']
+                    description: `Your drive for "Achievement & Competence" is supported by a high degree of "Conscientiousness." You are a focused, reliable force, committed to excellence and known for your ability to set ambitious goals and see them through to completion.`,
+                    valuesLink: `Your need for "Achievement" is your motivation, and your "Conscientiousness" is the relentless drive that turns that motivation into success. This synergy makes you a highly effective individual who takes immense pride in a job well done.`,
+                    recommendations: [
+                        { title: 'Engineering & Architecture', explanation: 'This career is a natural fit for a "Driven Achiever," as it requires a high degree of technical competence, a focus on detail, and a desire to build things that are both functional and excellent.' },
+                        { title: 'Finance & Accounting', explanation: 'Your conscientiousness and focus on excellence make you well-suited for a career in finance, where precision, reliability, and high achievement are key to success.' },
+                        { title: 'Project & Program Management', explanation: 'Your ability to meticulously plan and execute projects to completion makes you an ideal project manager, ensuring goals are met with the highest standards.' },
+                        { title: 'Operations & Logistics', explanation: 'Your focus on excellence and your disciplined nature would be invaluable in optimizing processes and ensuring smooth, efficient operations.' },
+                        { title: 'Technical Specialist', explanation: 'You would thrive as a technical specialist, becoming a go-to expert in a specific field and taking pride in your mastery and competence.' }
+                    ]
                 };
             } else if (topValueName === 'Connection & Belonging' && highExtraversion) {
                 coreDriver = {
                     name: "The Community Architect",
-                    description: `Your core value of **Connection & Belonging** is energized by your outgoing nature (**Extraversion**). This makes you a natural leader who excels at building and maintaining relationships, fostering a sense of community wherever you go.`,
-                    valuesLink: `Your desire for **Connection** is your purpose, and your **Extraversion** is the tool you use to achieve it. You are naturally skilled at bringing people together, leading teams, and creating an inclusive environment where everyone feels valued.`,
-                    recommendations: ['Sales & Business Development', 'Public Relations & Communications', 'Team Leadership & Management', 'Event Planning', 'Customer Success']
+                    description: `Your core value of "Connection & Belonging" is energized by your outgoing nature ("Extraversion"). This makes you a natural leader who excels at building and maintaining relationships, fostering a sense of community wherever you go.`,
+                    valuesLink: `Your desire for "Connection" is your purpose, and your "Extraversion" is the tool you use to achieve it. You are naturally skilled at bringing people together, leading teams, and creating an inclusive environment where everyone feels valued.`,
+                    recommendations: [
+                        { title: 'Sales & Business Development', explanation: 'As a "Community Architect," you would excel in sales by building authentic relationships with clients, fostering trust, and creating lasting partnerships.' },
+                        { title: 'Public Relations & Communications', explanation: 'This career is a great fit, as it allows you to use your extroverted nature to build positive relationships with the public and foster a sense of community around a brand or organization.' },
+                        { title: 'Team Leadership & Management', explanation: 'Your ability to bring people together and make them feel valued makes you an excellent leader, capable of building a strong and cohesive team culture.' },
+                        { title: 'Event Planning', explanation: 'You would thrive as an event planner, using your social skills to create memorable experiences that bring people together and foster a sense of belonging.' },
+                        { title: 'Customer Success', explanation: 'Your focus on connection and rapport-building would make you a standout in customer success, as you would be able to create strong relationships with clients and ensure their long-term satisfaction.' }
+                    ]
                 };
             } else if (topValueName === 'Purpose & Meaning' && (highOpenness || highAgreeableness)) {
                 coreDriver = {
                     name: "The Purpose-Driven Leader",
-                    description: `Your core value of **Purpose & Meaning** is powered by your a compassionate and curious nature. This combination makes you a natural leader who seeks to make a positive impact on the world and motivates others to do the same.`,
-                    valuesLink: `Your search for **Purpose** is your primary motivation, and your ability to connect with others on an emotional level allows you to inspire them. This makes you a leader who not only achieves goals but also builds a meaningful legacy.`,
-                    recommendations: ['Education & Teaching', 'Healthcare & Wellness', 'Non-profit Leadership', 'Social Entrepreneurship', 'Public Service']
+                    description: `Your core value of "Purpose & Meaning" is powered by a compassionate and curious nature. This combination makes you a natural leader who seeks to make a positive impact on the world and motivates others to do the same.`,
+                    valuesLink: `Your search for "Purpose" is your primary motivation, and your ability to connect with others on an emotional level allows you to inspire them. This makes you a leader who not only achieves goals but also builds a meaningful legacy.`,
+                    recommendations: [
+                        { title: 'Education & Teaching', explanation: 'This career is a perfect fit for a "Purpose-Driven Leader," as it allows you to shape the next generation and make a lasting, meaningful impact on their lives.' },
+                        { title: 'Healthcare & Wellness', explanation: 'Your desire for purpose and compassion would be a powerful asset in healthcare, where you can help others and contribute to their well-being.' },
+                        { title: 'Non-profit Leadership', explanation: 'Your passion for meaningful work makes you an ideal candidate for leading a non-profit, where you can direct your energy toward a cause that aligns with your values.' },
+                        { title: 'Social Entrepreneurship', explanation: 'You can use your drive for purpose to create a business that not only profits but also solves a social problem, creating a dual-impact legacy.' },
+                        { title: 'Public Service', explanation: 'This career path allows you to contribute to the greater good, working on initiatives that have a meaningful impact on your community and the world.' }
+                    ]
                 };
             }
-
+            finalRecommendations = coreDriver.recommendations;
             return coreDriver;
         }
 
@@ -785,15 +878,15 @@
                 const percentage = ((score - 1) / 4) * 100;
                 let description = '';
                 if (trait === 'Openness to Experience') {
-                    description = `You are **${score > 3.8 ? 'highly' : (score < 2.2 ? 'less' : 'moderately')}** open to new experiences, creative ideas, and unconventional thinking.`;
+                    description = `You are "${score > 3.8 ? 'highly' : (score < 2.2 ? 'less' : 'moderately')}" open to new experiences, creative ideas, and unconventional thinking.`;
                 } else if (trait === 'Conscientiousness') {
-                    description = `You are **${score > 3.8 ? 'highly' : (score < 2.2 ? 'less' : 'moderately')}** organized, disciplined, and goal-oriented.`;
+                    description = `You are "${score > 3.8 ? 'highly' : (score < 2.2 ? 'less' : 'moderately')}" organized, disciplined, and goal-oriented.`;
                 } else if (trait === 'Extraversion') {
-                    description = `You are **${score > 3.8 ? 'highly' : (score < 2.2 ? 'less' : 'moderately')}** outgoing and energized by social situations.`;
+                    description = `You are "${score > 3.8 ? 'highly' : (score < 2.2 ? 'less' : 'moderately')}" outgoing and energized by social situations.`;
                 } else if (trait === 'Agreeableness') {
-                    description = `You are **${score > 3.8 ? 'highly' : (score < 2.2 ? 'less' : 'moderately')}** compassionate, cooperative, and empathetic towards others.`;
+                    description = `You are "${score > 3.8 ? 'highly' : (score < 2.2 ? 'less' : 'moderately')}" compassionate, cooperative, and empathetic towards others.`;
                 } else if (trait === 'Neuroticism') {
-                    description = `You tend to be **${score > 3.8 ? 'more' : (score < 2.2 ? 'less' : 'moderately')}** emotionally reactive and sensitive to stress.`;
+                    description = `You tend to be "${score > 3.8 ? 'more' : (score < 2.2 ? 'less' : 'moderately')}" emotionally reactive and sensitive to stress.`;
                 }
                 personalityHtml += `
                     <div class="trait-score">
@@ -820,12 +913,31 @@
             const recommendations = coreDriver.recommendations;
             let recommendationsHtml = '<ul>';
             recommendations.forEach(rec => {
-                recommendationsHtml += `<li>${rec}</li>`;
+                recommendationsHtml += `<li data-job-title="${rec.title}" data-explanation="${rec.explanation}">${rec.title}</li>`;
             });
             recommendationsHtml += '</ul>';
             document.getElementById('careerRecommendations').innerHTML = recommendationsHtml;
+
+            document.querySelectorAll('.career-recommendations li').forEach(item => {
+                item.addEventListener('click', () => {
+                    const jobTitle = item.getAttribute('data-job-title');
+                    const explanation = item.getAttribute('data-explanation');
+                    modalJobTitle.textContent = jobTitle;
+                    modalExplanation.textContent = explanation;
+                    modal.style.display = "block";
+                });
+            });
         }
 
+        closeButton.onclick = function() {
+            modal.style.display = "none";
+        };
+
+        window.onclick = function(event) {
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        };
 
         nextBtn.addEventListener('click', () => {
             if (currentPage === 0) {
